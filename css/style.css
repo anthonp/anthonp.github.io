@@ -1,0 +1,145 @@
+/* CSS for index.html */
+/* Created by Anthony Picciano */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 1;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', 'Arial', 'sans-serif';
+}
+
+nav {
+    height: 80px;
+    background: #000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0rem calc((11vw-1300px) / 2);
+}
+
+.logo {
+    color: #39ff14;
+    font-size: 2rem;
+    font-weight: bold;
+    font-style: italic;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', 'Arial', 'sans-serif';
+    padding: 0 2 rem;
+    display: flex;
+    align-items: center;
+}
+
+nav a {
+    text-decoration: none;
+    color: #39ff14;
+    padding: 1rem 2rem;
+    border: none;
+    background-color: #131111;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+nav a:hover {
+    color: #000;
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    border: none;
+    background-color: #fff;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.body_ {
+    background: #000;
+}
+
+.foot3r {
+    background: #000;
+}
+
+.body-container {
+    display: block;
+    grid-template-columns: 1fr 1fr;
+    height: 95vh;
+    padding: 3rem calc((11vw-1300px));
+}
+
+.foot3r-container {
+    display: grid;
+}
+
+.column-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #39ff14;
+    padding: 0rem 0.5rem;
+}
+
+.column-left h1 {
+    margin-bottom: 1rem;
+    font-size: 4rem;
+}
+
+.column-left p {
+    margin-bottom: 2rem;
+    font-size: 1.5rem;
+    line-height: 1.5;
+}
+
+.buttonMimic {
+    padding: 1rem 2rem;
+    font-size: 2.5rem;
+    border: none;
+    color: #39ff14;
+    background-color: rgba(24, 23, 23, .65);
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.buttonMimic:hover {
+    background: #fff;
+    color: #000;
+}
+
+.column-right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #39ff14;
+    padding: 0rem 2rem;
+}
+
+.column-right h1 {
+    margin-bottom: 1rem;
+    font-size: 3rem;
+}
+
+.column-right p {
+    margin-bottom: 2rem;
+    font-size: 1.5rem;
+    line-height: 1.5;
+}
+
+@media screen and (max-width: 800px) {
+    .body-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+.head_h1 {
+    background-color: rgba(24, 23, 23, .65);
+    padding: 0% 2rem;
+    border-radius: 8px;
+}
+
+.head_p {
+    background-color: rgba(24, 23, 23, .65);
+    padding: 0% 2rem;
+}
+
+.foot_p {
+    background-color: rgb(0, 0, 0);
+    padding: 0% 2rem;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', 'Arial', 'sans-serif';
+}
