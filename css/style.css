@@ -50,6 +50,8 @@ nav a:hover {
 
 .body_ {
     background: #000;
+    background-image: url(/images/haxor.png);
+    background-repeat: no-repeat;
 }
 
 .foot3r {
@@ -142,4 +144,11 @@ nav a:hover {
     background-color: rgb(0, 0, 0);
     padding: 0% 2rem;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', 'Arial', 'sans-serif';
+}
+
+footer {
+    text-align: left;
+    padding: 3px;
+    background-color: black;
+    color: #39ff14;
 }
