@@ -1,0 +1,152 @@
+<!-- obsidian_threat_heat_map.html page -->
+ <!-- You know you shouldn't be here silly -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Hacker-Sec</title>
+    <link rel="stylesheet" href="/css/blog_posts.css">
+  </head>
+  <body>
+    <nav>
+      <div class="logo"><img src="/images/icon.png" alt="hacker-sec-logo" width="50" height="auto">./Hacker-Sec</div>
+      <a href="/pages/blog.html" style="margin: 1%;">Back</a>
+    </nav>
+     <nav>
+        <div class="blog_text">
+          <h2>Public and Untrusted WiFi Networks</h2>
+          <ul>
+            <li>Risk should neither be ignored nor dismissed. A key part of responsible cybersecurity practice is acknowledging and owning the risks within your purview—while maintaining a balanced, non-alarmist perspective. As cybersecurity professionals, it is important to acknowledge that connecting to public or untrusted WiFi networks introduces risks that can often outweigh the convenience. While personal VPN services can help mitigate exposure on such networks, they should be viewed as part of a layered defense strategy rather than a complete solution.</li>
+            <li>Although public networks are sometimes labeled as "safe" or considered to present only a "minimal" risk, they can still enable unauthorized access to data and communication streams. Potential risks include:</li>
+          </ul>
+          <ul>
+            <li>Man-in-the-Middle (MitM) Attacks</li>
+            <li>Metadata and Traffic Harvesting</li>
+            <li>Rogue Access Points</li>
+            <li>Reliance on third-party security hygiene and configurations</li>
+          </ul>
+
+          <h2>What Happens When You Connect to WiFi?</h2>
+          <ul>
+            <li>When connecting to WiFi, your device typically communicates with a Wireless Access Point (WAP), which manages wireless authentication and forwards traffic to the broader internet through a private IP and Network Address Translation (NAT). This facilitates communication for services such as email, mobile apps, and notifications.</li>
+            <li>A common counterpoint to WiFi security concerns is that “most websites use HTTPS/TLS encryption.” While this is technically accurate, it does not fully address all risks (see “What about TLS/HTTPS?”).</li>
+            <li>It’s also worth noting that during events like DEF CON and Black Hat in 2024, the Las Vegas Metropolitan Police Department issued a cyber awareness advisory. Their guidance included disabling WiFi and Bluetooth, restarting devices daily, and avoiding contactless payments — highlighting that real-world threats are taken seriously even by law enforcement.</li>
+            <li>Should users be cautious when connecting to shared or public networks? Absolutely — but fear shouldn't paralyze. With awareness and appropriate precautions, risk can be managed effectively. Personally, I avoid connecting to public networks when possible. If I must, I apply proper security measures to protect my devices and data.</li>
+          </ul>
+
+          <h2>What About TLS/HTTPS?</h2>
+          <ul>
+            <li>Reputable organizations encrypt web services using HTTPS/TLS to protect the integrity and confidentiality of user data. However, certain circumstances can still render these protections ineffective.</li>
+            <li>For example, in 2015, the Government of Kazakhstan introduced a national root certificate that, if installed, allowed interception and decryption of HTTPS traffic — a move that raised global concerns among privacy advocates and tech firms.</li>
+            <li>End users are sometimes prompted to install Certificate Authority (CA) certificates without a clear understanding of the implications, effectively allowing decryption of what would otherwise be encrypted traffic.</li>
+            <li>Installing unknown or untrusted CA certificates is never recommended unless required by policy or law.</li>
+            <li>Threat actors can exploit captive portals or rogue access points to prompt users to install malicious CA certificates, enabling interception of TLS traffic. This risk is heightened when the user lacks technical awareness of these mechanisms.</li>
+            <li>Even on legitimate public networks, visibility into security controls is limited. Is the network segmented? Are devices monitored? Has the WAP been compromised? Often, these questions remain unanswered, and without internal knowledge, end users cannot fully assess the trustworthiness of the network infrastructure.</li>
+          </ul>
+
+          <h2>What Can Still Be Exposed Without Access to Encrypted Data?</h2>
+          <ul>
+            <li><strong>Unencrypted Protocols:</strong> While uncommon in modern systems, legacy protocols such as HTTP, FTP, Telnet, and DNS can still be in use — especially in older infrastructure or by misconfigured systems. These can expose sensitive data in plaintext.</li>
+            <li><strong>Metadata and Traffic Patterns:</strong> Even without access to content, actors can gather MAC addresses (if not randomized), analyze destination domains, and infer behavior based on timing and volume of traffic — potentially identifying high-value targets.</li>
+            <li><strong>Session Hijacking:</strong> If session tokens or cookies are not transmitted securely, attackers may be able to impersonate users across services by capturing these artifacts.</li>
+          </ul>
+          <h2>Mobile Device Security Hardening for Untrusted WiFi Networks</h2>
+          <p>While not an end-all, be-all set of steps, deploying best practices can mitigate specific risks. You are responsible for your digital hygeine, and this is not an exhaustive list of steps.</p>
+          <ul>
+            <li><strong>Use a Reputable VPN:</strong>
+              <ul>
+                <li><strong>iOS:</strong> Download a trusted VPN from the App Store (e.g., Mullvad, ProtonVPN, NordVPN). Go to <code>Settings > General > VPN & Device Management</code> to configure.</li>
+                <li><strong>Android:</strong> Download from the Play Store, then go to <code>Settings > Network & internet > VPN</code> to manage connections.</li>
+              </ul>
+            </li>
+            <li><strong>Disable Auto-Connect to WiFi:</strong>
+              <ul>
+                <li><strong>iOS:</strong> After connecting to a network, go to <code>Settings > Wi-Fi > [Network Name]</code> and toggle off <code>Auto-Join</code>.</li>
+                <li><strong>Android:</strong> Long-press on the network in <code>Wi-Fi Settings</code>, select <code>Forget</code> or disable <code>Auto-connect</code> if available.</li>
+              </ul>
+            </li>
+            <li><strong>Enable MAC Address Randomization:</strong>
+              <ul>
+                <li><strong>iOS:</strong> <code>Settings > Wi-Fi > [Network Name]</code> → Toggle <code>Private Wi-Fi Address</code> ON.</li>
+                <li><strong>Android:</strong> <code>Settings > Network & internet > Wi-Fi > [Network]</code> → Tap gear icon → <code>Privacy</code> → Set to <code>Use randomized MAC</code>.</li>
+              </ul>
+            </li>
+            <li><strong>Disable WiFi and Bluetooth When Not in Use:</strong>
+              <ul>
+                <li><strong>iOS & Android:</strong> Swipe down the control center and toggle off WiFi and Bluetooth manually when not needed.</li>
+              </ul>
+            </li>
+            <li><strong>Use Secure DNS (DoH/DoT):</strong>
+              <ul>
+                <li><strong>iOS:</strong> Use a DNS app like NextDNS or configure profiles using Apple Configurator or DNS-over-HTTPS providers.</li>
+                <li><strong>Android:</strong> <code>Settings > Network & internet > Private DNS</code> → Choose <code>Private DNS provider hostname</code> (e.g., <code>doh.mullvad.net</code> or <code>dns.nextdns.io</code>).</li>
+              </ul>
+            </li>
+            <li><strong>Keep OS and Applications Updated:</strong>
+              <ul>
+                <li><strong>iOS:</strong> <code>Settings > General > Software Update</code></li>
+                <li><strong>Android:</strong> <code>Settings > System > System update</code></li>
+              </ul>
+            </li>
+            <li><strong>Limit App Permissions:</strong>
+              <ul>
+                <li><strong>iOS:</strong> <code>Settings > Privacy & Security</code> → Review each category and disable permissions for unnecessary apps.</li>
+                <li><strong>Android:</strong> <code>Settings > Privacy > Permission manager</code> → Review and restrict as needed.</li>
+              </ul>
+            </li>
+            <li><strong>Avoid Accessing Sensitive Services:</strong>
+              <ul>
+                <li>Avoid logging into banking apps, company portals, or other sensitive services unless on a trusted, secured network.</li>
+              </ul>
+            </li>
+            <li><strong>Use Multi-Factor Authentication (MFA):</strong>
+              <ul>
+                <li>Enable MFA for all apps/accounts. Use apps like Microsoft Authenticator, Authy, or Duo instead of SMS-based codes.</li>
+              </ul>
+            </li>
+            <li><strong>Disable File Sharing Features:</strong>
+              <ul>
+                <li><strong>iOS:</strong> <code>Settings > General > AirDrop</code> → Set to <code>Receiving Off</code> or <code>Contacts Only</code>.</li>
+                <li><strong>Android:</strong> <code>Settings > Google > Devices & sharing > Nearby Share</code> → Turn off or set to <code>Hidden</code>.</li>
+              </ul>
+            </li>
+            <li><strong>Use Mobile Security or EDR Tools:</strong>
+              <ul>
+                <li>Install a trusted security app (e.g., Microsoft Defender, Lookout, Bitdefender Mobile Security) and enable real-time protection.</li>
+              </ul>
+            </li>
+            <li><strong>Log Out After Sessions:</strong>
+              <ul>
+                <li>Manually log out of websites and apps after use to prevent session persistence.</li>
+              </ul>
+            </li>
+            <li><strong>Restart Device After Disconnecting:</strong>
+              <ul>
+                <li><strong>iOS & Android:</strong> Hold power button → Restart the device. Helps clear memory and temporary processes.</li>
+              </ul>
+            </li>
+          </ul>
+          <h2>Disclaimer</h2>
+          <ul>
+            <li>The information provided in this article is for general informational and educational purposes only and does not constitute professional cybersecurity advice, legal counsel, or a definitive security guarantee. While every effort has been made to ensure the accuracy and reliability of the information presented, the author assumes no responsibility or liability for any errors, omissions, or outcomes resulting from the use of this content.</li>
+            <li>Readers are solely responsible for their own actions and decisions when applying any security practices described herein. Situational risk, organizational requirements, and legal obligations may vary—please consult with a qualified cybersecurity professional or legal advisor for guidance tailored to your specific needs.</li>
+            <li>References to third-party products, tools, or services do not constitute an endorsement or warranty. Use of any mentioned software or service is at your own risk.</li>
+            <li>By using or relying on this information, you agree that the author shall not be held liable for any direct, indirect, incidental, or consequential damages arising from its use.</li>
+          </ul>
+          <h2>References</h2>
+          <ul>
+            <li>https://www.fox5vegas.com/2024/08/08/las-vegas-police-issues-cyber-advisory-with-cybersecurity-hacker-conventions-town/</li>
+            <li>https://en.wikipedia.org/wiki/Kazakhstan_man-in-the-middle_attack</li>
+          </ul>
+        </div>
+     </nav>
+  </body>
+  <footer>
+    <section class="foot3r">
+      <div class="foot3r-container">
+        <span class="foot_p"><p>Always make sure you are practicing legally and ethically on (equipment/systems) that you own personally or have authorization to access for the cited purpose, and never perform activities that may be considered inappropriate, unauthorized, and/or illegal. You are responsible for your own actions. I take no responsibility for actions that you undertake. This information is intended for individuals who are acting legally and ethically within an authorized capacity. Seek legal counsel and do not use this site if your understanding of this statement is not clear.<a href="https://raw.githubusercontent.com/anthonp/anthonp.github.io/main/LICENSE">LICENSE</a></p></span>
+      </div>
+    </section>
+  </footer>
+</html>
