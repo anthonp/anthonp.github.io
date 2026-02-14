@@ -168,6 +168,15 @@ li + li { margin-top: 0.45rem; }
   margin-bottom: var(--space-2);
 }
 
+/* iOS can auto-link date ranges; keep experience dates as plain text. */
+.timeline-date a,
+.timeline-date a[x-apple-data-detectors] {
+  color: inherit !important;
+  text-decoration: none !important;
+  pointer-events: none;
+  cursor: default;
+}
+
 details {
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
