@@ -1,10 +1,38 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>Coming Soon - Projects</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects - Hacker-Sec</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/tokens.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <script defer src="/js/include-footer.js"></script>
   </head>
   <body>
-    <h1>Undergoing Site Updates</h1>
-    <P>We apologize for any inconvenience, but this part of my site is still in progress and is undergoing changes. Please check back later!</P>
+    <header class="top-nav">
+      <nav class="page-shell top-nav__inner" aria-label="Primary">
+        <a href="/index.html" class="logo"><img src="/images/icon.png" alt="hacker-sec-logo" width="42" height="42">./Hacker-Sec</a>
+        <div class="nav-links"><a href="/index.html" class="nav-link">[ cd /home ]</a></div>
+      </nav>
+    </header>
+    <main class="page-shell section-pad">
+      <section class="window window--floating" aria-labelledby="projects-heading">
+        <div class="window__bar"><div class="window__lights" aria-hidden="true"><span class="window__light window__light--red"></span><span class="window__light window__light--yellow"></span><span class="window__light window__light--green"></span></div><div class="window__title">[ projects://status ]</div></div>
+        <div class="window__body roadmap-copy">
+          <h1 id="projects-heading">Projects Queue</h1>
+          <p>Active lab builds and utility tooling are being documented for release as field-ready notes.</p>
+          <ul>
+            <li><strong>[ in-progress ]</strong> Home SOC-style detection notebook templates</li>
+            <li><strong>[ planned ]</strong> Log triage workflows for small teams</li>
+            <li><strong>[ planned ]</strong> Practical phishing response runbook examples</li>
+            <li><strong>[ planned ]</strong> Compact OPSEC checklists for daily use</li>
+          </ul>
+        </div>
+      </section>
+    </main>
+    <div data-include="site-footer"></div>
   </body>
 </html>
