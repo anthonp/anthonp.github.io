@@ -1,0 +1,16 @@
+[
+  {
+    "title": "Public and Untrusted WiFi Networks",
+    "date": "2025-04-08",
+    "excerpt": "A practical breakdown of why public WiFi still carries risk even with HTTPS, and how to reduce exposure.",
+    "url": "/blogs/public_wifi.html",
+    "tags": ["Network Security", "Risk Management", "Privacy"]
+  },
+  {
+    "title": "Obsidian Threat Heat Map",
+    "date": "2024-12-09",
+    "excerpt": "Using an Obsidian workflow to visualize incident relationships and identify recurring threat patterns.",
+    "url": "/blogs/obsidian_threat_heat_map.html",
+    "tags": ["Threat Modeling", "Obsidian", "SOC Workflow"]
+  }
+]
