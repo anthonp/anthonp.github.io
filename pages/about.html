@@ -4,90 +4,73 @@ Created by Anthony Picciano-->
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hacker-Sec</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/tokens.css">
+    <link rel="stylesheet" href="/css/components.css">
     <link rel="stylesheet" href="/css/about.css">
   </head>
   <body>
-    <nav>
-      <div class="logo"><img src="/images/icon.png" alt="hacker-sec-logo" width="50" height="auto">./Hacker-Sec</div>
-      <a href="/index.html" style="margin: 1%;">Home</a>
-    </nav>
-    <section class="main_body">
-      <div class="main_body_container">
-        <div class="target_column">
-          <h1 style="margin-top: 5%;">About Me</h1>
+    <header class="top-nav">
+      <nav class="page-shell top-nav__inner">
+        <a href="/index.html" class="logo"><img src="/images/icon.png" alt="hacker-sec-logo" width="42" height="42">./Hacker-Sec</a>
+        <div class="nav-links">
+          <a href="/index.html" class="nav-link">[ cd /home ]</a>
+        </div>
+      </nav>
+    </header>
+
+    <main class="about-main page-shell">
+      <section class="window window--floating">
+        <div class="window__bar">
+          <div class="window__lights" aria-hidden="true">
+            <span class="window__light window__light--red"></span>
+            <span class="window__light window__light--yellow"></span>
+            <span class="window__light window__light--green"></span>
+          </div>
+          <div class="window__title">[ about://operator ]</div>
+        </div>
+        <div class="window__body about-summary">
+          <h1>About Me</h1>
           <p>IR Security Analyst</p>
           <p>Network Services Lead (Prev)</p>
           <p>Network Technician (Prev)</p>
           <p>Web Developer (Prev)</p>
           <p>*Nix Freak, Network Nerd, and Security Enthusiast</p>
         </div>
-      </div>
-    </section>
-    <section class="photo_gallery">
-      <div class="photo_gallery_container">
-        <div class="target_photo_column">
+      </section>
+
+      <section class="window window--floating">
+        <div class="window__bar">
+          <div class="window__lights" aria-hidden="true">
+            <span class="window__light window__light--red"></span>
+            <span class="window__light window__light--yellow"></span>
+            <span class="window__light window__light--green"></span>
+          </div>
+          <div class="window__title">[ about://cool-things-i-did ]</div>
+        </div>
+        <div class="window__body">
           <p>Cool Things I Did:</p>
+          <div class="gallery-grid">
+            <div class="gallery"><a target="_blank" href="/images/cables.jpeg"><img src="/images/cables.jpeg" alt="Network Cabling" width="200" height="200"></a><div class="gall_desc">Managed Cabling</div></div>
+            <div class="gallery"><a target="_blank" href="/images/spliceprep.jpeg"><img src="/images/spliceprep.jpeg" alt="Splice Prep" width="200" height="200"></a><div class="gall_desc">Field Fiber Splicing</div></div>
+            <div class="gallery"><a target="_blank" href="/images/vaultprep.jpeg"><img src="/images/vaultprep.jpeg" alt="Vault Prep" width="200" height="200"></a><div class="gall_desc">Burial Vault Prep</div></div>
+            <div class="gallery"><a target="_blank" href="/images/ont.jpeg"><img src="/images/ont.jpeg" alt="ONT Install" width="200" height="200"></a><div class="gall_desc">Optical Network Termination Installation</div></div>
+            <div class="gallery"><a target="_blank" href="/images/debianBuild.png"><img src="/images/debianBuild.png" alt="Debian Build" width="200" height="200"></a><div class="gall_desc">Debian, BSPWM, Picom, Lemonbar</div></div>
+            <div class="gallery"><a target="_blank" href="/images/coreMaintenance.jpeg"><img src="/images/coreMaintenance.jpeg" alt="Core Maintanence" width="200" height="200"></a><div class="gall_desc">Core Telco Maintanence</div></div>
+            <div class="gallery"><a target="_blank" href="/images/serialBuffer.jpeg"><img src="/images/serialBuffer.jpeg" alt="Serial Buffer" width="200" height="200"></a><div class="gall_desc">Serial CMDR Design/Config</div></div>
+          </div>
         </div>
-      </div>
-    </section>
-    <section class="image_gallery">
-      <div class="image_gallery_container">
-        <div class="target_image_column">
-          <!--Photo Gallery Section-->
-          <div class="gallery">
-            <a target="_blank" href="/images/cables.jpeg">
-              <img src="/images/cables.jpeg" alt="Network Cabling" width="200" height="200">
-            </a>
-            <div class="gall_desc">Managed Cabling</div>
-          </div>
-          <div class="gallery">
-            <a target="_blank" href="/images/spliceprep.jpeg">
-              <img src="/images/spliceprep.jpeg" alt="Splice Prep" width="200" height="200">
-            </a>
-            <div class="gall_desc">Field Fiber Splicing</div>
-          </div>
-          <div class="gallery">
-            <a target="_blank" href="/images/vaultprep.jpeg">
-              <img src="/images/vaultprep.jpeg" alt="Vault Prep" width="200" height="200">
-            </a>
-            <div class="gall_desc">Burial Vault Prep</div>
-          </div>
-          <div class="gallery">
-            <a target="_blank" href="/images/ont.jpeg">
-              <img src="/images/ont.jpeg" alt="ONT Install" width="200" height="200">
-            </a>
-            <div class="gall_desc">Optical Network Termination Installation</div>
-          </div>
-          <div class="gallery">
-            <a target="_blank" href="/images/debianBuild.png">
-              <img src="/images/debianBuild.png" alt="Debian Build" width="200" height="200">
-            </a>
-            <div class="gall_desc">Debian, BSPWM, Picom, Lemonbar</div>
-          </div>
-          <div class="gallery">
-            <a target="_blank" href="/images/coreMaintenance.jpeg">
-              <img src="/images/coreMaintenance.jpeg" alt="Core Maintanence" width="200" height="200">
-            </a>
-            <div class="gall_desc">Core Telco Maintanence</div>
-          </div>
-          <div class="gallery">
-            <a target="_blank" href="/images/serialBuffer.jpeg">
-              <img src="/images/serialBuffer.jpeg" alt="Serial Buffer" width="200" height="200">
-            </a>
-            <div class="gall_desc">Serial CMDR Design/Config</div>
-          </div>
-    <!--End of Gallery Section-->
-        </div>
-      </div>
-    </section>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <section class="page-shell">
+        <p class="legal-disclaimer">Security content on this site is provided for educational and informational purposes only. It is not legal advice, not a guarantee of security outcomes, and not authorization to test any system. Only perform security activity on assets you own or where you have explicit written permission. You are solely responsible for complying with all applicable laws, policies, and contracts. By using this content, you accept full responsibility for your actions and release the author from liability for misuse, loss, damage, or service impact. If you are uncertain, stop and consult qualified legal or security professionals before proceeding.<a href="https://raw.githubusercontent.com/anthonp/anthonp.github.io/main/LICENSE">[ LICENSE ]</a></p>
+      </section>
+    </footer>
   </body>
-  <footer>
-    <section class="foot3r">
-      <div class="foot3r-container">
-        <span class="foot_p"><p>Always make sure you are practicing legally and ethically on (equipment/systems) that you own personally or have authorization to access for the cited purpose, and never perform activities that may be considered inappropriate, unauthorized, and/or illegal. You are responsible for your own actions. I take no responsibility for actions that you undertake. This information is intended for individuals who are acting legally and ethically within an authorized capacity. Seek legal counsel and do not use this site if your understanding of this statement is not clear.<a href="https://raw.githubusercontent.com/anthonp/anthonp.github.io/main/LICENSE">LICENSE</a></p></span>
-      </div>
-    </section>
-  </footer>
 </html>
