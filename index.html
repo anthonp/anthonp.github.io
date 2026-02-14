@@ -1,5 +1,3 @@
-<!-- index.html main page 
-Created by Anthony Picciano-->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -13,18 +11,65 @@ Created by Anthony Picciano-->
     <link rel="stylesheet" href="/css/components.css">
     <link rel="stylesheet" href="/css/style.css">
   </head>
-  <body>
-    <header class="top-nav">
-      <nav class="page-shell top-nav__inner">
-        <a href="/index.html" class="logo"><img src="./images/icon.png" alt="hacker-sec-logo" width="42" height="42">./Hacker-Sec</a>
+  <body data-page="home">
+    <a class="skip-link" href="#home">Skip to content</a>
+
+    <header class="top-nav" id="top">
+      <nav class="page-shell top-nav__inner" aria-label="Primary navigation">
+        <a href="/index.html#home" class="logo"><img src="./images/icon.png" alt="hacker-sec-logo" width="42" height="42">./Hacker-Sec</a>
         <div class="nav-links">
-          <a href="/pages/about.html" class="nav-link">[ cat about ]</a>
+          <a href="#home" class="nav-link" data-nav-target="home">Home</a>
+          <a href="#experience" class="nav-link" data-nav-target="experience">Experience</a>
+          <a href="#projects" class="nav-link" data-nav-target="projects">Projects</a>
+          <a href="#blog" class="nav-link" data-nav-target="blog">Blog</a>
+          <a href="#links" class="nav-link" data-nav-target="links">Links</a>
         </div>
       </nav>
     </header>
 
-    <main class="main-content page-shell">
-      <section class="window window--floating">
+    <main class="main-content page-shell" id="home">
+      <section class="window window--floating hero-card" data-section>
+        <div class="window__bar">
+          <div class="window__lights" aria-hidden="true">
+            <span class="window__light window__light--red"></span>
+            <span class="window__light window__light--yellow"></span>
+            <span class="window__light window__light--green"></span>
+          </div>
+          <div class="window__title">[ profile://business-card ]</div>
+        </div>
+        <div class="window__body business-grid">
+          <img class="profile-photo" src="/images/anthonp.jpeg" alt="Portrait of Anthony Picciano" width="240" height="240">
+          <div>
+            <p class="ascii-divider">==============================</p>
+            <h1 class="profile-name">Anthony Picciano</h1>
+            <p class="profile-role">Cybersecurity Professional <span class="cursor" aria-hidden="true">_</span></p>
+            <p class="mission-brief" id="mission">Cybersecurity professional with 4+ years in IT and security operations, focused on practical defense, incident response, and reusable workflows that reduce risk.</p>
+            <p class="meta-row">Current focus: MDR Security Analyst • Education: B.S. Cybersecurity</p>
+
+            <h2 class="mini-heading">Core Competencies</h2>
+            <div class="badge-row" aria-label="Core strengths">
+              <span class="badge">Incident Response</span>
+              <span class="badge">Threat Hunting</span>
+              <span class="badge">Detection Engineering</span>
+              <span class="badge">Pentesting</span>
+            </div>
+
+            <h2 class="mini-heading" id="certs">Certifications</h2>
+            <div class="badge-row" aria-label="Certifications">
+              <span class="badge">Offensive Security KLCP</span>
+              <span class="badge">CompTIA CySA+</span>
+              <span class="badge">CompTIA Security+</span>
+              <span class="badge">CompTIA Network+</span>
+              <span class="badge">TryHackMe Security Analyst (SAL1)</span>
+            </div>
+
+            <button id="copy-snippet" class="btn btn--secondary" type="button">⧉ Copy intro snippet</button>
+            <p class="copy-status" id="copy-status" aria-live="polite"></p>
+          </div>
+        </div>
+      </section>
+
+      <section class="window window--floating" aria-labelledby="existing-home-heading">
         <div class="window__bar">
           <div class="window__lights" aria-hidden="true">
             <span class="window__light window__light--red"></span>
@@ -35,14 +80,14 @@ Created by Anthony Picciano-->
         </div>
         <div class="window__body hero-grid">
           <div>
-            <h1 class="hero-title">Welcome, 1337.</h1>
+            <h2 class="hero-title" id="existing-home-heading">Welcome, 1337.</h2>
             <p class="hero-sub">Hobbyist field notes from a cybersecurity professional: practical lessons, writeups, and experiments built in public.</p>
             <div class="hero-actions">
-              <a href="https://www.linkedin.com/in/anthony-picciano/" class="btn btn--primary" target="_blank">[ ping anthony ]</a>
-              <a href="https://github.com/anthonp" class="btn btn--secondary" target="_blank">[ open github ]</a>
-              <a href="/pages/blog.html" class="btn btn--primary">[ cat blog ]</a>
-              <a href="/pages/resources.html" class="btn btn--ghost">[ cat resources ]</a>
-              <a href="/pages/projects.html" class="btn btn--ghost">[ cat projects ]</a>
+              <a href="#links" class="btn btn--primary">[ ping anthony ]</a>
+              <a href="#links" class="btn btn--secondary">[ open github ]</a>
+              <a href="/pages/blog.html" class="btn btn--primary">[ ls blog ]</a>
+              <a href="/pages/resources.html" class="btn btn--ghost">[ ls resources ]</a>
+              <a href="#projects" class="btn btn--ghost">[ ls projects ]</a>
             </div>
           </div>
           <aside class="window window--inline hero-panel">
@@ -63,6 +108,99 @@ Created by Anthony Picciano-->
           </aside>
         </div>
       </section>
+
+      <section class="window" id="experience" data-section>
+        <div class="window__bar"><div class="window__lights" aria-hidden="true"><span class="window__light window__light--red"></span><span class="window__light window__light--yellow"></span><span class="window__light window__light--green"></span></div><div class="window__title">[ experience://timeline ]</div></div>
+        <div class="window__body">
+          <h2>Experience</h2>
+          <div class="timeline">
+            <article>
+              <h3>MDR Security Analyst — InsurSec Industry</h3>
+              <p class="timeline-date">11/2025–Present</p>
+              <ul><li>Lead analyst workflows for security event triage, escalation, and incident documentation with an emphasis on response quality and speed.</li></ul>
+            </article>
+            <article>
+              <h3>Cybersecurity Analyst — Retail Enterprise Industry</h3>
+              <p class="timeline-date">11/2024–11/2025</p>
+              <ul><li>Developed and refined detections using SIEM/EDR data, improving alert quality and reducing investigation noise.</li></ul>
+            </article>
+            <article>
+              <h3>Security Analyst — Security Operations Provider</h3>
+              <p class="timeline-date">01/2024–11/2024</p>
+              <ul><li>Investigated suspicious activity across endpoint, network, and identity logs and produced customer-facing incident narratives.</li></ul>
+            </article>
+            <article>
+              <h3>Lead Network Operations Technician (Fiber) — Consulting</h3>
+              <p class="timeline-date">06/2022–12/2023</p>
+              <ul><li>Coordinated field and operations workstreams, improving service reliability and network deployment consistency.</li></ul>
+            </article>
+            <article>
+              <h3>IT Network Technician — University</h3>
+              <p class="timeline-date">01/2022–06/2022</p>
+              <ul><li>Maintained campus network service quality and supported infrastructure troubleshooting and remediation.</li></ul>
+            </article>
+            <article>
+              <h3>Web Developer — University</h3>
+              <p class="timeline-date">04/2021–01/2022</p>
+              <ul><li>Contributed to website maintenance and content updates with a focus on clean frontend implementation.</li></ul>
+            </article>
+          </div>
+          <h3>Tools &amp; Technologies</h3>
+          <p><strong>Security Operations:</strong> SIEM, EDR, WAF, SOAR, identity logs, threat feeds<br><strong>Frameworks:</strong> MITRE ATT&amp;CK, NIST 800-61<br><strong>Systems:</strong> Linux, Windows, network infrastructure tooling</p>
+        </div>
+      </section>
+
+      <section class="window" id="projects" data-section>
+        <div class="window__bar"><div class="window__lights" aria-hidden="true"><span class="window__light window__light--red"></span><span class="window__light window__light--yellow"></span><span class="window__light window__light--green"></span></div><div class="window__title">[ projects://cool-things ]</div></div>
+        <div class="window__body">
+          <h2>Projects</h2>
+          <p>Selected projects and field snapshots are tucked behind disclosures to keep the homepage focused.</p>
+          <details>
+            <summary>Cool things I did (open gallery)</summary>
+            <div class="gallery-grid">
+              <figure><img src="/images/cables.jpeg" alt="Structured network cabling work"><figcaption>Managed cabling operations.</figcaption></figure>
+              <figure><img src="/images/spliceprep.jpeg" alt="Fiber splice preparation setup"><figcaption>Field fiber splice preparation.</figcaption></figure>
+              <figure><img src="/images/vaultprep.jpeg" alt="Utility vault preparation"><figcaption>Burial vault preparation.</figcaption></figure>
+              <figure><img src="/images/ont.jpeg" alt="Optical network terminal installation"><figcaption>ONT installation and validation.</figcaption></figure>
+              <figure><img src="/images/debianBuild.png" alt="Customized Debian desktop build"><figcaption>Debian customization and workflow tuning.</figcaption></figure>
+              <figure><img src="/images/coreMaintenance.jpeg" alt="Core telecom maintenance work"><figcaption>Core telecom maintenance.</figcaption></figure>
+              <figure><img src="/images/serialBuffer.jpeg" alt="Serial buffer configuration setup"><figcaption>Serial buffer design and configuration.</figcaption></figure>
+            </div>
+          </details>
+          <details>
+            <summary>GitHub project links</summary>
+            <ul>
+              <li><a target="_blank" rel="noopener noreferrer" href="https://github.com/anthonp">GitHub Repositories</a></li>
+              <li><a target="_blank" rel="noopener noreferrer" href="/blogs/obsidian_threat_heat_map.html">Obsidian Threat Heat Map write-up</a></li>
+              <li><a target="_blank" rel="noopener noreferrer" href="/blogs/public_wifi.html">Public WiFi Security write-up</a></li>
+            </ul>
+          </details>
+        </div>
+      </section>
+
+      <section class="window" id="blog" data-section>
+        <div class="window__bar"><div class="window__lights" aria-hidden="true"><span class="window__light window__light--red"></span><span class="window__light window__light--yellow"></span><span class="window__light window__light--green"></span></div><div class="window__title">[ blog://latest ]</div></div>
+        <div class="window__body">
+          <h2>Blog</h2>
+          <p>Latest notes are listed in reverse chronological order.</p>
+          <a href="/pages/blog.html" class="btn btn--primary">[ ls blog index ]</a>
+        </div>
+      </section>
+
+      <section class="window" id="links" data-section>
+        <div class="window__bar"><div class="window__lights" aria-hidden="true"><span class="window__light window__light--red"></span><span class="window__light window__light--yellow"></span><span class="window__light window__light--green"></span></div><div class="window__title">[ links://disclosure ]</div></div>
+        <div class="window__body">
+          <h2>Links</h2>
+          <p>External profiles are provided by request and shared here for convenience.</p>
+          <details>
+            <summary>Show external links</summary>
+            <ul>
+              <li><a href="https://www.linkedin.com/in/anthony-picciano/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+              <li><a href="https://github.com/anthonp" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+            </ul>
+          </details>
+        </div>
+      </section>
     </main>
 
     <footer class="site-footer">
@@ -70,5 +208,7 @@ Created by Anthony Picciano-->
         <p class="legal-disclaimer">Security content on this site is provided for educational and informational purposes only. It is not legal advice, not a guarantee of security outcomes, and not authorization to test any system. Only perform security activity on assets you own or where you have explicit written permission. You are solely responsible for complying with all applicable laws, policies, and contracts. By using this content, you accept full responsibility for your actions and release the author from liability for misuse, loss, damage, or service impact. If you are uncertain, stop and consult qualified legal or security professionals before proceeding. <a href="https://raw.githubusercontent.com/anthonp/anthonp.github.io/main/LICENSE">[ LICENSE ]</a></p>
       </section>
     </footer>
+
+    <script src="/js/main.js"></script>
   </body>
 </html>

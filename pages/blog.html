@@ -1,10 +1,9 @@
-<!-- blog.html page -->
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hacker-Sec</title>
+    <title>Hacker-Sec Blog</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -12,12 +11,12 @@
     <link rel="stylesheet" href="/css/components.css">
     <link rel="stylesheet" href="/css/blog.css">
   </head>
-  <body>
+  <body data-page="blog">
     <header class="top-nav">
       <nav class="page-shell top-nav__inner">
-        <a href="/index.html" class="logo"><img src="/images/icon.png" alt="hacker-sec-logo" width="42" height="42">./Hacker-Sec</a>
+        <a href="/index.html#home" class="logo"><img src="/images/icon.png" alt="hacker-sec-logo" width="42" height="42">./Hacker-Sec</a>
         <div class="nav-links">
-          <a href="/index.html" class="nav-link">[ cd /home ]</a>
+          <a href="/index.html#blog" class="nav-link">[ cd /home#blog ]</a>
         </div>
       </nav>
     </header>
@@ -32,9 +31,10 @@
           </div>
           <div class="window__title">[ blog://posts ]</div>
         </div>
-        <div class="window__body blog-list">
-          <a class="btn btn--secondary blog-link" href="/blogs/obsidian_threat_heat_map.html">Dec_9_2024_Obsidian_Threat_Map</a>
-          <a class="btn btn--secondary blog-link" href="/blogs/public_wifi.html">Apr_8_2025_Public_WiFi</a>
+        <div class="window__body">
+          <h1>Blog Index</h1>
+          <p class="blog-intro">Newest posts appear first. Reading time is estimated from article word count.</p>
+          <div id="blog-list" class="blog-list" aria-live="polite"></div>
         </div>
       </section>
     </main>
@@ -44,5 +44,7 @@
         <p class="legal-disclaimer">Security content on this site is provided for educational and informational purposes only. It is not legal advice, not a guarantee of security outcomes, and not authorization to test any system. Only perform security activity on assets you own or where you have explicit written permission. You are solely responsible for complying with all applicable laws, policies, and contracts. By using this content, you accept full responsibility for your actions and release the author from liability for misuse, loss, damage, or service impact. If you are uncertain, stop and consult qualified legal or security professionals before proceeding.<a href="https://raw.githubusercontent.com/anthonp/anthonp.github.io/main/LICENSE">[ LICENSE ]</a></p>
       </section>
     </footer>
+
+    <script src="/js/main.js"></script>
   </body>
 </html>
