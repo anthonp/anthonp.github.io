@@ -21,7 +21,7 @@
           <a href="#home" class="nav-link" data-nav-target="home">Home</a>
           <a href="#experience" class="nav-link" data-nav-target="experience">Experience</a>
           <a href="#projects" class="nav-link" data-nav-target="projects">Projects</a>
-          <a href="#blog" class="nav-link" data-nav-target="blog">Blog</a>
+          <a href="/pages/blog.html" class="nav-link">Blog</a>
           <a href="#links" class="nav-link" data-nav-target="links">Links</a>
         </div>
       </nav>
@@ -78,9 +78,9 @@
           </div>
           <div class="window__title">[ home://dashboard ]</div>
         </div>
-        <div class="window__body hero-grid">
+        <div class="window__body">
           <div>
-            <h2 class="hero-title" id="existing-home-heading">Welcome, 1337.</h2>
+            <h2 class="hero-title" id="existing-home-heading">Welcome, 1337.<span class="cursor" aria-hidden="true">_</span></h2>
             <p class="hero-sub">Hobbyist field notes from a cybersecurity professional: practical lessons, writeups, and experiments built in public.</p>
             <div class="hero-actions">
               <a href="#links" class="btn btn--primary">[ ping anthony ]</a>
@@ -90,22 +90,6 @@
               <a href="#projects" class="btn btn--ghost">[ ls projects ]</a>
             </div>
           </div>
-          <aside class="window window--inline hero-panel">
-            <div class="window__bar">
-              <div class="window__lights" aria-hidden="true">
-                <span class="window__light window__light--red"></span>
-                <span class="window__light window__light--yellow"></span>
-                <span class="window__light window__light--green"></span>
-              </div>
-              <div class="window__title">[ terminal://now ]</div>
-            </div>
-            <div class="window__body terminal-snippet">
-              <p><span class="prompt">$</span> whoami</p>
-              <p>anthony :: incident-response analyst</p>
-              <p><span class="prompt">$</span> echo "ship clean notes"</p>
-              <p>[ done ]</p>
-            </div>
-          </aside>
         </div>
       </section>
 
@@ -117,7 +101,7 @@
             <article>
               <h3>MDR Security Analyst — InsurSec Industry</h3>
               <p class="timeline-date">11/2025–Present</p>
-              <ul><li>Lead analyst workflows for security event triage, escalation, and incident documentation with an emphasis on response quality and speed.</li></ul>
+              <ul><li>Security event triage, analysis, containment, eradication, and incident documentation with an emphasis on response quality and consistency.</li></ul>
             </article>
             <article>
               <h3>Cybersecurity Analyst — Retail Enterprise Industry</h3>
@@ -167,23 +151,6 @@
               <figure><img src="/images/serialBuffer.jpeg" alt="Serial buffer configuration setup"><figcaption>Serial buffer design and configuration.</figcaption></figure>
             </div>
           </details>
-          <details>
-            <summary>GitHub project links</summary>
-            <ul>
-              <li><a target="_blank" rel="noopener noreferrer" href="https://github.com/anthonp">GitHub Repositories</a></li>
-              <li><a target="_blank" rel="noopener noreferrer" href="/blogs/obsidian_threat_heat_map.html">Obsidian Threat Heat Map write-up</a></li>
-              <li><a target="_blank" rel="noopener noreferrer" href="/blogs/public_wifi.html">Public WiFi Security write-up</a></li>
-            </ul>
-          </details>
-        </div>
-      </section>
-
-      <section class="window" id="blog" data-section>
-        <div class="window__bar"><div class="window__lights" aria-hidden="true"><span class="window__light window__light--red"></span><span class="window__light window__light--yellow"></span><span class="window__light window__light--green"></span></div><div class="window__title">[ blog://latest ]</div></div>
-        <div class="window__body">
-          <h2>Blog</h2>
-          <p>Latest notes are listed in reverse chronological order.</p>
-          <a href="/pages/blog.html" class="btn btn--primary">[ ls blog index ]</a>
         </div>
       </section>
 
