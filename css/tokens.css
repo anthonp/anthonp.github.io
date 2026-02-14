@@ -1,0 +1,41 @@
+:root {
+  --bg: #070b0a;
+  --bg-elevated: #0a1110;
+  --surface-1: #101917;
+  --surface-2: #15211f;
+  --surface-3: #1a2926;
+  --border: #27443d;
+  --border-strong: #3a6459;
+  --text: #dbe8e3;
+  --muted: #b3c9c1;
+  --accent: #5be08f;
+  --accent-dim: #2f8f5a;
+  --success: #63d595;
+  --warn: #d8b76a;
+  --danger: #d17c76;
+  --info: #6eb7cb;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 14px;
+
+  --shadow-sm: 0 6px 16px rgba(0, 0, 0, 0.28);
+  --shadow-md: 0 14px 28px rgba(0, 0, 0, 0.36);
+  --shadow-lg: 0 20px 44px rgba(0, 0, 0, 0.48);
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+
+  --font-mono: 'JetBrains Mono', 'IBM Plex Mono', 'Space Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
+  --font-size-base: 1rem;
+  --line-height-base: 1.65;
+
+  --transition-fast: 140ms ease;
+  --transition-med: 240ms ease;
+}
