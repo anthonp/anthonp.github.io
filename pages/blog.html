@@ -3,31 +3,46 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hacker-Sec</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/tokens.css">
+    <link rel="stylesheet" href="/css/components.css">
     <link rel="stylesheet" href="/css/blog.css">
   </head>
   <body>
-    <nav>
-      <div class="logo"><img src="/images/icon.png" alt="hacker-sec-logo" width="50" height="auto">./Hacker-Sec</div>
-      <a href="/index.html" style="margin: 1%;">Home</a>
-    </nav>
-     <nav>
-      <div class="file-list">
-        <ul>
-          <li><a href="/blogs/obsidian_threat_heat_map.html">Dec_9_2024_Obsidian_Threat_Map</a></li>
-        </ul>
-        <ul>
-          <li><a href="/blogs/public_wifi.html">Apr_8_2025_Public_WiFi</a></li>
-        </ul>
-      </div>
-     </nav>
+    <header class="top-nav">
+      <nav class="page-shell top-nav__inner">
+        <a href="/index.html" class="logo"><img src="/images/icon.png" alt="hacker-sec-logo" width="42" height="42">./Hacker-Sec</a>
+        <div class="nav-links">
+          <a href="/index.html" class="nav-link">[ cd ~ ]</a>
+        </div>
+      </nav>
+    </header>
+
+    <main class="blog-main page-shell">
+      <section class="window window--floating">
+        <div class="window__bar">
+          <div class="window__lights" aria-hidden="true">
+            <span class="window__light window__light--red"></span>
+            <span class="window__light window__light--yellow"></span>
+            <span class="window__light window__light--green"></span>
+          </div>
+          <div class="window__title">blog://index</div>
+        </div>
+        <div class="window__body blog-list">
+          <a class="btn btn--secondary blog-link" href="/blogs/obsidian_threat_heat_map.html">[ cat Dec_9_2024_Obsidian_Threat_Map ]</a>
+          <a class="btn btn--secondary blog-link" href="/blogs/public_wifi.html">[ cat Apr_8_2025_Public_WiFi ]</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <section class="page-shell">
+        <p>[Legal Notice] Content on this site is provided for educational and informational purposes only. Nothing here is legal advice, security advice, or authorization to test any system. You must only perform security testing on systems you own or are explicitly authorized to assess in writing. You are solely responsible for legal compliance, operational impact, and any outcomes resulting from use of this material. The author disclaims liability for direct, indirect, incidental, or consequential damages. If legal boundaries or authorization scope are unclear, stop and consult qualified legal counsel before proceeding.<a href="https://raw.githubusercontent.com/anthonp/anthonp.github.io/main/LICENSE">LICENSE</a></p>
+      </section>
+    </footer>
   </body>
-  <footer>
-    <section class="foot3r">
-      <div class="foot3r-container">
-        <span class="foot_p"><p>Always make sure you are practicing legally and ethically on (equipment/systems) that you own personally or have authorization to access for the cited purpose, and never perform activities that may be considered inappropriate, unauthorized, and/or illegal. You are responsible for your own actions. I take no responsibility for actions that you undertake. This information is intended for individuals who are acting legally and ethically within an authorized capacity. Seek legal counsel and do not use this site if your understanding of this statement is not clear.<a href="https://raw.githubusercontent.com/anthonp/anthonp.github.io/main/LICENSE">LICENSE</a></p></span>
-      </div>
-    </section>
-  </footer>
 </html>
