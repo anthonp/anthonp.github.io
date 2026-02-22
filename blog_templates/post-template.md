@@ -1,15 +1,25 @@
-# TODO: Post title
+---
+title: TODO title
+date: 2026-01-01
+excerpt: One-sentence summary shown in the blog index.
+tags:
+  - Tag 1
+  - Tag 2
+---
 
-## TODO: Intro
-Write your intro paragraph.
+## Intro
 
-## TODO: Main points
+Write your opening paragraph.
+
+## Main points
+
 - Point 1
 - Point 2
 
-## TODO: Image
-Use this path when moving into HTML:
-`/images/your-image.png`
+## Image example
 
-## TODO: Wrap-up
+![Describe the image](/images/your-image.png)
+
+## Wrap-up
+
 Final thoughts.
