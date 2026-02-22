@@ -39,7 +39,7 @@ Place images in `/images` and reference them from Markdown:
 - Post pages route through `/blogs/post.html`.
 - The renderer loads the `source` markdown file, parses front matter, and converts Markdown to HTML automatically.
 
-
 ## GitHub Pages note
 
-This repo includes a `.nojekyll` file so Markdown source posts are served directly (not transformed by Jekyll).
+- This repo includes a `.nojekyll` file so Markdown source posts are served directly (not transformed by Jekyll).
+- Keep template/example dates in valid `YYYY-MM-DD` format (for example, `2026-01-01`) to avoid date parsing issues.
