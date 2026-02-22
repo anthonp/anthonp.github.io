@@ -88,6 +88,8 @@ const setupCopySnippet = () => {
 };
 
 const setupSectionHighlight = () => {
+  if (!('IntersectionObserver' in window)) return;
+
   const sections = document.querySelectorAll('[data-section], main#home');
   const navLinks = document.querySelectorAll('[data-nav-target]');
   if (!sections.length || !navLinks.length) return;
@@ -117,6 +119,7 @@ const loadBlogPosts = async () => {
 
   try {
     const response = await fetch('/data/posts.json');
+    if (!response.ok) throw new Error(`Failed posts index request: ${response.status}`);
     const posts = await response.json();
 
     posts.sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -161,7 +164,9 @@ const loadMarkdownPost = async () => {
   }
 
   try {
-    const markdownText = await fetch(source).then((res) => res.text());
+    const response = await fetch(source);
+    if (!response.ok) throw new Error(`Failed markdown request: ${response.status}`);
+    const markdownText = await response.text();
     const { metadata, content } = parseFrontMatter(markdownText);
     const normalizedContent = normalizeObsidianMarkdown(content);
 
@@ -187,7 +192,15 @@ const loadMarkdownPost = async () => {
   }
 };
 
-setupCopySnippet();
-setupSectionHighlight();
-loadBlogPosts();
-loadMarkdownPost();
+const boot = () => {
+  setupCopySnippet();
+  setupSectionHighlight();
+  loadBlogPosts();
+  loadMarkdownPost();
+};
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', boot, { once: true });
+} else {
+  boot();
+}
