@@ -1,6 +1,6 @@
 ---
 title: TODO title
-date: YYYY-MM-DD
+date: 2025-01-01
 excerpt: One-sentence summary shown in the blog index.
 tags:
   - Tag 1
