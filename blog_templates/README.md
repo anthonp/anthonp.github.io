@@ -8,7 +8,7 @@ Use this folder to publish posts directly from Obsidian-style Markdown notes.
 cp blog_templates/post-template.md blogs/my_new_post.md
 ```
 
-Edit `blogs/my_new_post.md` and update front matter + content.
+Edit `blogs/my_new_post.md` and update front matter + content. Use a real date value in `YYYY-MM-DD` format (example: `2025-01-01`).
 
 ## 2) Refresh the blog index automatically
 

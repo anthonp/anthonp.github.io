@@ -1,5 +1,7 @@
 const formatDate = (isoDate) => {
+  if (!isoDate) return 'Undated';
   const date = new Date(`${isoDate}T00:00:00`);
+  if (Number.isNaN(date.getTime())) return 'Undated';
   return date.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
 };
 
@@ -16,6 +18,7 @@ const stripMarkdown = (content) => content
   .replace(/\[[^\]]+\]\([^)]*\)/g, '$1')
   .replace(/^>\s?/gm, '')
   .replace(/[#*_~>-]/g, ' ');
+
 
 const parseFrontMatter = (markdownText) => {
   if (!markdownText.startsWith('---')) return { metadata: {}, content: markdownText };
@@ -85,7 +88,20 @@ const setupCopySnippet = () => {
   });
 };
 
+
+let postsIndexCache = null;
+
+const loadPostsIndex = async () => {
+  if (postsIndexCache) return postsIndexCache;
+  const response = await fetch('/data/posts.json');
+  if (!response.ok) throw new Error(`Failed posts index request: ${response.status}`);
+  postsIndexCache = await response.json();
+  return postsIndexCache;
+};
+
 const setupSectionHighlight = () => {
+  if (!('IntersectionObserver' in window)) return;
+
   const sections = document.querySelectorAll('[data-section], main#home');
   const navLinks = document.querySelectorAll('[data-nav-target]');
   if (!sections.length || !navLinks.length) return;
@@ -114,16 +130,14 @@ const loadBlogPosts = async () => {
   if (!blogList) return;
 
   try {
-    const response = await fetch('/data/posts.json');
-    const posts = await response.json();
+    const posts = await loadPostsIndex();
 
     posts.sort((a, b) => new Date(b.date) - new Date(a.date));
 
     const cards = await Promise.all(posts.map(async (post) => {
       let readTime = 1;
       try {
-        const markdownText = await fetch(post.source).then((res) => res.text());
-        const { content } = parseFrontMatter(markdownText);
+        const content = post.content || '';
         readTime = estimateReadTime(stripMarkdown(content));
       } catch (error) {
         readTime = 1;
@@ -159,8 +173,29 @@ const loadMarkdownPost = async () => {
   }
 
   try {
-    const markdownText = await fetch(source).then((res) => res.text());
-    const { metadata, content } = parseFrontMatter(markdownText);
+    const posts = await loadPostsIndex();
+    const matchedPost = posts.find((post) => post.source === source || post.slug === source.replace(/^\/blogs\//, '').replace(/\.md$/, ''));
+
+    let metadata = {};
+    let content = '';
+
+    if (matchedPost) {
+      metadata = {
+        title: matchedPost.title,
+        date: matchedPost.date,
+        excerpt: matchedPost.excerpt,
+        tags: matchedPost.tags,
+      };
+      content = matchedPost.content || '';
+    } else {
+      const response = await fetch(source);
+      if (!response.ok) throw new Error(`Failed markdown request: ${response.status}`);
+      const markdownText = await response.text();
+      const parsed = parseFrontMatter(markdownText);
+      metadata = parsed.metadata;
+      content = parsed.content;
+    }
+
     const normalizedContent = normalizeObsidianMarkdown(content);
 
     if (window.marked) {
@@ -185,7 +220,15 @@ const loadMarkdownPost = async () => {
   }
 };
 
-setupCopySnippet();
-setupSectionHighlight();
-loadBlogPosts();
-loadMarkdownPost();
+const boot = () => {
+  setupCopySnippet();
+  setupSectionHighlight();
+  loadBlogPosts();
+  loadMarkdownPost();
+};
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', boot, { once: true });
+} else {
+  boot();
+}

@@ -81,6 +81,10 @@ const deriveTags = (metadata) => {
   return [];
 };
 
+const deriveSlug = (fileName) => fileName.replace(/\.md$/, '');
+
+const isValidDate = (value) => !Number.isNaN(new Date(value).getTime());
+
 const collectPosts = async () => {
   const entries = await fs.readdir(blogsDir, { withFileTypes: true });
   const markdownFiles = entries
@@ -95,15 +99,19 @@ const collectPosts = async () => {
     const stats = await fs.stat(filePath);
     const { metadata, content } = parseFrontMatter(markdown);
 
-    const date = metadata.date || stats.mtime.toISOString().split('T')[0];
+    const fallbackDate = stats.mtime.toISOString().split('T')[0];
+    const date = metadata.date && isValidDate(metadata.date) ? metadata.date : fallbackDate;
+    const slug = deriveSlug(fileName);
     const source = `/blogs/${fileName}`;
 
     posts.push({
-      title: deriveTitle(metadata, content, fileName.replace(/\.md$/, '')),
+      title: deriveTitle(metadata, content, slug),
       date,
       excerpt: deriveExcerpt(metadata, content),
       url: `/blogs/post.html?source=${source}`,
       source,
+      slug,
+      content,
       tags: deriveTags(metadata),
     });
   }
