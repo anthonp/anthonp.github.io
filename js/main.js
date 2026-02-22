@@ -1,5 +1,7 @@
 const formatDate = (isoDate) => {
+  if (!isoDate) return 'Undated';
   const date = new Date(`${isoDate}T00:00:00`);
+  if (Number.isNaN(date.getTime())) return 'Undated';
   return date.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
 };
 
