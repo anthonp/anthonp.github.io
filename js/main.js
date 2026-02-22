@@ -1,5 +1,7 @@
 const formatDate = (isoDate) => {
+  if (!isoDate) return 'Undated';
   const date = new Date(`${isoDate}T00:00:00`);
+  if (Number.isNaN(date.getTime())) return 'Undated';
   return date.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
 };
 
@@ -16,6 +18,40 @@ const stripMarkdown = (content) => content
   .replace(/\[[^\]]+\]\([^)]*\)/g, '$1')
   .replace(/^>\s?/gm, '')
   .replace(/[#*_~>-]/g, ' ');
+
+
+const RAW_GITHUB_CONTENT_BASE = 'https://raw.githubusercontent.com/anthonp/anthonp.github.io/main';
+
+const resolveMarkdownSourceCandidates = (source) => {
+  if (!source) return [];
+  if (/^https?:\/\//i.test(source)) return [source];
+
+  const candidates = [source];
+  if (source.startsWith('/')) {
+    candidates.push(`${RAW_GITHUB_CONTENT_BASE}${source}`);
+  }
+
+  return [...new Set(candidates)];
+};
+
+const fetchTextWithFallback = async (source) => {
+  const candidates = resolveMarkdownSourceCandidates(source);
+  let lastStatus = 'no_source';
+
+  for (const candidate of candidates) {
+    try {
+      const response = await fetch(candidate);
+      if (response.ok) {
+        return { text: await response.text(), resolvedSource: candidate };
+      }
+      lastStatus = String(response.status);
+    } catch (_error) {
+      lastStatus = 'network_error';
+    }
+  }
+
+  throw new Error(`Failed markdown request: ${lastStatus}`);
+};
 
 const parseFrontMatter = (markdownText) => {
   if (!markdownText.startsWith('---')) return { metadata: {}, content: markdownText };
@@ -86,6 +122,8 @@ const setupCopySnippet = () => {
 };
 
 const setupSectionHighlight = () => {
+  if (!('IntersectionObserver' in window)) return;
+
   const sections = document.querySelectorAll('[data-section], main#home');
   const navLinks = document.querySelectorAll('[data-nav-target]');
   if (!sections.length || !navLinks.length) return;
@@ -115,6 +153,7 @@ const loadBlogPosts = async () => {
 
   try {
     const response = await fetch('/data/posts.json');
+    if (!response.ok) throw new Error(`Failed posts index request: ${response.status}`);
     const posts = await response.json();
 
     posts.sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -122,8 +161,8 @@ const loadBlogPosts = async () => {
     const cards = await Promise.all(posts.map(async (post) => {
       let readTime = 1;
       try {
-        const markdownText = await fetch(post.source).then((res) => res.text());
-        const { content } = parseFrontMatter(markdownText);
+        const { text } = await fetchTextWithFallback(post.source);
+        const { content } = parseFrontMatter(text);
         readTime = estimateReadTime(stripMarkdown(content));
       } catch (error) {
         readTime = 1;
@@ -159,7 +198,7 @@ const loadMarkdownPost = async () => {
   }
 
   try {
-    const markdownText = await fetch(source).then((res) => res.text());
+    const { text: markdownText, resolvedSource } = await fetchTextWithFallback(source);
     const { metadata, content } = parseFrontMatter(markdownText);
     const normalizedContent = normalizeObsidianMarkdown(content);
 
@@ -176,6 +215,9 @@ const loadMarkdownPost = async () => {
     const readTime = estimateReadTime(stripMarkdown(normalizedContent));
 
     document.title = `${title} | Hacker-Sec`;
+    if (resolvedSource && resolvedSource !== source) {
+      console.info(`Loaded post via fallback source: ${resolvedSource}`);
+    }
     if (titleElement) titleElement.textContent = title;
     if (metaElement) {
       metaElement.textContent = `${dateText} • ${readTime} min read`;
@@ -185,7 +227,15 @@ const loadMarkdownPost = async () => {
   }
 };
 
-setupCopySnippet();
-setupSectionHighlight();
-loadBlogPosts();
-loadMarkdownPost();
+const boot = () => {
+  setupCopySnippet();
+  setupSectionHighlight();
+  loadBlogPosts();
+  loadMarkdownPost();
+};
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', boot, { once: true });
+} else {
+  boot();
+}
