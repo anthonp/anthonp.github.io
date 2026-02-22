@@ -21,4 +21,4 @@ Write the post in Markdown and include any needed images with standard syntax:
 
 1. Save your note into `blogs/<slug>.md`.
 2. Run `node scripts/generate-posts-index.mjs`.
-3. Open `/blogs/post.html?source=/blogs/<slug>.md` to preview.
+3. Open `/blogs/post.html?post=<slug>` to preview.

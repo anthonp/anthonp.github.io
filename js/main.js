@@ -124,16 +124,8 @@ const loadBlogPosts = async () => {
 
     posts.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-    const cards = await Promise.all(posts.map(async (post) => {
-      let readTime = 1;
-      try {
-        const markdownText = await fetch(post.source).then((res) => res.text());
-        const { content } = parseFrontMatter(markdownText);
-        readTime = estimateReadTime(stripMarkdown(content));
-      } catch (error) {
-        readTime = 1;
-      }
-
+    const cards = posts.map((post) => {
+      const readTime = estimateReadTime(stripMarkdown(post.markdown || ''));
       return `
         <article class="blog-card">
           <h2><a href="${post.url}">${post.title}</a></h2>
@@ -143,7 +135,7 @@ const loadBlogPosts = async () => {
           <a class="btn btn--secondary" href="${post.url}">Read post</a>
         </article>
       `;
-    }));
+    });
 
     blogList.innerHTML = cards.join('');
   } catch (error) {
@@ -156,18 +148,44 @@ const loadMarkdownPost = async () => {
   if (!contentElement) return;
 
   const params = new URLSearchParams(window.location.search);
+  const postSlug = params.get('post');
   const source = params.get('source');
 
-  if (!source) {
+  if (!postSlug && !source) {
     contentElement.innerHTML = '<p>No markdown source supplied.</p>';
     return;
   }
 
   try {
-    const response = await fetch(source);
-    if (!response.ok) throw new Error(`Failed markdown request: ${response.status}`);
-    const markdownText = await response.text();
-    const { metadata, content } = parseFrontMatter(markdownText);
+    let metadata = {};
+    let content = '';
+
+    const postsResponse = await fetch('/data/posts.json');
+    if (postsResponse.ok) {
+      const posts = await postsResponse.json();
+      const post = posts.find((item) => (postSlug && item.slug === postSlug) || (source && item.source === source));
+      if (post) {
+        metadata = {
+          title: post.title,
+          date: post.date,
+          tags: post.tags,
+          excerpt: post.excerpt,
+        };
+        content = post.markdown || '';
+      }
+    }
+
+    if (!content && source) {
+      const response = await fetch(source);
+      if (!response.ok) throw new Error(`Failed markdown request: ${response.status}`);
+      const markdownText = await response.text();
+      ({ metadata, content } = parseFrontMatter(markdownText));
+    }
+
+    if (!content) {
+      throw new Error('Post not found in index');
+    }
+
     const normalizedContent = normalizeObsidianMarkdown(content);
 
     if (window.marked) {

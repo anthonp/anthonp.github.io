@@ -100,14 +100,18 @@ const collectPosts = async () => {
     const fallbackDate = stats.mtime.toISOString().split('T')[0];
     const date = metadata.date && isValidDate(metadata.date) ? metadata.date : fallbackDate;
     const source = `/blogs/${fileName}`;
+    const slug = fileName.replace(/\.md$/, '');
+    const normalizedContent = content.trim();
 
     posts.push({
       title: deriveTitle(metadata, content, fileName.replace(/\.md$/, '')),
       date,
       excerpt: deriveExcerpt(metadata, content),
-      url: `/blogs/post.html?source=${source}`,
+      url: `/blogs/post.html?post=${slug}`,
+      slug,
       source,
       tags: deriveTags(metadata),
+      markdown: normalizedContent,
     });
   }
 
