@@ -8,6 +8,45 @@ const estimateReadTime = (text) => {
   return Math.max(1, Math.round(words / 220));
 };
 
+const stripMarkdown = (content) => content
+  .replace(/^---[\s\S]*?---\s*/m, '')
+  .replace(/```[\s\S]*?```/g, ' ')
+  .replace(/`([^`]+)`/g, '$1')
+  .replace(/!\[[^\]]*\]\([^)]*\)/g, ' ')
+  .replace(/\[[^\]]+\]\([^)]*\)/g, '$1')
+  .replace(/^>\s?/gm, '')
+  .replace(/[#*_~>-]/g, ' ');
+
+const parseFrontMatter = (markdownText) => {
+  if (!markdownText.startsWith('---')) return { metadata: {}, content: markdownText };
+
+  const match = markdownText.match(/^---\s*\n([\s\S]*?)\n---\s*\n?/);
+  if (!match) return { metadata: {}, content: markdownText };
+
+  const metadata = {};
+  const lines = match[1].split('\n');
+  let currentKey = null;
+
+  lines.forEach((line) => {
+    const listMatch = line.match(/^\s*-\s*(.+)$/);
+    if (listMatch && currentKey) {
+      if (!Array.isArray(metadata[currentKey])) metadata[currentKey] = [];
+      metadata[currentKey].push(listMatch[1].trim());
+      return;
+    }
+
+    const keyValueMatch = line.match(/^([a-zA-Z0-9_-]+):\s*(.*)$/);
+    if (!keyValueMatch) return;
+
+    const [, key, value] = keyValueMatch;
+    currentKey = key;
+    metadata[key] = value.trim();
+  });
+
+  const content = markdownText.slice(match[0].length);
+  return { metadata, content };
+};
+
 const setupCopySnippet = () => {
   const button = document.getElementById('copy-snippet');
   const status = document.getElementById('copy-status');
@@ -62,10 +101,9 @@ const loadBlogPosts = async () => {
     const cards = await Promise.all(posts.map(async (post) => {
       let readTime = 1;
       try {
-        const articleHtml = await fetch(post.url).then((res) => res.text());
-        const parsed = new DOMParser().parseFromString(articleHtml, 'text/html');
-        const text = parsed.querySelector('main')?.innerText || parsed.body.innerText;
-        readTime = estimateReadTime(text);
+        const markdownText = await fetch(post.source).then((res) => res.text());
+        const { content } = parseFrontMatter(markdownText);
+        readTime = estimateReadTime(stripMarkdown(content));
       } catch (error) {
         readTime = 1;
       }
@@ -87,6 +125,45 @@ const loadBlogPosts = async () => {
   }
 };
 
+const loadMarkdownPost = async () => {
+  const contentElement = document.getElementById('post-content');
+  if (!contentElement) return;
+
+  const params = new URLSearchParams(window.location.search);
+  const source = params.get('source');
+
+  if (!source) {
+    contentElement.innerHTML = '<p>No markdown source supplied.</p>';
+    return;
+  }
+
+  try {
+    const markdownText = await fetch(source).then((res) => res.text());
+    const { metadata, content } = parseFrontMatter(markdownText);
+
+    if (window.marked) {
+      contentElement.innerHTML = window.marked.parse(content);
+    } else {
+      contentElement.textContent = content;
+    }
+
+    const titleElement = document.getElementById('post-title');
+    const metaElement = document.getElementById('post-meta');
+    const title = metadata.title || 'Blog Post';
+    const dateText = metadata.date ? formatDate(metadata.date) : 'Undated';
+    const readTime = estimateReadTime(stripMarkdown(content));
+
+    document.title = `${title} | Hacker-Sec`;
+    if (titleElement) titleElement.textContent = title;
+    if (metaElement) {
+      metaElement.textContent = `${dateText} • ${readTime} min read`;
+    }
+  } catch (error) {
+    contentElement.innerHTML = '<p>Failed to load markdown post.</p>';
+  }
+};
+
 setupCopySnippet();
 setupSectionHighlight();
 loadBlogPosts();
+loadMarkdownPost();
