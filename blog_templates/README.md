@@ -1,6 +1,6 @@
-# Blog post quick-start template (Markdown-first)
+# Blog post workflow (Obsidian `.md` drop-in)
 
-Use this folder to publish posts from Obsidian-style `.md` files.
+Use this folder to publish posts directly from Obsidian-style Markdown notes.
 
 ## 1) Copy the Markdown template
 
@@ -10,20 +10,15 @@ cp blog_templates/post-template.md blogs/my_new_post.md
 
 Edit `blogs/my_new_post.md` and update front matter + content.
 
-## 2) Register the post in the index
+## 2) Refresh the blog index automatically
 
-Add an object to `data/posts.json`:
+Run:
 
-```json
-{
-  "title": "Your Post Title",
-  "date": "YYYY-MM-DD",
-  "excerpt": "One sentence summary.",
-  "url": "/blogs/post.html?source=/blogs/my_new_post.md",
-  "source": "/blogs/my_new_post.md",
-  "tags": ["Tag 1", "Tag 2"]
-}
+```bash
+node scripts/generate-posts-index.mjs
 ```
+
+This scans every `blogs/*.md` file and rebuilds `data/posts.json`.
 
 ## 3) Add images
 
@@ -33,8 +28,14 @@ Place images in `/images` and reference them from Markdown:
 ![Describe the image](/images/your-image.png)
 ```
 
+Obsidian embed syntax is also supported:
+
+```md
+![[your-image.png]]
+```
+
 ## How rendering works
 
 - Blog index (`/pages/blog.html`) reads `data/posts.json`.
 - Post pages route through `/blogs/post.html`.
-- The renderer loads the `source` markdown file, parses front matter, and converts Markdown to HTML automatically.
+- The renderer loads the markdown source, parses front matter, normalizes Obsidian link/embed syntax, and converts Markdown to HTML automatically.

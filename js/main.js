@@ -40,12 +40,33 @@ const parseFrontMatter = (markdownText) => {
 
     const [, key, value] = keyValueMatch;
     currentKey = key;
-    metadata[key] = value.trim();
+    const trimmedValue = value.trim();
+    if (trimmedValue.startsWith('[') && trimmedValue.endsWith(']')) {
+      metadata[key] = trimmedValue
+        .slice(1, -1)
+        .split(',')
+        .map((item) => item.trim().replace(/^['"]|['"]$/g, ''))
+        .filter(Boolean);
+      return;
+    }
+
+    metadata[key] = trimmedValue.replace(/^['"]|['"]$/g, '');
   });
 
   const content = markdownText.slice(match[0].length);
   return { metadata, content };
 };
+
+const normalizeObsidianMarkdown = (content) => content
+  .replace(/!\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g, (_match, target, altText) => {
+    const fileName = target.trim();
+    const alt = (altText || fileName).trim();
+    const path = fileName.startsWith('/') ? fileName : `/images/${fileName}`;
+    return `![${alt}](${path})`;
+  })
+  .replace(/\[\[([^\]|]+)\|([^\]]+)\]\]/g, '[$2]($1)')
+  .replace(/\[\[([^\]]+)\]\]/g, '$1')
+  .replace(/^>\s*\[!(\w+)\]\s*(.*)$/gim, (_match, type, text) => `> **${type.toUpperCase()}:** ${text}`);
 
 const setupCopySnippet = () => {
   const button = document.getElementById('copy-snippet');
@@ -140,18 +161,19 @@ const loadMarkdownPost = async () => {
   try {
     const markdownText = await fetch(source).then((res) => res.text());
     const { metadata, content } = parseFrontMatter(markdownText);
+    const normalizedContent = normalizeObsidianMarkdown(content);
 
     if (window.marked) {
-      contentElement.innerHTML = window.marked.parse(content);
+      contentElement.innerHTML = window.marked.parse(normalizedContent);
     } else {
-      contentElement.textContent = content;
+      contentElement.textContent = normalizedContent;
     }
 
     const titleElement = document.getElementById('post-title');
     const metaElement = document.getElementById('post-meta');
     const title = metadata.title || 'Blog Post';
     const dateText = metadata.date ? formatDate(metadata.date) : 'Undated';
-    const readTime = estimateReadTime(stripMarkdown(content));
+    const readTime = estimateReadTime(stripMarkdown(normalizedContent));
 
     document.title = `${title} | Hacker-Sec`;
     if (titleElement) titleElement.textContent = title;

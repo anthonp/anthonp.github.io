@@ -5,7 +5,11 @@
     "excerpt": "A practical breakdown of why public WiFi still carries risk even with HTTPS, and how to reduce exposure.",
     "url": "/blogs/post.html?source=/blogs/public_wifi.md",
     "source": "/blogs/public_wifi.md",
-    "tags": ["Network Security", "Risk Management", "Privacy"]
+    "tags": [
+      "Network Security",
+      "Risk Management",
+      "Privacy"
+    ]
   },
   {
     "title": "Obsidian Threat Heat Map",
@@ -13,6 +17,10 @@
     "excerpt": "Using an Obsidian workflow to visualize incident relationships and identify recurring threat patterns.",
     "url": "/blogs/post.html?source=/blogs/obsidian_threat_heat_map.md",
     "source": "/blogs/obsidian_threat_heat_map.md",
-    "tags": ["Threat Modeling", "Obsidian", "SOC Workflow"]
+    "tags": [
+      "Threat Modeling",
+      "Obsidian",
+      "SOC Workflow"
+    ]
   }
 ]
