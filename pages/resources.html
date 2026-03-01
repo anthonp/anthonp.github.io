@@ -3,33 +3,1513 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coming Soon - Resources</title>
+    <title>Resources | Hacker-Sec</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/tokens.css">
     <link rel="stylesheet" href="/css/components.css">
+    <style>
+      .resources-main {
+        padding-block: var(--space-6);
+      }
+      
+      :root {
+        --status-warn: #d8b76a;
+        --status-ok: #63d595;
+      }
+
+      .resources-subtitle {
+        margin: var(--space-2) 0 var(--space-3);
+        color: var(--muted);
+        max-width: 72ch;
+      }
+
+      .resources-updated {
+        margin: 0 0 var(--space-3);
+        font-size: 0.85rem;
+        color: var(--muted);
+      }
+
+      .forensics-notes {
+        margin-bottom: var(--space-4);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        background: rgba(10, 17, 16, 0.78);
+        padding: var(--space-3);
+      }
+
+      .forensics-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space-2);
+        margin-bottom: var(--space-2);
+      }
+
+      .forensics-head h2 {
+        margin: 0;
+        font-size: 0.94rem;
+      }
+
+      .forensics-sub {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.76rem;
+      }
+
+      .forensics-list {
+        display: grid;
+        gap: var(--space-2);
+      }
+
+      .forensics-item {
+        display: grid;
+        grid-template-columns: 2.5rem 1fr;
+        align-items: start;
+        gap: var(--space-2);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        padding: 0.55rem 0.6rem;
+        background: rgba(16, 25, 23, 0.82);
+      }
+
+      .fx-rail {
+        display: flex;
+        align-items: center;
+        gap: 0.28rem;
+        padding-top: 0.2rem;
+      }
+
+      .fx-dot {
+        width: 0.44rem;
+        height: 0.44rem;
+        border-radius: 50%;
+        border: 1px solid var(--border);
+        background: transparent;
+        flex: 0 0 auto;
+      }
+
+      .fx-line {
+        width: 1.2rem;
+        height: 1px;
+        background: linear-gradient(90deg, var(--border), var(--muted));
+        opacity: 0.8;
+      }
+
+      .fx-dot--warn {
+        border-color: rgba(216, 183, 106, 0.75);
+        animation: pulseWarn 2.1s ease-in-out infinite;
+      }
+
+      .fx-dot--ok {
+        border-color: rgba(99, 213, 149, 0.8);
+        animation: pulseOk 2.8s ease-in-out infinite;
+      }
+
+      @keyframes pulseWarn {
+        0%, 100% {
+          background: transparent;
+          box-shadow: 0 0 0 rgba(216, 183, 106, 0);
+          opacity: 0.66;
+        }
+        50% {
+          background: rgba(216, 183, 106, 0.9);
+          box-shadow: 0 0 8px rgba(216, 183, 106, 0.75), 0 0 14px rgba(216, 183, 106, 0.4);
+          opacity: 1;
+        }
+      }
+
+      @keyframes pulseOk {
+        0%, 100% {
+          background: transparent;
+          box-shadow: 0 0 0 rgba(99, 213, 149, 0);
+          opacity: 0.7;
+        }
+        50% {
+          background: rgba(99, 213, 149, 0.9);
+          box-shadow: 0 0 9px rgba(99, 213, 149, 0.75), 0 0 15px rgba(99, 213, 149, 0.38);
+          opacity: 1;
+        }
+      }
+
+      .fx-content {
+        min-width: 0;
+      }
+
+      .forensics-item-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space-2);
+      }
+
+      .forensics-title {
+        margin: 0;
+        font-size: 0.82rem;
+      }
+
+      .coming-soon {
+        border: 1px solid rgba(110, 183, 203, 0.45);
+        border-radius: 999px;
+        padding: 0.1rem 0.4rem;
+        font-size: 0.62rem;
+        color: var(--muted);
+        white-space: nowrap;
+      }
+
+      .forensics-desc {
+        margin: 0.35rem 0;
+        font-size: 0.72rem;
+        color: var(--muted);
+        line-height: 1.4;
+      }
+
+      .forensics-link {
+        display: inline;
+        margin: 0;
+        font-size: 0.7rem;
+      }
+
+      .forensics-meta {
+        margin: 0 0 var(--space-1);
+        font-size: 0.7rem;
+        color: var(--muted);
+        white-space: nowrap;
+      }
+
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+
+      .forensics-foot {
+        margin: var(--space-2) 0 0;
+        color: var(--muted);
+        font-size: 0.71rem;
+      }
+
+      .resources-controls {
+        display: grid;
+        gap: var(--space-3);
+        margin-bottom: var(--space-4);
+      }
+
+      .search-row {
+        display: grid;
+        gap: var(--space-3);
+        grid-template-columns: 1fr auto;
+      }
+
+      .control-label {
+        display: block;
+        margin-bottom: var(--space-2);
+        font-size: 0.82rem;
+        color: var(--muted);
+      }
+
+      .search-input,
+      .sort-select {
+        width: 100%;
+        border: 1px solid var(--border);
+        background: rgba(10, 17, 16, 0.9);
+        border-radius: var(--radius-sm);
+        color: var(--text);
+        font: inherit;
+        padding: 0.58rem 0.7rem;
+      }
+
+      .sort-wrap {
+        min-width: 12rem;
+      }
+
+      .quick-filters,
+      .tag-filters,
+      .toolbar-row,
+      .results-line {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-2);
+        align-items: center;
+      }
+
+      .filter-chip,
+      .action-btn,
+      .toggle-btn,
+      .page-btn {
+        border: 1px solid var(--border);
+        background: rgba(16, 25, 23, 0.8);
+        color: var(--text);
+        border-radius: 999px;
+        padding: 0.32rem 0.62rem;
+        font: inherit;
+        font-size: 0.75rem;
+        cursor: pointer;
+        line-height: 1.2;
+        transition: background var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+      }
+
+      .filter-chip[aria-pressed="true"],
+      .toggle-btn[aria-pressed="true"],
+      .page-btn[aria-current="page"] {
+        border-color: var(--accent);
+        background: rgba(47, 143, 90, 0.2);
+        box-shadow: 0 0 0 1px rgba(91, 224, 143, 0.15);
+      }
+
+      .action-btn {
+        border-radius: var(--radius-sm);
+      }
+
+      .results-meta,
+      .page-meta {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.82rem;
+      }
+
+      .resources-grid {
+        display: grid;
+        gap: var(--space-3);
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+      }
+
+      .resource-card {
+        position: relative;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        background: linear-gradient(160deg, rgba(16, 25, 23, 0.95), rgba(10, 17, 16, 0.95));
+        padding: var(--space-3);
+        box-shadow: var(--shadow-sm);
+        cursor: pointer;
+        transition: transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+      }
+
+      .resource-card:hover {
+        transform: translateY(-1px);
+        border-color: var(--border-strong);
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.42), 0 0 0 1px rgba(91, 224, 143, 0.08);
+      }
+
+      .resource-card:focus-visible,
+      .filter-chip:focus-visible,
+      .action-btn:focus-visible,
+      .toggle-btn:focus-visible,
+      .search-input:focus-visible,
+      .sort-select:focus-visible,
+      .icon-btn:focus-visible,
+      .page-btn:focus-visible,
+      .forensics-link:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+
+      .resource-card.designated {
+        border-color: var(--accent-dim);
+        box-shadow: 0 0 0 1px rgba(91, 224, 143, 0.25), 0 12px 24px rgba(0, 0, 0, 0.44);
+      }
+
+      .resource-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: var(--space-2);
+      }
+
+      .resource-name {
+        margin: 0;
+        font-size: 0.98rem;
+      }
+
+      .resource-desc {
+        margin: var(--space-2) 0;
+        color: var(--muted);
+        font-size: 0.82rem;
+        line-height: 1.45;
+      }
+
+      .meta-line {
+        margin: 0 0 var(--space-2);
+        color: var(--muted);
+        font-size: 0.73rem;
+      }
+
+      .badge-row,
+      .card-tags,
+      .card-controls,
+      .pagination {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.35rem;
+      }
+
+      .badge {
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        padding: 0.18rem 0.5rem;
+        font-size: 0.69rem;
+        color: var(--text);
+        letter-spacing: 0.01em;
+      }
+
+      .badge-pricing-free { border-color: rgba(99, 213, 149, 0.45); }
+      .badge-pricing-freemium { border-color: rgba(110, 183, 203, 0.45); }
+      .badge-pricing-paid { border-color: rgba(216, 183, 106, 0.45); }
+
+      .card-tags {
+        margin-top: var(--space-2);
+      }
+
+      .tag-pill {
+        background: rgba(21, 33, 31, 0.85);
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        padding: 0.12rem 0.46rem;
+        font-size: 0.68rem;
+        color: var(--muted);
+      }
+
+      .card-controls {
+        margin-top: var(--space-2);
+      }
+
+      .icon-btn {
+        border: 1px solid var(--border);
+        background: rgba(10, 17, 16, 0.8);
+        color: var(--text);
+        border-radius: var(--radius-sm);
+        min-width: 2rem;
+        padding: 0.28rem 0.5rem;
+        font: inherit;
+        font-size: 0.74rem;
+        cursor: pointer;
+      }
+
+      .icon-btn[aria-pressed="true"],
+      .icon-btn[aria-expanded="true"] {
+        border-color: var(--accent);
+        background: rgba(47, 143, 90, 0.2);
+      }
+
+      .copy-feedback {
+        font-size: 0.69rem;
+        color: var(--success);
+        opacity: 0;
+        transition: opacity var(--transition-fast);
+      }
+
+      .copy-feedback.visible {
+        opacity: 1;
+      }
+
+      .tooltip {
+        position: absolute;
+        right: var(--space-3);
+        top: calc(var(--space-3) + 1.7rem);
+        max-width: 26rem;
+        border: 1px solid var(--border-strong);
+        border-radius: var(--radius-sm);
+        background: rgba(7, 11, 10, 0.98);
+        box-shadow: var(--shadow-md);
+        padding: 0.58rem;
+        z-index: 20;
+        font-size: 0.73rem;
+        line-height: 1.38;
+      }
+
+      .tooltip-summary {
+        color: var(--muted);
+        margin-bottom: var(--space-1);
+      }
+
+      .empty-state {
+        border: 1px dashed var(--border);
+        border-radius: var(--radius-md);
+        padding: var(--space-4);
+        color: var(--muted);
+        text-align: center;
+      }
+
+      .pagination-wrap {
+        margin-top: var(--space-3);
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      .page-btn[disabled] {
+        opacity: 0.45;
+        cursor: not-allowed;
+      }
+
+      .ellipsis {
+        font-size: 0.78rem;
+        color: var(--muted);
+        align-self: center;
+        padding: 0 0.2rem;
+      }
+
+      .resources-disclaimer {
+        margin-top: var(--space-4);
+      }
+
+      @media (min-width: 680px) {
+        .resources-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (min-width: 1024px) {
+        .resources-grid {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+      }
+
+      @media (min-width: 1320px) {
+        .resources-grid {
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 780px) {
+        .search-row {
+          grid-template-columns: 1fr;
+        }
+
+        .sort-wrap {
+          min-width: 0;
+        }
+
+        .forensics-item-head {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .forensics-meta {
+          white-space: normal;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .fx-dot--warn,
+        .fx-dot--ok {
+          animation: none;
+        }
+
+        .fx-dot--warn {
+          background: rgba(216, 183, 106, 0.8);
+          box-shadow: 0 0 0 1px rgba(216, 183, 106, 0.35);
+        }
+
+        .fx-dot--ok {
+          background: rgba(99, 213, 149, 0.8);
+          box-shadow: 0 0 0 1px rgba(99, 213, 149, 0.35);
+        }
+      }
+    </style>
   </head>
-  <body>
+  <body data-page="resources">
     <header class="top-nav">
-      <nav class="page-shell top-nav__inner">
-        <a href="/index.html" class="logo"><img src="/images/icon.png" alt="hacker-sec-logo" width="42" height="42">./Hacker-Sec</a>
-        <div class="nav-links"><a href="/index.html" class="nav-link">[ cd /home ]</a></div>
+      <nav class="page-shell top-nav__inner" aria-label="Primary navigation">
+        <a href="/index.html#home" class="logo"><img src="/images/icon.png" alt="hacker-sec-logo" width="42" height="42">./Hacker-Sec</a>
+        <div class="nav-links"><a href="/index.html#home" class="nav-link">[ cd /home ]</a></div>
       </nav>
     </header>
-    <main class="page-shell section-pad">
+
+    <main class="page-shell section-pad resources-main" id="main-content">
       <section class="window window--floating">
-        <div class="window__bar"><div class="window__lights" aria-hidden="true"><span class="window__light window__light--red"></span><span class="window__light window__light--yellow"></span><span class="window__light window__light--green"></span></div><div class="window__title">[ resources://status ]</div></div>
+        <div class="window__bar">
+          <div class="window__lights" aria-hidden="true"><span class="window__light window__light--red"></span><span class="window__light window__light--yellow"></span><span class="window__light window__light--green"></span></div>
+          <div class="window__title">[ resources://directory ]</div>
+        </div>
         <div class="window__body">
-          <h1>Undergoing Site Updates</h1>
-          <p>We apologize for any inconvenience, but this part of my site is still in progress and is undergoing changes. Please check back later!</p>
+          <h1>Resources</h1>
+          <p class="resources-subtitle">Searchable defensive tooling and reference links for triage, research, and detection workflows.</p>
+          <p class="resources-updated">Last updated: March 1, 2026</p>
+
+          <section class="forensics-notes" aria-label="Forensics notes">
+            <div class="forensics-head">
+              <h2>Forensics Notes</h2>
+              <p class="forensics-sub">Forensics demonstrations & investigative methods</p>
+            </div>
+            <div class="forensics-list">
+              <article class="forensics-item">
+                <div class="fx-rail" aria-hidden="true">
+                  <span class="fx-dot fx-dot--warn"></span>
+                  <span class="fx-line"></span>
+                  <span class="fx-dot"></span>
+                </div>
+                <div class="fx-content">
+                  <div class="forensics-item-head">
+                    <h3 class="forensics-title">Browser History Forensics</h3>
+                    <span class="coming-soon">Coming soon</span>
+                    <span class="sr-only">Status: Coming soon</span>
+                  </div>
+                  <p class="forensics-desc">Reconstructing a redirect-to-download chain with limited telemetry, using browser artifacts when SSL inspection and endpoint visibility are sparse.</p>
+                  <p class="forensics-meta">Last updated: March 1, 2026: <a class="forensics-link" href="/blog/browser-history-forensics.html">/blog/browser-history-forensics.html</a></p>
+                  <div class="card-tags">
+                    <span class="tag-pill">DFIR</span>
+                    <span class="tag-pill">Browser Artifacts</span>
+                    <span class="tag-pill">Phishing</span>
+                  </div>
+                </div>
+              </article>
+              <article class="forensics-item">
+                <div class="fx-rail" aria-hidden="true">
+                  <span class="fx-dot fx-dot--warn"></span>
+                  <span class="fx-line"></span>
+                  <span class="fx-dot"></span>
+                </div>
+                <div class="fx-content">
+                  <div class="forensics-item-head">
+                    <h3 class="forensics-title">Email Header Triage</h3>
+                    <span class="coming-soon">Coming soon</span>
+                    <span class="sr-only">Status: Coming soon</span>
+                  </div>
+                  <p class="forensics-desc">A fast workflow to validate sender legitimacy, trace sending infrastructure, and separate spoofing from compromised-account abuse.</p>
+                  <p class="forensics-meta">Last updated: March 1, 2026: <a class="forensics-link" href="/blog/email-header-triage.html">/blog/email-header-triage.html</a></p>
+                  <div class="card-tags">
+                    <span class="tag-pill">Email Security</span>
+                    <span class="tag-pill">IR</span>
+                    <span class="tag-pill">OSINT</span>
+                  </div>
+                </div>
+              </article>
+              <article class="forensics-item">
+                <div class="fx-rail" aria-hidden="true">
+                  <span class="fx-dot fx-dot--warn"></span>
+                  <span class="fx-line"></span>
+                  <span class="fx-dot"></span>
+                </div>
+                <div class="fx-content">
+                  <div class="forensics-item-head">
+                    <h3 class="forensics-title">Windows Logon Reconstruction</h3>
+                    <span class="coming-soon">Coming soon</span>
+                    <span class="sr-only">Status: Coming soon</span>
+                  </div>
+                  <p class="forensics-desc">Rebuilding authentication timelines from Windows events to surface suspicious logons, lateral movement indicators, and persistence behavior.</p>
+                  <p class="forensics-meta">Last updated: March 1, 2026: <a class="forensics-link" href="/blog/windows-logon-reconstruction.html">/blog/windows-logon-reconstruction.html</a></p>
+                  <div class="card-tags">
+                    <span class="tag-pill">Windows Events</span>
+                    <span class="tag-pill">T1078 Valid Accounts</span>
+                    <span class="tag-pill">Detection</span>
+                  </div>
+                </div>
+              </article>
+            </div>
+            <p class="forensics-foot">More posts soon -&gt;</p>
+          </section>
+
+          <div class="resources-controls" aria-label="Resource filters">
+            <div class="search-row">
+              <div>
+                <label for="resource-search" class="control-label">Search name, description, or tags</label>
+                <input id="resource-search" class="search-input" type="search" placeholder="Search resources..." autocomplete="off">
+              </div>
+              <div class="sort-wrap">
+                <label for="sort-select" class="control-label">Sort</label>
+                <select id="sort-select" class="sort-select">
+                  <option value="recommended">Recommended</option>
+                  <option value="az">A-Z</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <p class="control-label">Quick filters</p>
+              <div class="quick-filters" id="quick-filters"></div>
+            </div>
+
+            <div>
+              <p class="control-label">Tag filters</p>
+              <div class="tag-filters" id="tag-filters"></div>
+            </div>
+
+            <div class="toolbar-row">
+              <button type="button" class="toggle-btn" id="designated-only" aria-pressed="false">Show Designated Only</button>
+              <button type="button" class="action-btn" id="clear-designated">Clear Designated</button>
+              <button type="button" class="action-btn" id="clear-filters">Clear filters</button>
+            </div>
+
+            <div class="results-line">
+              <p id="results-meta" class="results-meta" aria-live="polite"></p>
+              <p id="page-meta" class="page-meta" aria-live="polite"></p>
+            </div>
+          </div>
+
+          <div class="resources-grid" id="resources-grid" aria-live="polite"></div>
+          <div id="empty-state" class="empty-state" role="status" hidden>No resources match your current filters.</div>
+
+          <div class="pagination-wrap" id="pagination-wrap" hidden>
+            <nav class="pagination" id="pagination" aria-label="Resource pages"></nav>
+          </div>
+        </div>
+      </section>
+
+      <section class="window resources-disclaimer" aria-label="Usage disclaimer">
+        <div class="window__bar">
+          <div class="window__lights" aria-hidden="true"><span class="window__light window__light--red"></span><span class="window__light window__light--yellow"></span><span class="window__light window__light--green"></span></div>
+          <div class="window__title">[ legal://authorized-use ]</div>
+        </div>
+        <div class="window__body">
+          <p class="legal-disclaimer">Security content on this site is provided for educational and informational purposes only. It is not legal advice, not a guarantee of security outcomes, and not authorization to test any system. Only perform security activity on assets you own or where you have explicit written permission. You are solely responsible for complying with all applicable laws, policies, and contracts. By using this content, you accept full responsibility for your actions and release the author from liability for misuse, loss, damage, or service impact. If you are uncertain, stop and consult qualified legal or security professionals before proceeding. <a href="https://raw.githubusercontent.com/anthonp/anthonp.github.io/main/LICENSE">[ LICENSE ]</a></p>
         </div>
       </section>
     </main>
+
     <footer class="site-footer">
       <section class="page-shell">
-        <p class="legal-disclaimer">Security content on this site is provided for educational and informational purposes only. It is not legal advice, not a guarantee of security outcomes, and not authorization to test any system. Only perform security activity on assets you own or where you have explicit written permission. You are solely responsible for complying with all applicable laws, policies, and contracts. By using this content, you accept full responsibility for your actions and release the author from liability for misuse, loss, damage, or service impact. If you are uncertain, stop and consult qualified legal or security professionals before proceeding. <a href="https://raw.githubusercontent.com/anthonp/anthonp.github.io/main/LICENSE">[ LICENSE ]</a></p>
+        <p class="legal-disclaimer">Hacker-Sec Resources Directory</p>
       </section>
     </footer>
+
+    <script type="application/json" id="resources-data">
+[
+  {
+    "id": "spur-us",
+    "name": "Spur",
+    "url": "https://spur.us",
+    "desc": "IP intelligence for detecting VPNs, proxies, and anonymized infrastructure.",
+    "tags": ["VPN Detection", "IP Address", "T1078 Valid Accounts", "Threat Intel", "Fraud Defense"],
+    "pricing": "freemium",
+    "account": true,
+    "api": true,
+    "tooltip": "Free Community tier supports manual lookups (no API calls). Context API provides real-time IP enrichment with 20+ attributes for fraud/security workflows."
+  },
+  {
+    "id": "virustotal",
+    "name": "VirusTotal",
+    "url": "https://www.virustotal.com",
+    "desc": "Multi-engine scanning and relationship graphing for files, URLs, domains, and IPs.",
+    "tags": ["Threat Intel", "OSINT", "Malware", "DNS"],
+    "pricing": "freemium",
+    "account": true,
+    "api": true,
+    "tooltip": "Strong first-pass validation for suspicious artifacts and pivots. Useful for SOC triage and malware context enrichment."
+  },
+  {
+    "id": "urlscan",
+    "name": "urlscan.io",
+    "url": "https://urlscan.io",
+    "desc": "Sandboxed URL analysis with screenshots, requests, and host indicators.",
+    "tags": ["OSINT", "Phishing", "Email Security", "Threat Intel"],
+    "pricing": "freemium",
+    "account": true,
+    "api": true,
+    "tooltip": "Good for phishing investigations and link detonation evidence. API supports enrichment and automated triage pipelines."
+  },
+  {
+    "id": "otx",
+    "name": "AlienVault OTX",
+    "url": "https://otx.alienvault.com",
+    "desc": "Community-sourced indicators and pulses for threat intelligence research.",
+    "tags": ["Threat Intel", "OSINT", "IOC"],
+    "pricing": "free",
+    "account": true,
+    "api": true,
+    "tooltip": "Useful for quickly checking community-reported IOCs and campaign context before deeper validation."
+  },
+  {
+    "id": "cisa-kev",
+    "name": "CISA Known Exploited Vulnerabilities",
+    "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog",
+    "desc": "Authoritative catalog of vulnerabilities actively exploited in the wild.",
+    "tags": ["CVE Tracking", "Vulnerability Management", "Threat Intel"],
+    "pricing": "free",
+    "account": false,
+    "api": false,
+    "tooltip": "Prioritize patching based on active exploitation, not just severity scores. Critical for risk-based remediation queues."
+  },
+  {
+    "id": "nvd",
+    "name": "NIST NVD",
+    "url": "https://nvd.nist.gov",
+    "desc": "National Vulnerability Database with CVE details, scoring, and references.",
+    "tags": ["CVE Tracking", "Vulnerability Management", "Reference"],
+    "pricing": "free",
+    "account": false,
+    "api": true,
+    "tooltip": "Foundational reference for vulnerability metadata and scoring history. Common source for internal vulnerability pipelines."
+  },
+  {
+    "id": "first-epss",
+    "name": "FIRST EPSS",
+    "url": "https://www.first.org/epss",
+    "desc": "Exploit Prediction Scoring System for estimating vulnerability exploitation likelihood.",
+    "tags": ["CVE Tracking", "Vulnerability Management", "Threat Intel"],
+    "pricing": "free",
+    "account": false,
+    "api": true,
+    "tooltip": "Helps rank CVEs by likely exploitation probability and improve prioritization beyond CVSS alone."
+  },
+  {
+    "id": "mxtoolbox",
+    "name": "MXToolbox",
+    "url": "https://mxtoolbox.com",
+    "desc": "DNS, MX, SPF, DKIM, and DMARC lookup utilities for mail hygiene checks.",
+    "tags": ["DNS", "Email Security", "OSINT"],
+    "pricing": "freemium",
+    "account": false,
+    "api": false,
+    "tooltip": "Practical for mailbox delivery and anti-spoofing verification during incident response and hardening reviews."
+  },
+  {
+    "id": "dmarcian",
+    "name": "dmarcian",
+    "url": "https://dmarcian.com",
+    "desc": "DMARC-focused tooling and education for phishing resistance and domain protection.",
+    "tags": ["Email Security", "DNS", "Reference"],
+    "pricing": "paid",
+    "account": true,
+    "api": true,
+    "tooltip": "Supports DMARC rollout maturity with reporting and policy guidance to reduce spoofing risk."
+  },
+  {
+    "id": "ultimatewindowssecurity-events",
+    "name": "Ultimate Windows Security Event Encyclopedia",
+    "url": "https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/",
+    "desc": "Searchable Windows Security Event ID reference with clear event semantics.",
+    "tags": ["Windows Events", "Reference", "Detection Engineering"],
+    "pricing": "free",
+    "account": false,
+    "api": false,
+    "tooltip": "Useful for mapping noisy logs to meaningful detections and tuning alert logic in Windows-heavy environments."
+  },
+  {
+    "id": "attack",
+    "name": "MITRE ATT&CK",
+    "url": "https://attack.mitre.org",
+    "desc": "Adversary tactics and techniques knowledge base for detection mapping.",
+    "tags": ["Threat Intel", "Detection Engineering", "T1078 Valid Accounts"],
+    "pricing": "free",
+    "account": false,
+    "api": true,
+    "tooltip": "Baseline framework for threat-informed defense, control validation, and detection coverage mapping."
+  },
+  {
+    "id": "abuseipdb",
+    "name": "AbuseIPDB",
+    "url": "https://www.abuseipdb.com",
+    "desc": "Community reputation lookups for suspicious source IP addresses.",
+    "tags": ["Threat Intel", "IP Address", "OSINT"],
+    "pricing": "freemium",
+    "account": true,
+    "api": true,
+    "tooltip": "Quick triage context for suspicious IPs, especially when correlating brute-force or scanning activity."
+  },
+  {
+    "id": "dark-reading",
+    "name": "Dark Reading",
+    "url": "https://www.darkreading.com/",
+    "desc": "Cybersecurity news and analysis focused on threats, defenses, and enterprise operations.",
+    "tags": ["News", "Threat Intel"],
+    "pricing": "free",
+    "account": false,
+    "api": false,
+    "tooltip": "Useful for tracking current attack trends, vendor research, and practical defensive perspectives."
+  },
+  {
+    "id": "the-hacker-news",
+    "name": "The Hacker News",
+    "url": "https://thehackernews.com/",
+    "desc": "Daily security updates on campaigns, vulnerabilities, and threat actor activity.",
+    "tags": ["News", "Threat Intel"],
+    "pricing": "free",
+    "account": false,
+    "api": false,
+    "tooltip": "Fast situational awareness feed for SOC teams tracking newly disclosed and actively exploited activity."
+  },
+  {
+    "id": "malware-traffic-analysis",
+    "name": "Malware-Traffic-Analysis.net",
+    "url": "https://www.malware-traffic-analysis.net/",
+    "desc": "Practical PCAP and malware traffic exercises for hands-on defensive analysis.",
+    "tags": ["PCAP", "DFIR", "Training"],
+    "pricing": "free",
+    "account": false,
+    "api": false,
+    "tooltip": "Excellent lab material for packet analysis, malware communications review, and investigation skills practice."
+  },
+  {
+    "id": "monitor-sg",
+    "name": "Monitor SG (Infosec Exchange)",
+    "url": "https://infosec.exchange/@monitorsg/",
+    "desc": "Campaign tracking posts and intel notes from active malware and phishing monitoring.",
+    "tags": ["Threat Intel", "OSINT", "Malware", "Campaign Monitoring"],
+    "pricing": "free",
+    "account": false,
+    "api": false,
+    "tooltip": "Tracks active campaigns such as ClickFix, SmartApeSG, and KongTuke with practical operator-level context."
+  },
+  {
+    "id": "hibp",
+    "name": "Have I Been Pwned",
+    "url": "https://haveibeenpwned.com/",
+    "desc": "Breach exposure lookup for emails and domains with optional API-based monitoring workflows.",
+    "tags": ["Breach Monitoring", "OSINT", "Threat Intel"],
+    "pricing": "freemium",
+    "account": false,
+    "api": true,
+    "tooltip": "Supports breach impact triage and credential exposure checks; API access is useful for programmatic alerting."
+  },
+  {
+    "id": "cisco-talos",
+    "name": "Cisco Talos Intelligence",
+    "url": "https://talosintelligence.com/",
+    "desc": "Threat intelligence lookups and research for domains, IPs, and emerging campaigns.",
+    "tags": ["Threat Intel", "IP Address", "DNS"],
+    "pricing": "free",
+    "account": false,
+    "api": false,
+    "tooltip": "Strong enrichment source for IP/domain triage and campaign context from a mature threat research team."
+  },
+  {
+    "id": "google-threat-intelligence",
+    "name": "Google Threat Intelligence / Mandiant",
+    "url": "https://cloud.google.com/security/products/threat-intelligence",
+    "desc": "Enterprise-grade threat intelligence platform for investigations, response, and threat hunting.",
+    "tags": ["Threat Intel", "Incident Response", "Threat Hunting"],
+    "pricing": "paid",
+    "account": true,
+    "api": true,
+    "tooltip": "Comprehensive campaign and actor intelligence with integration support for advanced incident response workflows."
+  }
+]
+    </script>
+
+    <script>
+      (function () {
+        'use strict';
+
+        var storageKey = 'resources.designated.v1';
+        var pageSize = 6;
+        var dataNode = document.getElementById('resources-data');
+        var grid = document.getElementById('resources-grid');
+        var tagFiltersNode = document.getElementById('tag-filters');
+        var quickFiltersNode = document.getElementById('quick-filters');
+        var searchInput = document.getElementById('resource-search');
+        var sortSelect = document.getElementById('sort-select');
+        var clearFiltersBtn = document.getElementById('clear-filters');
+        var designatedOnlyBtn = document.getElementById('designated-only');
+        var clearDesignatedBtn = document.getElementById('clear-designated');
+        var resultsMeta = document.getElementById('results-meta');
+        var pageMeta = document.getElementById('page-meta');
+        var emptyState = document.getElementById('empty-state');
+        var paginationWrap = document.getElementById('pagination-wrap');
+        var paginationNode = document.getElementById('pagination');
+
+        if (!dataNode || !grid) return;
+
+        var resources = [];
+        try {
+          resources = JSON.parse(dataNode.textContent || '[]');
+        } catch (error) {
+          resources = [];
+        }
+
+        resources = resources.map(function (item, index) {
+          item._index = index;
+          return item;
+        });
+
+        var state = {
+          query: '',
+          selectedTags: new Set(),
+          pricing: new Set(),
+          noAccount: false,
+          apiAvailable: false,
+          designatedOnly: false,
+          sort: 'recommended',
+          currentPage: 1
+        };
+
+        var designatedSet = loadDesignated();
+        var openTooltipId = '';
+
+        var quickFilterDefs = [
+          { id: 'free', label: 'Free', type: 'pricing', value: 'free' },
+          { id: 'freemium', label: 'Freemium', type: 'pricing', value: 'freemium' },
+          { id: 'paid', label: 'Paid', type: 'pricing', value: 'paid' },
+          { id: 'no-account', label: 'No Account', type: 'noAccount' },
+          { id: 'api-available', label: 'API Available', type: 'apiAvailable' }
+        ];
+
+        function loadDesignated() {
+          try {
+            var raw = localStorage.getItem(storageKey);
+            if (!raw) return new Set();
+            var parsed = JSON.parse(raw);
+            if (!Array.isArray(parsed)) return new Set();
+            return new Set(parsed);
+          } catch (error) {
+            return new Set();
+          }
+        }
+
+        function saveDesignated() {
+          try {
+            localStorage.setItem(storageKey, JSON.stringify(Array.from(designatedSet)));
+          } catch (error) {
+            // localStorage unavailable
+          }
+        }
+
+        function debounce(fn, delay) {
+          var timer = 0;
+          return function () {
+            var args = arguments;
+            clearTimeout(timer);
+            timer = window.setTimeout(function () {
+              fn.apply(null, args);
+            }, delay);
+          };
+        }
+
+        function normalize(text) {
+          return String(text || '').toLowerCase();
+        }
+
+        function pricingLabel(pricing) {
+          if (pricing === 'free') return 'Free';
+          if (pricing === 'freemium') return 'Freemium';
+          return 'Paid';
+        }
+
+        function accountLabel(account) {
+          return account ? 'Account' : 'No Account';
+        }
+
+        function apiLabel(api) {
+          return api ? 'API' : 'No API';
+        }
+
+        function metaLine(item) {
+          return pricingLabel(item.pricing) + ' \u2022 ' + accountLabel(item.account) + ' \u2022 ' + apiLabel(item.api);
+        }
+
+        function allTags() {
+          var unique = new Set();
+          resources.forEach(function (item) {
+            (item.tags || []).forEach(function (tag) {
+              unique.add(tag);
+            });
+          });
+          return Array.from(unique).sort(function (a, b) {
+            return a.localeCompare(b);
+          });
+        }
+
+        function resetToFirstPage() {
+          state.currentPage = 1;
+        }
+
+        function initTagFilters() {
+          var tags = allTags();
+          tagFiltersNode.innerHTML = '';
+
+          tags.forEach(function (tag) {
+            var btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'filter-chip';
+            btn.textContent = tag;
+            btn.dataset.tag = tag;
+            btn.setAttribute('aria-pressed', 'false');
+            btn.addEventListener('click', function () {
+              if (state.selectedTags.has(tag)) {
+                state.selectedTags.delete(tag);
+              } else {
+                state.selectedTags.add(tag);
+              }
+              resetToFirstPage();
+              updateFilterChipStates();
+              render();
+            });
+            tagFiltersNode.appendChild(btn);
+          });
+        }
+
+        function initQuickFilters() {
+          quickFiltersNode.innerHTML = '';
+
+          quickFilterDefs.forEach(function (def) {
+            var btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'filter-chip';
+            btn.textContent = def.label;
+            btn.dataset.filterType = def.type;
+            btn.dataset.filterValue = def.value || '';
+            btn.setAttribute('aria-pressed', 'false');
+
+            btn.addEventListener('click', function () {
+              if (def.type === 'pricing') {
+                if (state.pricing.has(def.value)) {
+                  state.pricing.delete(def.value);
+                } else {
+                  state.pricing.add(def.value);
+                }
+              } else if (def.type === 'noAccount') {
+                state.noAccount = !state.noAccount;
+              } else if (def.type === 'apiAvailable') {
+                state.apiAvailable = !state.apiAvailable;
+              }
+
+              resetToFirstPage();
+              updateFilterChipStates();
+              render();
+            });
+
+            quickFiltersNode.appendChild(btn);
+          });
+        }
+
+        function updateFilterChipStates() {
+          var tagChips = tagFiltersNode.querySelectorAll('.filter-chip[data-tag]');
+          tagChips.forEach(function (chip) {
+            var isActive = state.selectedTags.has(chip.dataset.tag);
+            chip.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+          });
+
+          var quickChips = quickFiltersNode.querySelectorAll('.filter-chip');
+          quickChips.forEach(function (chip) {
+            var type = chip.dataset.filterType;
+            var value = chip.dataset.filterValue;
+            var isActive = false;
+            if (type === 'pricing') isActive = state.pricing.has(value);
+            if (type === 'noAccount') isActive = state.noAccount;
+            if (type === 'apiAvailable') isActive = state.apiAvailable;
+            chip.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+          });
+
+          designatedOnlyBtn.setAttribute('aria-pressed', state.designatedOnly ? 'true' : 'false');
+        }
+
+        function matchesFilters(item) {
+          var query = normalize(state.query);
+          if (query) {
+            var haystack = normalize(item.name + ' ' + item.desc + ' ' + (item.tags || []).join(' '));
+            if (haystack.indexOf(query) === -1) return false;
+          }
+
+          if (state.selectedTags.size) {
+            for (var tag of state.selectedTags) {
+              if (!(item.tags || []).includes(tag)) return false;
+            }
+          }
+
+          if (state.pricing.size && !state.pricing.has(item.pricing)) return false;
+          if (state.noAccount && item.account) return false;
+          if (state.apiAvailable && !item.api) return false;
+          if (state.designatedOnly && !designatedSet.has(item.id)) return false;
+          return true;
+        }
+
+        function sortItems(items) {
+          if (state.sort === 'az') {
+            return items.sort(function (a, b) {
+              return a.name.localeCompare(b.name);
+            });
+          }
+
+          return items.sort(function (a, b) {
+            return a._index - b._index;
+          });
+        }
+
+        function openResource(url) {
+          var newWindow = window.open(url, '_blank', 'noopener,noreferrer');
+          if (newWindow) newWindow.opener = null;
+        }
+
+        function closeAllTooltips() {
+          var openButtons = grid.querySelectorAll('.info-btn[aria-expanded="true"]');
+          openButtons.forEach(function (btn) {
+            btn.setAttribute('aria-expanded', 'false');
+          });
+
+          var openTips = grid.querySelectorAll('[role="tooltip"]:not([hidden])');
+          openTips.forEach(function (tip) {
+            tip.hidden = true;
+          });
+
+          openTooltipId = '';
+        }
+
+        function toggleTooltip(button, tooltip, forceOpen) {
+          var shouldOpen = typeof forceOpen === 'boolean' ? forceOpen : button.getAttribute('aria-expanded') !== 'true';
+          closeAllTooltips();
+          if (shouldOpen) {
+            button.setAttribute('aria-expanded', 'true');
+            tooltip.hidden = false;
+            openTooltipId = tooltip.id;
+          }
+        }
+
+        function copyText(text) {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            return navigator.clipboard.writeText(text);
+          }
+
+          return new Promise(function (resolve, reject) {
+            try {
+              var temp = document.createElement('textarea');
+              temp.value = text;
+              temp.setAttribute('readonly', '');
+              temp.style.position = 'absolute';
+              temp.style.left = '-9999px';
+              document.body.appendChild(temp);
+              temp.select();
+              var copied = document.execCommand('copy');
+              document.body.removeChild(temp);
+              if (copied) resolve();
+              else reject(new Error('copy failed'));
+            } catch (error) {
+              reject(error);
+            }
+          });
+        }
+
+        function buildCard(item) {
+          var isDesignated = designatedSet.has(item.id);
+          var card = document.createElement('article');
+          card.className = 'resource-card' + (isDesignated ? ' designated' : '');
+          card.tabIndex = 0;
+          card.setAttribute('role', 'link');
+          card.setAttribute('aria-label', item.name + '. Open resource in new tab.');
+
+          var head = document.createElement('div');
+          head.className = 'resource-head';
+
+          var name = document.createElement('h2');
+          name.className = 'resource-name';
+          name.textContent = item.name;
+          head.appendChild(name);
+
+          var controls = document.createElement('div');
+          controls.className = 'card-controls';
+
+          var infoBtn = document.createElement('button');
+          infoBtn.type = 'button';
+          infoBtn.className = 'icon-btn info-btn';
+          infoBtn.textContent = 'i';
+          infoBtn.setAttribute('aria-label', 'Show details for ' + item.name);
+          infoBtn.setAttribute('aria-expanded', 'false');
+
+          var tooltip = document.createElement('div');
+          var tooltipId = 'tooltip-' + item.id;
+          tooltip.id = tooltipId;
+          tooltip.className = 'tooltip';
+          tooltip.setAttribute('role', 'tooltip');
+          tooltip.hidden = true;
+
+          var tooltipSummary = document.createElement('div');
+          tooltipSummary.className = 'tooltip-summary';
+          tooltipSummary.textContent = metaLine(item);
+          tooltip.appendChild(tooltipSummary);
+
+          var tooltipText = document.createElement('div');
+          tooltipText.textContent = item.tooltip;
+          tooltip.appendChild(tooltipText);
+
+          infoBtn.setAttribute('aria-describedby', tooltipId);
+
+          infoBtn.addEventListener('mouseenter', function () {
+            toggleTooltip(infoBtn, tooltip, true);
+          });
+          infoBtn.addEventListener('mouseleave', function () {
+            toggleTooltip(infoBtn, tooltip, false);
+          });
+          infoBtn.addEventListener('focus', function () {
+            toggleTooltip(infoBtn, tooltip, true);
+          });
+          infoBtn.addEventListener('blur', function () {
+            window.setTimeout(function () {
+              if (document.activeElement !== infoBtn) {
+                toggleTooltip(infoBtn, tooltip, false);
+              }
+            }, 0);
+          });
+          infoBtn.addEventListener('click', function (event) {
+            event.stopPropagation();
+            event.preventDefault();
+            toggleTooltip(infoBtn, tooltip);
+          });
+
+          tooltip.addEventListener('click', function (event) {
+            event.stopPropagation();
+          });
+
+          var designateBtn = document.createElement('button');
+          designateBtn.type = 'button';
+          designateBtn.className = 'icon-btn designate-btn';
+          designateBtn.setAttribute('aria-label', 'Designate ' + item.name);
+          designateBtn.setAttribute('aria-pressed', isDesignated ? 'true' : 'false');
+          designateBtn.textContent = isDesignated ? '\u2605' : '\u2606';
+          designateBtn.addEventListener('click', function (event) {
+            event.stopPropagation();
+            event.preventDefault();
+            if (designatedSet.has(item.id)) designatedSet.delete(item.id);
+            else designatedSet.add(item.id);
+            saveDesignated();
+            render();
+          });
+
+          var copyBtn = document.createElement('button');
+          copyBtn.type = 'button';
+          copyBtn.className = 'icon-btn';
+          copyBtn.setAttribute('aria-label', 'Copy link for ' + item.name);
+          copyBtn.textContent = 'Copy';
+
+          var feedback = document.createElement('span');
+          feedback.className = 'copy-feedback';
+          feedback.setAttribute('aria-live', 'polite');
+          feedback.textContent = 'Copied';
+
+          copyBtn.addEventListener('click', function (event) {
+            event.stopPropagation();
+            event.preventDefault();
+            copyText(item.url).then(function () {
+              feedback.classList.add('visible');
+              window.setTimeout(function () {
+                feedback.classList.remove('visible');
+              }, 1000);
+            }).catch(function () {
+              feedback.textContent = 'Failed';
+              feedback.classList.add('visible');
+              window.setTimeout(function () {
+                feedback.textContent = 'Copied';
+                feedback.classList.remove('visible');
+              }, 1000);
+            });
+          });
+
+          controls.appendChild(infoBtn);
+          controls.appendChild(designateBtn);
+          controls.appendChild(copyBtn);
+          controls.appendChild(feedback);
+
+          head.appendChild(controls);
+          card.appendChild(head);
+          card.appendChild(tooltip);
+
+          var meta = document.createElement('p');
+          meta.className = 'meta-line';
+          meta.textContent = metaLine(item);
+          card.appendChild(meta);
+
+          var desc = document.createElement('p');
+          desc.className = 'resource-desc';
+          desc.textContent = item.desc;
+          card.appendChild(desc);
+
+          var badges = document.createElement('div');
+          badges.className = 'badge-row';
+
+          var pricingBadge = document.createElement('span');
+          pricingBadge.className = 'badge badge-pricing-' + item.pricing;
+          pricingBadge.textContent = pricingLabel(item.pricing);
+          badges.appendChild(pricingBadge);
+
+          var accountBadge = document.createElement('span');
+          accountBadge.className = 'badge';
+          accountBadge.textContent = accountLabel(item.account);
+          badges.appendChild(accountBadge);
+
+          var apiBadge = document.createElement('span');
+          apiBadge.className = 'badge';
+          apiBadge.textContent = apiLabel(item.api);
+          badges.appendChild(apiBadge);
+
+          card.appendChild(badges);
+
+          var tags = document.createElement('div');
+          tags.className = 'card-tags';
+          (item.tags || []).forEach(function (tag) {
+            var tagPill = document.createElement('span');
+            tagPill.className = 'tag-pill';
+            tagPill.textContent = tag;
+            tags.appendChild(tagPill);
+          });
+          card.appendChild(tags);
+
+          card.addEventListener('click', function () {
+            openResource(item.url);
+          });
+
+          card.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+              event.preventDefault();
+              openResource(item.url);
+            }
+          });
+
+          return card;
+        }
+
+        function makePageButton(label, page, disabled, isCurrent) {
+          var btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'page-btn';
+          btn.textContent = label;
+          if (disabled) btn.disabled = true;
+          if (isCurrent) {
+            btn.setAttribute('aria-current', 'page');
+          }
+          if (!disabled) {
+            btn.addEventListener('click', function () {
+              state.currentPage = page;
+              render();
+            });
+          }
+          return btn;
+        }
+
+        function getPageSequence(totalPages, currentPage) {
+          if (totalPages <= 7) {
+            var all = [];
+            for (var p = 1; p <= totalPages; p += 1) all.push(p);
+            return all;
+          }
+
+          var pages = [1];
+          var start = Math.max(2, currentPage - 1);
+          var end = Math.min(totalPages - 1, currentPage + 1);
+
+          if (start > 2) pages.push('ellipsis');
+
+          for (var i = start; i <= end; i += 1) {
+            pages.push(i);
+          }
+
+          if (end < totalPages - 1) pages.push('ellipsis');
+
+          pages.push(totalPages);
+          return pages;
+        }
+
+        function renderPagination(totalPages) {
+          paginationNode.innerHTML = '';
+
+          if (totalPages <= 1) {
+            paginationWrap.hidden = true;
+            return;
+          }
+
+          paginationWrap.hidden = false;
+
+          paginationNode.appendChild(makePageButton('Back', state.currentPage - 1, state.currentPage === 1, false));
+
+          var sequence = getPageSequence(totalPages, state.currentPage);
+          sequence.forEach(function (entry) {
+            if (entry === 'ellipsis') {
+              var dots = document.createElement('span');
+              dots.className = 'ellipsis';
+              dots.textContent = '...';
+              dots.setAttribute('aria-hidden', 'true');
+              paginationNode.appendChild(dots);
+            } else {
+              paginationNode.appendChild(makePageButton(String(entry), entry, false, entry === state.currentPage));
+            }
+          });
+
+          paginationNode.appendChild(makePageButton('Next', state.currentPage + 1, state.currentPage === totalPages, false));
+        }
+
+        function render() {
+          updateFilterChipStates();
+          sortSelect.value = state.sort;
+
+          var filtered = sortItems(resources.filter(matchesFilters));
+          var totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
+          if (state.currentPage > totalPages) state.currentPage = totalPages;
+
+          var startIndex = (state.currentPage - 1) * pageSize;
+          var pageItems = filtered.slice(startIndex, startIndex + pageSize);
+
+          grid.innerHTML = '';
+
+          if (!filtered.length) {
+            emptyState.hidden = false;
+            paginationWrap.hidden = true;
+            resultsMeta.textContent = '0 results';
+            pageMeta.textContent = 'Page 1 of 1';
+            closeAllTooltips();
+            return;
+          }
+
+          emptyState.hidden = true;
+          resultsMeta.textContent = filtered.length + (filtered.length === 1 ? ' result' : ' results');
+          pageMeta.textContent = 'Page ' + state.currentPage + ' of ' + totalPages;
+
+          pageItems.forEach(function (item) {
+            grid.appendChild(buildCard(item));
+          });
+
+          renderPagination(totalPages);
+        }
+
+        var onSearchInput = debounce(function () {
+          state.query = searchInput.value.trim();
+          resetToFirstPage();
+          render();
+        }, 150);
+
+        searchInput.addEventListener('input', onSearchInput);
+
+        sortSelect.addEventListener('change', function () {
+          state.sort = sortSelect.value;
+          resetToFirstPage();
+          render();
+        });
+
+        designatedOnlyBtn.addEventListener('click', function () {
+          state.designatedOnly = !state.designatedOnly;
+          resetToFirstPage();
+          render();
+        });
+
+        clearDesignatedBtn.addEventListener('click', function () {
+          designatedSet.clear();
+          saveDesignated();
+          resetToFirstPage();
+          render();
+        });
+
+        clearFiltersBtn.addEventListener('click', function () {
+          state.query = '';
+          state.selectedTags.clear();
+          state.pricing.clear();
+          state.noAccount = false;
+          state.apiAvailable = false;
+          state.designatedOnly = false;
+          state.sort = 'recommended';
+          resetToFirstPage();
+          searchInput.value = '';
+          sortSelect.value = 'recommended';
+          render();
+        });
+
+        document.addEventListener('keydown', function (event) {
+          if (event.key === 'Escape' && openTooltipId) {
+            closeAllTooltips();
+          }
+        });
+
+        document.addEventListener('click', function (event) {
+          var withinTooltipControl = event.target.closest('.info-btn') || event.target.closest('[role="tooltip"]');
+          if (!withinTooltipControl) closeAllTooltips();
+        });
+
+        initTagFilters();
+        initQuickFilters();
+        updateFilterChipStates();
+        render();
+      })();
+    </script>
   </body>
 </html>
