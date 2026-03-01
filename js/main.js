@@ -88,9 +88,7 @@ const setupCopySnippet = () => {
 };
 
 const setupSectionHighlight = () => {
-  if (!('IntersectionObserver' in window)) return;
-
-  const sections = document.querySelectorAll('[data-section], main#home');
+  const sections = [...document.querySelectorAll('[data-section][id]')];
   const navLinks = document.querySelectorAll('[data-nav-target]');
   if (!sections.length || !navLinks.length) return;
 
@@ -102,15 +100,35 @@ const setupSectionHighlight = () => {
     });
   };
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        updateActive(entry.target.id || 'home');
+  let framePending = false;
+
+  const getActiveSectionId = () => {
+    const nav = document.querySelector('.top-nav');
+    const probeLine = (nav?.offsetHeight || 0) + 24;
+    let activeId = 'home';
+
+    sections.forEach((section) => {
+      if (section.getBoundingClientRect().top <= probeLine) {
+        activeId = section.id;
       }
     });
-  }, { rootMargin: '-30% 0px -55% 0px', threshold: 0.1 });
 
-  sections.forEach((section) => observer.observe(section));
+    return activeId;
+  };
+
+  const syncActiveSection = () => {
+    if (framePending) return;
+    framePending = true;
+    window.requestAnimationFrame(() => {
+      updateActive(getActiveSectionId());
+      framePending = false;
+    });
+  };
+
+  window.addEventListener('scroll', syncActiveSection, { passive: true });
+  window.addEventListener('resize', syncActiveSection);
+  window.addEventListener('load', syncActiveSection);
+  syncActiveSection();
 };
 
 const loadBlogPosts = async () => {
