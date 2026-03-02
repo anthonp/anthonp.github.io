@@ -60,6 +60,9 @@ const stripMarkdown = (content) => content
   .replace(/\s+/g, ' ')
   .trim();
 
+const countWords = (content) => stripMarkdown(content).split(/\s+/).filter(Boolean).length;
+const estimateReadMinutes = (content) => Math.max(1, Math.round(countWords(content) / 220));
+
 const deriveTitle = (metadata, content, fallbackName) => {
   if (metadata.title) return metadata.title;
   const heading = content.match(/^#{1,2}\s+(.+)$/m);
@@ -102,6 +105,8 @@ const collectPosts = async () => {
     const source = `/blogs/${fileName}`;
     const slug = fileName.replace(/\.md$/, '');
     const normalizedContent = content.trim();
+    const wordCount = countWords(normalizedContent);
+    const readMinutes = estimateReadMinutes(normalizedContent);
 
     posts.push({
       title: deriveTitle(metadata, content, fileName.replace(/\.md$/, '')),
@@ -111,7 +116,8 @@ const collectPosts = async () => {
       slug,
       source,
       tags: deriveTags(metadata),
-      markdown: normalizedContent,
+      readMinutes,
+      wordCount,
     });
   }
 
