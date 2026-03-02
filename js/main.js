@@ -115,6 +115,22 @@ const normalizeQuotedCodeBlocks = (content) => {
   return out.join('\n');
 };
 
+const detectSiteBasePath = () => {
+  const pathname = window.location.pathname || '/';
+  const markerMatch = pathname.match(/^(.*?)(?:\/(?:blogs|pages|js|css|data)\/)/);
+  if (markerMatch) return markerMatch[1] || '';
+  return '';
+};
+
+const resolveSitePath = (path) => {
+  if (!path) return path;
+  if (/^https?:\/\//i.test(path)) return path;
+  if (path.startsWith('/')) {
+    return `${detectSiteBasePath()}${path}`;
+  }
+  return path;
+};
+
 const setupCopySnippet = () => {
   const button = document.getElementById('copy-snippet');
   const status = document.getElementById('copy-status');
@@ -181,7 +197,7 @@ const loadBlogPosts = async () => {
   if (!blogList) return;
 
   try {
-    const response = await fetch('/data/posts.json');
+    const response = await fetch(resolveSitePath('/data/posts.json'));
     if (!response.ok) throw new Error(`Failed posts index request: ${response.status}`);
     const posts = await response.json();
 
@@ -191,11 +207,11 @@ const loadBlogPosts = async () => {
       const readTime = post.readMinutes || estimateReadTime(stripMarkdown(post.markdown || post.excerpt || ''));
       return `
         <article class="blog-card">
-          <h2><a href="${post.url}">${post.title}</a></h2>
+          <h2><a href="${resolveSitePath(post.url)}">${post.title}</a></h2>
           <p class="blog-meta">${formatDate(post.date)} • ${readTime} min read</p>
           <p class="blog-excerpt">${post.excerpt}</p>
           ${post.tags?.length ? `<div class="blog-tags">${post.tags.map((tag) => `<span class="tag">${tag}</span>`).join('')}</div>` : ''}
-          <a class="btn btn--secondary" href="${post.url}">Read post</a>
+          <a class="btn btn--secondary" href="${resolveSitePath(post.url)}">Read post</a>
         </article>
       `;
     });
@@ -224,7 +240,7 @@ const loadMarkdownPost = async () => {
     let content = '';
     let sourcePath = source || '';
 
-    const postsResponse = await fetch('/data/posts.json');
+    const postsResponse = await fetch(resolveSitePath('/data/posts.json'));
     if (postsResponse.ok) {
       const posts = await postsResponse.json();
       const post = posts.find((item) => (postSlug && item.slug === postSlug) || (source && item.source === source));
@@ -240,8 +256,12 @@ const loadMarkdownPost = async () => {
       }
     }
 
+    if (!sourcePath && postSlug) {
+      sourcePath = `/blogs/${postSlug}.md`;
+    }
+
     if (!content && sourcePath) {
-      const response = await fetch(sourcePath);
+      const response = await fetch(resolveSitePath(sourcePath));
       if (!response.ok) throw new Error(`Failed markdown request: ${response.status}`);
       const markdownText = await response.text();
       ({ metadata, content } = parseFrontMatter(markdownText));
