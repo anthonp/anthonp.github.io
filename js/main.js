@@ -127,7 +127,7 @@ const markdownInlineToHtml = (line) => {
   return escaped
     .replace(/!\[([^\]]*)\]\(([^)\s]+)\)/g, '<img alt="$1" src="$2">')
     .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, '<a href="$2">$1</a>')
-    .replace(/`([^`]+)`/g, '<code>$1</code>')
+    .replace(/`([^`]+)`/g, '<code class="inline-code">$1</code>')
     .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
     .replace(/\*([^*]+)\*/g, '<em>$1</em>');
 };
@@ -148,8 +148,9 @@ const markdownToHtml = (markdown) => {
 
   const closeCodeBlock = () => {
     if (!inCodeBlock) return;
-    const langClass = codeFenceLang ? ` class="language-${escapeHtml(codeFenceLang)}"` : '';
-    html.push(`<pre><code${langClass}>${escapeHtml(codeBuffer.join('\n'))}</code></pre>`);
+    const codeClasses = ['code-block__code'];
+    if (codeFenceLang) codeClasses.push(`language-${escapeHtml(codeFenceLang)}`);
+    html.push(`<pre class="code-block"><code class="${codeClasses.join(' ')}">${escapeHtml(codeBuffer.join('\n'))}</code></pre>`);
     inCodeBlock = false;
     codeFenceLang = '';
     codeBuffer = [];
