@@ -49,19 +49,33 @@
   font-size: 0.85rem;
 }
 
-.blog_text pre {
+.blog_text pre,
+.blog_text .code-block {
+  max-width: 100%;
   overflow-x: auto;
   overflow-y: hidden;
   white-space: pre;
   line-height: 1.45;
+  -webkit-overflow-scrolling: touch;
 }
 
-.blog_text pre code {
+.blog_text pre code,
+.blog_text .code-block__code {
   display: block;
+  min-width: max-content;
   white-space: pre;
   word-break: normal;
   overflow-wrap: normal;
   border: 0;
   background: transparent;
   padding: 0;
+}
+
+.blog_text code.inline-code,
+.blog_text p code,
+.blog_text li code,
+.blog_text blockquote code {
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
