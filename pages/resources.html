@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="ack-modal-open">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -512,9 +512,91 @@
           box-shadow: 0 0 0 1px rgba(99, 213, 149, 0.35);
         }
       }
+
+      /* ACK MODAL CSS START */
+      #pageContent.ack-blurred {
+        filter: blur(5px);
+        pointer-events: none;
+        user-select: none;
+      }
+
+      .ack-modal-open,
+      .ack-modal-open body {
+        overflow: hidden;
+      }
+
+      .ack-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(2, 6, 5, 0.76);
+        z-index: 1400;
+      }
+
+      .ack-modal {
+        position: fixed;
+        inset: 0;
+        z-index: 1410;
+        display: grid;
+        place-items: center;
+        padding: 1rem;
+      }
+
+      .ack-modal[hidden],
+      .ack-overlay[hidden] {
+        display: none;
+      }
+
+      .ack-dialog {
+        width: min(44rem, 96vw);
+        border: 1px solid var(--border-strong);
+        border-radius: var(--radius-lg);
+        background: linear-gradient(180deg, rgba(22, 34, 32, 0.98), rgba(13, 20, 18, 0.98));
+        box-shadow: var(--shadow-lg);
+      }
+
+      .ack-dialog__head {
+        padding: var(--space-4) var(--space-5) var(--space-2);
+        border-bottom: 1px solid var(--border);
+      }
+
+      .ack-dialog__head h2 {
+        margin: 0;
+        font-size: 1.15rem;
+      }
+
+      .ack-dialog__body {
+        padding: var(--space-4) var(--space-5);
+      }
+
+      .ack-dialog__body p {
+        margin: 0 0 var(--space-3);
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      .ack-dialog__body p strong {
+        color: var(--text);
+      }
+
+      .ack-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-3);
+        margin: var(--space-2) 0 var(--space-3);
+      }
+
+      .ack-actions {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: var(--space-2);
+        margin-top: var(--space-4);
+      }
+      /* ACK MODAL CSS END */
     </style>
   </head>
-  <body data-page="resources">
+  <body data-page="resources" class="ack-modal-open">
+    <div id="pageContent" class="ack-blurred">
     <header class="top-nav">
       <nav class="page-shell top-nav__inner" aria-label="Primary navigation">
         <a href="/index.html#home" class="logo"><img src="/images/icon.png" alt="hacker-sec-logo" width="42" height="42">./Hacker-Sec</a>
@@ -658,16 +740,141 @@
           <div class="window__title">[ legal://authorized-use ]</div>
         </div>
         <div class="window__body">
-          <p class="legal-disclaimer">Security content on this site is provided for educational and informational purposes only. It is not legal advice, not a guarantee of security outcomes, and not authorization to test any system. Only perform security activity on assets you own or where you have explicit written permission. You are solely responsible for complying with all applicable laws, policies, and contracts. By using this content, you accept full responsibility for your actions and release the author from liability for misuse, loss, damage, or service impact. If you are uncertain, stop and consult qualified legal or security professionals before proceeding. <a href="https://raw.githubusercontent.com/anthonp/anthonp.github.io/main/LICENSE">[ LICENSE ]</a></p>
+          <p class="legal-disclaimer">Security content on this site is provided for educational and informational purposes only. It is not legal advice, not a guarantee of security outcomes, and not authorization to test any system. Only perform security activity on assets you own or where you have explicit written permission. You are solely responsible for complying with all applicable laws, policies, and contracts. By using this content, you accept full responsibility for your actions and release the author from liability for misuse, loss, damage, or service impact. If you are uncertain, stop and consult qualified legal or security professionals before proceeding. <a href="https://raw.githubusercontent.com/anthonp/anthonp.github.io/main/LICENSE">[ LICENSE ]</a> <a href="/terms.html">[ TERMS ]</a> <a href="/privacy.html">[ PRIVACY ]</a></p>
         </div>
       </section>
     </main>
 
     <footer class="site-footer">
       <section class="page-shell">
-        <p class="legal-disclaimer">Hacker-Sec Resources Directory</p>
+        <p class="legal-disclaimer">Hacker-Sec Resources Directory <a href="/terms.html">[ TERMS ]</a> <a href="/privacy.html">[ PRIVACY ]</a></p>
       </section>
     </footer>
+    </div>
+
+    <!-- ACK MODAL START -->
+    <div class="ack-overlay" id="ackOverlay" aria-hidden="true"></div>
+    <section
+      class="ack-modal"
+      id="ackModal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="ackModalTitle"
+      aria-describedby="ackModalDescription"
+    >
+      <div class="ack-dialog window" tabindex="-1">
+        <div class="ack-dialog__head">
+          <h2 id="ackModalTitle">Security Content Acknowledgement</h2>
+        </div>
+        <div class="ack-dialog__body" id="ackModalDescription">
+          <p><strong>Educational use only:</strong> all content on this site is provided for educational and informational purposes only.</p>
+          <p><strong>Authorization required:</strong> you must have explicit permission before performing any security testing. Do not use this content for unauthorized access, misuse, or any illegal activity.</p>
+          <p><strong>Acknowledgement:</strong> by clicking <em>I Understand &amp; Agree</em> and continuing to use this site, you acknowledge and agree to the Terms of Use and acknowledge the Privacy Policy. If you do not agree, you must discontinue use of this site.</p>
+          <p class="ack-links">
+            <a href="/terms.html">Terms of Use</a>
+            <a href="/privacy.html">Privacy Policy</a>
+          </p>
+          <noscript>
+            <p><strong>JavaScript required:</strong> JavaScript is required to acknowledge these terms and continue. If JavaScript is unavailable, discontinue use of this site.</p>
+          </noscript>
+          <div class="ack-actions">
+            <button type="button" class="btn btn--secondary" id="ackDeclineBtn">I Do Not Agree</button>
+            <button type="button" class="btn btn--primary" id="ackAgreeBtn">I Understand &amp; Agree</button>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- ACK MODAL END -->
+
+    <script>
+      // ACK MODAL JS START
+      (function () {
+        'use strict';
+
+        var modal = document.getElementById('ackModal');
+        var overlay = document.getElementById('ackOverlay');
+        var pageContent = document.getElementById('pageContent');
+        var agreeBtn = document.getElementById('ackAgreeBtn');
+        var declineBtn = document.getElementById('ackDeclineBtn');
+
+        if (!modal || !overlay || !pageContent || !agreeBtn || !declineBtn) return;
+
+        function setScrollLock(isLocked) {
+          document.documentElement.classList.toggle('ack-modal-open', isLocked);
+          document.body.classList.toggle('ack-modal-open', isLocked);
+        }
+
+        function focusablesIn(container) {
+          return Array.prototype.slice.call(container.querySelectorAll('a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'));
+        }
+
+        function onKeydown(event) {
+          if (event.key === 'Escape') {
+            event.preventDefault();
+            return;
+          }
+
+          if (event.key !== 'Tab') return;
+
+          var focusables = focusablesIn(modal).filter(function (node) {
+            return !node.hasAttribute('hidden');
+          });
+          if (!focusables.length) {
+            event.preventDefault();
+            return;
+          }
+
+          var first = focusables[0];
+          var last = focusables[focusables.length - 1];
+
+          if (event.shiftKey && document.activeElement === first) {
+            event.preventDefault();
+            last.focus();
+            return;
+          }
+
+          if (!event.shiftKey && document.activeElement === last) {
+            event.preventDefault();
+            first.focus();
+          }
+        }
+
+        function closeModal() {
+          modal.setAttribute('hidden', '');
+          overlay.setAttribute('hidden', '');
+          pageContent.classList.remove('ack-blurred');
+          setScrollLock(false);
+          document.removeEventListener('keydown', onKeydown, true);
+        }
+
+        function keepModalFocused() {
+          if (!modal.contains(document.activeElement)) {
+            agreeBtn.focus();
+          }
+        }
+
+        pageContent.classList.add('ack-blurred');
+        setScrollLock(true);
+        agreeBtn.focus();
+
+        document.addEventListener('keydown', onKeydown, true);
+        document.addEventListener('focusin', keepModalFocused, true);
+
+        agreeBtn.addEventListener('click', function () {
+          document.removeEventListener('focusin', keepModalFocused, true);
+          closeModal();
+        });
+
+        declineBtn.addEventListener('click', function () {
+          window.location.href = new URL('.', document.baseURI).href;
+        });
+
+        overlay.addEventListener('click', function () {
+          agreeBtn.focus();
+        });
+      })();
+      // ACK MODAL JS END */
+    </script>
 
     <script type="application/json" id="resources-data">
 [
@@ -887,7 +1094,6 @@
       (function () {
         'use strict';
 
-        var storageKey = 'resources.designated.v1';
         var pageSize = 6;
         var dataNode = document.getElementById('resources-data');
         var grid = document.getElementById('resources-grid');
@@ -929,7 +1135,7 @@
           currentPage: 1
         };
 
-        var designatedSet = loadDesignated();
+        var designatedSet = new Set();
         var openTooltipId = '';
 
         var quickFilterDefs = [
@@ -940,24 +1146,8 @@
           { id: 'api-available', label: 'API Available', type: 'apiAvailable' }
         ];
 
-        function loadDesignated() {
-          try {
-            var raw = localStorage.getItem(storageKey);
-            if (!raw) return new Set();
-            var parsed = JSON.parse(raw);
-            if (!Array.isArray(parsed)) return new Set();
-            return new Set(parsed);
-          } catch (error) {
-            return new Set();
-          }
-        }
-
         function saveDesignated() {
-          try {
-            localStorage.setItem(storageKey, JSON.stringify(Array.from(designatedSet)));
-          } catch (error) {
-            // localStorage unavailable
-          }
+          // intentionally no-op: this page does not persist client state
         }
 
         function debounce(fn, delay) {
