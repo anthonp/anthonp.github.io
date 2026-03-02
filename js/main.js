@@ -70,6 +70,51 @@ const normalizeObsidianMarkdown = (content) => content
   .replace(/\[\[([^\]]+)\]\]/g, '$1')
   .replace(/^>\s*\[!(\w+)\]\s*(.*)$/gim, (_match, type, text) => `> **${type.toUpperCase()}:** ${text}`);
 
+const normalizeQuotedCodeBlocks = (content) => {
+  const lines = content.split('\n');
+  const out = [];
+  let index = 0;
+
+  const inferLanguage = (blockLines) => {
+    const first = blockLines.find((line) => line.trim().length)?.trim() || '';
+    if (/^(--|SELECT|WITH|FROM|JOIN|WHERE|ORDER BY|LIMIT|INSERT|UPDATE|DELETE|CREATE|ALTER|DROP)\b/i.test(first)) return 'sql';
+    if (/^(#|Get-|Set-|New-|Remove-|Select-|Sort-|Where-|ForEach-|Write-|Test-|\$|\(|\[)/i.test(first)) return 'powershell';
+    return '';
+  };
+
+  const isLikelyCodeBlock = (blockLines) => {
+    const nonEmpty = blockLines.map((line) => line.trim()).filter(Boolean);
+    if (!nonEmpty.length) return false;
+    const codeLike = nonEmpty.filter((line) => /^(#|--|SELECT|WITH|FROM|JOIN|WHERE|ORDER BY|LIMIT|Get-|Set-|New-|Remove-|Select-|Sort-|Where-|\$|\(|\[)/i.test(line)).length;
+    return codeLike / nonEmpty.length >= 0.6 || nonEmpty.length >= 4;
+  };
+
+  while (index < lines.length) {
+    if (!/^>\s?/.test(lines[index])) {
+      out.push(lines[index]);
+      index += 1;
+      continue;
+    }
+
+    const quoteBlock = [];
+    while (index < lines.length && /^>\s?/.test(lines[index])) {
+      quoteBlock.push(lines[index].replace(/^>\s?/, ''));
+      index += 1;
+    }
+
+    if (isLikelyCodeBlock(quoteBlock)) {
+      const language = inferLanguage(quoteBlock);
+      out.push(`\`\`\`${language}`);
+      out.push(...quoteBlock);
+      out.push('```');
+    } else {
+      out.push(...quoteBlock.map((line) => `> ${line}`));
+    }
+  }
+
+  return out.join('\n');
+};
+
 const setupCopySnippet = () => {
   const button = document.getElementById('copy-snippet');
   const status = document.getElementById('copy-status');
@@ -143,7 +188,7 @@ const loadBlogPosts = async () => {
     posts.sort((a, b) => new Date(b.date) - new Date(a.date));
 
     const cards = posts.map((post) => {
-      const readTime = estimateReadTime(stripMarkdown(post.markdown || ''));
+      const readTime = post.readMinutes || estimateReadTime(stripMarkdown(post.markdown || post.excerpt || ''));
       return `
         <article class="blog-card">
           <h2><a href="${post.url}">${post.title}</a></h2>
@@ -177,6 +222,7 @@ const loadMarkdownPost = async () => {
   try {
     let metadata = {};
     let content = '';
+    let sourcePath = source || '';
 
     const postsResponse = await fetch('/data/posts.json');
     if (postsResponse.ok) {
@@ -189,12 +235,13 @@ const loadMarkdownPost = async () => {
           tags: post.tags,
           excerpt: post.excerpt,
         };
+        sourcePath = sourcePath || post.source;
         content = post.markdown || '';
       }
     }
 
-    if (!content && source) {
-      const response = await fetch(source);
+    if (!content && sourcePath) {
+      const response = await fetch(sourcePath);
       if (!response.ok) throw new Error(`Failed markdown request: ${response.status}`);
       const markdownText = await response.text();
       ({ metadata, content } = parseFrontMatter(markdownText));
@@ -204,7 +251,7 @@ const loadMarkdownPost = async () => {
       throw new Error('Post not found in index');
     }
 
-    const normalizedContent = normalizeObsidianMarkdown(content);
+    const normalizedContent = normalizeObsidianMarkdown(normalizeQuotedCodeBlocks(content));
 
     if (window.marked) {
       contentElement.innerHTML = window.marked.parse(normalizedContent);
