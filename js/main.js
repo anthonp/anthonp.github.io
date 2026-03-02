@@ -115,6 +115,115 @@ const normalizeQuotedCodeBlocks = (content) => {
   return out.join('\n');
 };
 
+const escapeHtml = (text) => String(text)
+  .replace(/&/g, '&amp;')
+  .replace(/</g, '&lt;')
+  .replace(/>/g, '&gt;')
+  .replace(/"/g, '&quot;')
+  .replace(/'/g, '&#39;');
+
+const markdownInlineToHtml = (line) => {
+  const escaped = escapeHtml(line);
+  return escaped
+    .replace(/!\[([^\]]*)\]\(([^)\s]+)\)/g, '<img alt="$1" src="$2">')
+    .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, '<a href="$2">$1</a>')
+    .replace(/`([^`]+)`/g, '<code>$1</code>')
+    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*([^*]+)\*/g, '<em>$1</em>');
+};
+
+const markdownToHtml = (markdown) => {
+  const lines = String(markdown || '').replace(/\r\n?/g, '\n').split('\n');
+  const html = [];
+  let inCodeBlock = false;
+  let codeFenceLang = '';
+  let codeBuffer = [];
+  let listType = '';
+
+  const closeList = () => {
+    if (!listType) return;
+    html.push(listType === 'ol' ? '</ol>' : '</ul>');
+    listType = '';
+  };
+
+  const closeCodeBlock = () => {
+    if (!inCodeBlock) return;
+    const langClass = codeFenceLang ? ` class="language-${escapeHtml(codeFenceLang)}"` : '';
+    html.push(`<pre><code${langClass}>${escapeHtml(codeBuffer.join('\n'))}</code></pre>`);
+    inCodeBlock = false;
+    codeFenceLang = '';
+    codeBuffer = [];
+  };
+
+  lines.forEach((line) => {
+    const fenceMatch = line.match(/^```([a-zA-Z0-9_-]+)?\s*$/);
+    if (fenceMatch) {
+      if (inCodeBlock) {
+        closeCodeBlock();
+      } else {
+        closeList();
+        inCodeBlock = true;
+        codeFenceLang = (fenceMatch[1] || '').trim();
+      }
+      return;
+    }
+
+    if (inCodeBlock) {
+      codeBuffer.push(line);
+      return;
+    }
+
+    if (!line.trim()) {
+      closeList();
+      return;
+    }
+
+    const headingMatch = line.match(/^(#{1,6})\s+(.+)$/);
+    if (headingMatch) {
+      closeList();
+      const level = headingMatch[1].length;
+      html.push(`<h${level}>${markdownInlineToHtml(headingMatch[2])}</h${level}>`);
+      return;
+    }
+
+    const quoteMatch = line.match(/^>\s?(.*)$/);
+    if (quoteMatch) {
+      closeList();
+      html.push(`<blockquote><p>${markdownInlineToHtml(quoteMatch[1])}</p></blockquote>`);
+      return;
+    }
+
+    const orderedMatch = line.match(/^\d+\.\s+(.+)$/);
+    if (orderedMatch) {
+      if (listType !== 'ol') {
+        closeList();
+        listType = 'ol';
+        html.push('<ol>');
+      }
+      html.push(`<li>${markdownInlineToHtml(orderedMatch[1])}</li>`);
+      return;
+    }
+
+    const unorderedMatch = line.match(/^[-*]\s+(.+)$/);
+    if (unorderedMatch) {
+      if (listType !== 'ul') {
+        closeList();
+        listType = 'ul';
+        html.push('<ul>');
+      }
+      html.push(`<li>${markdownInlineToHtml(unorderedMatch[1])}</li>`);
+      return;
+    }
+
+    closeList();
+    html.push(`<p>${markdownInlineToHtml(line)}</p>`);
+  });
+
+  closeCodeBlock();
+  closeList();
+  return html.join('\n');
+};
+
 const detectSiteBasePath = () => {
   const pathname = window.location.pathname || '/';
   const markerMatch = pathname.match(/^(.*?)(?:\/(?:blogs|pages|js|css|data)\/)/);
@@ -273,11 +382,7 @@ const loadMarkdownPost = async () => {
 
     const normalizedContent = normalizeObsidianMarkdown(normalizeQuotedCodeBlocks(content));
 
-    if (window.marked) {
-      contentElement.innerHTML = window.marked.parse(normalizedContent);
-    } else {
-      contentElement.textContent = normalizedContent;
-    }
+    contentElement.innerHTML = markdownToHtml(normalizedContent);
 
     const titleElement = document.getElementById('post-title');
     const metaElement = document.getElementById('post-meta');
