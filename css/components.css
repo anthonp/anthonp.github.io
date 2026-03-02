@@ -247,6 +247,8 @@ img {
 }
 
 .legal-disclaimer a {
+  display: inline-flex;
+  white-space: nowrap;
   margin-left: var(--space-2);
   font-weight: 600;
 }
@@ -285,6 +287,13 @@ code { padding: 0.15rem 0.3rem; }
 
   body::after {
     opacity: 0.02;
+  }
+
+  .legal-disclaimer a {
+    display: block;
+    width: fit-content;
+    margin-left: 0;
+    margin-top: var(--space-2);
   }
 }
 
