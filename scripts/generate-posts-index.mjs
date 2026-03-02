@@ -115,6 +115,7 @@ const collectPosts = async () => {
       url: `/blogs/post.html?post=${slug}`,
       slug,
       source,
+      markdown: normalizedContent,
       tags: deriveTags(metadata),
       readMinutes,
       wordCount,
