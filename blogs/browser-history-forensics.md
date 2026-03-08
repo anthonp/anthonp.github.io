@@ -19,7 +19,7 @@ All domains, URLs, and filenames are fake and intentionally defanged.
 
 ### Scenario (example)
 
-A detection flags `SuspiciousPDFConverter.exe` as malware delivery via PUP, and your job is to reconstruct the redirect-to-download chain and capture defensible evidence for containment and user coaching.
+A detection flags `SuspiciousFile.exe` as malware delivery, and your job is to reconstruct the redirect-to-download chain and capture defensible evidence for containment and user coaching.
 
 ### MITRE tactic tag (what this investigation maps to)
 
@@ -57,11 +57,11 @@ The goal here is to confirm origin indicators (MOTW), generate a stable pivot (S
 ### PowerShell one-liners (remote-response friendly)
 
 > # Check Mark-of-the-Web (Zone Identifier) on the suspicious executable (downloads commonly carry MOTW)
-> Get-Content "C:\Users\JaneDoe\Downloads\SuspiciousPDFConverter.exe" -Stream Zone.Identifier -ErrorAction SilentlyContinue
+> Get-Content "C:\Users\JaneDoe\Downloads\SuspiciousFile.exe" -Stream Zone.Identifier -ErrorAction SilentlyContinue
 
 
 > # Compute SHA256 for OSINT pivots (static + behavioral analytics)
-> (Get-FileHash "C:\Users\JaneDoe\Downloads\SuspiciousPDFConverter.exe" -Algorithm SHA256).Hash
+> (Get-FileHash "C:\Users\JaneDoe\Downloads\SuspiciousFile.exe" -Algorithm SHA256).Hash
 
 ### JaneDoe quick task notes:
 
@@ -74,7 +74,7 @@ Use the **SHA256** to pivot in your approved intel sources and sandboxes to coll
 
 ## 1) Find the right Chrome History file (profiles + recency)
 
-The first goal is to identify which Chrome profile was active near the time `SuspiciousPDFConverter.exe` landed by selecting the most recently written `History` databases across profiles.
+The first goal is to identify which Chrome profile was active near the time `SuspiciousFile.exe` landed by selecting the most recently written `History` databases across profiles.
 
 ### PowerShell
 
@@ -100,12 +100,12 @@ Copying the `History` DB to a working path reduces lock issues and preserves ori
 
 ## 2) Anchor the timeline on the suspected download
 
-The next goal is to locate the download record for `SuspiciousPDFConverter.exe` so we can pivot from a **download timestamp** into the last ~15–20 navigations that likely led to it.
+The next goal is to locate the download record for `SuspiciousFile.exe` so we can pivot from a **download timestamp** into the last ~15–20 navigations that likely led to it.
 
 ### Example “defanged” target you’re hunting
 
-- Filename on disk: `SuspiciousPDFConverter.exe`
-- Example download URL (fake/defanged): `hxxps://cdn[.]pdf-suspicious-tools[.]example/download/SuspiciousPDFConverter.exe`
+- Filename on disk: `SuspiciousFile.exe`
+- Example download URL (fake/defanged): `hxxps://cdn[.]suspicious-tools[.]example/download/SuspiciousFile.exe`
 - Example referrer (fake/defanged): `hxxps://viewer[.]docs-preview[.]example/redirect?id=123`
 
 ## 3) Chrome History SQLite: table nuances
@@ -142,8 +142,8 @@ Your first query anchors on the suspected executable name so you can capture the
 >   datetime((start_time/1000000)-11644473600,'unixepoch') AS start_utc,
 >   datetime((end_time/1000000)-11644473600,'unixepoch')   AS end_utc
 > FROM downloads
-> WHERE (current_path LIKE '%SuspiciousPDFConverter.exe%'
->        OR target_path LIKE '%SuspiciousPDFConverter.exe%')
+> WHERE (current_path LIKE '%SuspiciousFile.exe%'
+>        OR target_path LIKE '%SuspiciousFile.exe%')
 > ORDER BY start_time DESC
 > LIMIT 5;
 
@@ -170,8 +170,8 @@ Once you have a download start timestamp, you can pull the last 15–20 visits a
 > WITH d AS (
 >   SELECT start_time AS dl_time
 >   FROM downloads
->   WHERE (current_path LIKE '%SuspiciousPDFConverter.exe%'
->          OR target_path LIKE '%SuspiciousPDFConverter.exe%')
+>   WHERE (current_path LIKE '%SuspiciousFile.exe%'
+>          OR target_path LIKE '%SuspiciousFile.exe%')
 >   ORDER BY start_time DESC
 >   LIMIT 1
 > )
@@ -197,8 +197,8 @@ This helps confirm whether the user continued browsing into additional lure page
 > WITH d AS (
 >   SELECT start_time AS dl_time
 >   FROM downloads
->   WHERE (current_path LIKE '%SuspiciousPDFConverter.exe%'
->          OR target_path LIKE '%SuspiciousPDFConverter.exe%')
+>   WHERE (current_path LIKE '%SuspiciousFile.exe%'
+>          OR target_path LIKE '%SuspiciousFile.exe%')
 >   ORDER BY start_time DESC
 >   LIMIT 1
 > )
@@ -221,7 +221,7 @@ Your conclusion should tie together (1) the download record, (2) the redirect ch
 
 ### Example narrative scaffold:
 
-- The host generated a detection for `SuspiciousPDFConverter.exe`, prompting a browser-artifact review to determine acquisition path.
+- The host generated a detection for `SuspiciousFile.exe`, prompting a browser-artifact review to determine acquisition path.
 - The most recently written Chrome `History` database identified the active profile during the suspected time window.
 - A matching record in the `downloads` table provided an anchor timestamp and contextual fields (e.g., `tab_url`, `referrer`) for pivots.
 - The `downloads_url_chains` table (when present) revealed a stepwise redirect chain from lure infrastructure to the final CDN-hosted payload.
