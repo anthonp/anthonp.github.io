@@ -86,6 +86,51 @@ html { scroll-behavior: smooth; }
   background: rgba(16, 32, 27, 0.6);
 }
 
+.cert-badge-row {
+  position: relative;
+}
+
+.cert-tooltip-wrap {
+  position: relative;
+}
+
+.cert-badge {
+  font: inherit;
+  cursor: pointer;
+}
+
+.cert-badge:focus-visible {
+  outline: 1px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.cert-badge[aria-expanded="true"] {
+  border-color: var(--accent);
+  background: rgba(47, 143, 90, 0.2);
+}
+
+.tooltip {
+  position: absolute;
+  right: var(--space-3);
+  top: calc(var(--space-3) + 1.7rem);
+  max-width: 26rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: rgba(7, 11, 10, 0.98);
+  box-shadow: var(--shadow-md);
+  padding: 0.58rem;
+  z-index: 20;
+  font-size: 0.73rem;
+  line-height: 1.38;
+}
+
+.cert-tooltip {
+  top: calc(100% + 0.45rem);
+  right: auto;
+  left: 0;
+  max-width: min(26rem, calc(100vw - 2rem));
+}
+
 .copy-status {
   min-height: 1.3rem;
   margin-top: var(--space-2);
