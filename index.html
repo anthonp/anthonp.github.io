@@ -56,13 +56,31 @@
             </div>
 
             <h2 class="mini-heading" id="certs">Certifications</h2>
-            <div class="badge-row" aria-label="Certifications">
-              <span class="badge">Offensive Security KLCP</span>
-              <span class="badge">CompTIA CySA+</span>
-              <span class="badge">MSFT SC-200</span>
-              <span class="badge">CompTIA Security+</span>
-              <span class="badge">CompTIA Network+</span>
-              <span class="badge">TryHackMe Security Analyst (SAL1)</span>
+            <div class="badge-row cert-badge-row" aria-label="Certifications">
+              <div class="cert-tooltip-wrap">
+                <button type="button" class="badge cert-badge" data-cert-tooltip-trigger aria-expanded="false" aria-describedby="cert-tip-klcp">Offensive Security KLCP</button>
+                <div id="cert-tip-klcp" class="tooltip cert-tooltip" role="tooltip" hidden>Kali Linux, Linux command line, security tooling, system administration basics, and practical offensive security workflow.</div>
+              </div>
+              <div class="cert-tooltip-wrap">
+                <button type="button" class="badge cert-badge" data-cert-tooltip-trigger aria-expanded="false" aria-describedby="cert-tip-cysa">CompTIA CySA+</button>
+                <div id="cert-tip-cysa" class="tooltip cert-tooltip" role="tooltip" hidden>Threat detection, incident response, log analysis, vulnerability management, SIEM usage, and defensive security operations.</div>
+              </div>
+              <div class="cert-tooltip-wrap">
+                <button type="button" class="badge cert-badge" data-cert-tooltip-trigger aria-expanded="false" aria-describedby="cert-tip-sc200">MSFT SC-200</button>
+                <div id="cert-tip-sc200" class="tooltip cert-tooltip" role="tooltip" hidden>Microsoft Sentinel, Defender XDR, threat hunting, incident investigation, KQL, and cloud security operations.</div>
+              </div>
+              <div class="cert-tooltip-wrap">
+                <button type="button" class="badge cert-badge" data-cert-tooltip-trigger aria-expanded="false" aria-describedby="cert-tip-security-plus">CompTIA Security+</button>
+                <div id="cert-tip-security-plus" class="tooltip cert-tooltip" role="tooltip" hidden>Core cybersecurity principles, risk management, network defense, identity/access, cryptography, and security operations fundamentals.</div>
+              </div>
+              <div class="cert-tooltip-wrap">
+                <button type="button" class="badge cert-badge" data-cert-tooltip-trigger aria-expanded="false" aria-describedby="cert-tip-network-plus">CompTIA Network+</button>
+                <div id="cert-tip-network-plus" class="tooltip cert-tooltip" role="tooltip" hidden>Networking fundamentals, routing/switching, troubleshooting, TCP/IP, network architecture, and infrastructure support.</div>
+              </div>
+              <div class="cert-tooltip-wrap">
+                <button type="button" class="badge cert-badge" data-cert-tooltip-trigger aria-expanded="false" aria-describedby="cert-tip-sal1">TryHackMe Security Analyst (SAL1)</button>
+                <div id="cert-tip-sal1" class="tooltip cert-tooltip" role="tooltip" hidden>SOC workflows, alert triage, threat investigation, phishing analysis, endpoint telemetry, and practical blue-team skills.</div>
+              </div>
             </div>
 
             <button id="copy-snippet" class="btn btn--secondary" type="button">⧉ Copy intro snippet</button>
