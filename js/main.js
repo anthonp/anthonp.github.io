@@ -258,6 +258,79 @@ const setupCopySnippet = () => {
   });
 };
 
+const setupCertificationTooltips = () => {
+  const triggers = [...document.querySelectorAll('[data-cert-tooltip-trigger]')];
+  if (!triggers.length) return;
+
+  const pairs = triggers
+    .map((trigger) => {
+      const tooltipId = trigger.getAttribute('aria-describedby');
+      if (!tooltipId) return null;
+      const tooltip = document.getElementById(tooltipId);
+      if (!tooltip) return null;
+      return { trigger, tooltip };
+    })
+    .filter(Boolean);
+
+  if (!pairs.length) return;
+
+  const closeAllTooltips = () => {
+    pairs.forEach(({ trigger, tooltip }) => {
+      trigger.setAttribute('aria-expanded', 'false');
+      tooltip.hidden = true;
+    });
+  };
+
+  const toggleTooltip = (trigger, tooltip, forceOpen) => {
+    const shouldOpen = typeof forceOpen === 'boolean'
+      ? forceOpen
+      : trigger.getAttribute('aria-expanded') !== 'true';
+    closeAllTooltips();
+    if (shouldOpen) {
+      trigger.setAttribute('aria-expanded', 'true');
+      tooltip.hidden = false;
+    }
+  };
+
+  pairs.forEach(({ trigger, tooltip }) => {
+    trigger.addEventListener('mouseenter', () => {
+      toggleTooltip(trigger, tooltip, true);
+    });
+    trigger.addEventListener('mouseleave', () => {
+      toggleTooltip(trigger, tooltip, false);
+    });
+    trigger.addEventListener('focus', () => {
+      toggleTooltip(trigger, tooltip, true);
+    });
+    trigger.addEventListener('blur', () => {
+      window.setTimeout(() => {
+        if (document.activeElement !== trigger) {
+          toggleTooltip(trigger, tooltip, false);
+        }
+      }, 0);
+    });
+    trigger.addEventListener('click', (event) => {
+      event.stopPropagation();
+      event.preventDefault();
+      toggleTooltip(trigger, tooltip);
+    });
+
+    tooltip.addEventListener('click', (event) => {
+      event.stopPropagation();
+    });
+  });
+
+  document.addEventListener('click', (event) => {
+    const withinTooltipControl = event.target.closest('[data-cert-tooltip-trigger]')
+      || event.target.closest('[role="tooltip"]');
+    if (!withinTooltipControl) closeAllTooltips();
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') closeAllTooltips();
+  });
+};
+
 const setupSectionHighlight = () => {
   const sections = [...document.querySelectorAll('[data-section][id]')];
   const navLinks = document.querySelectorAll('[data-nav-target]');
@@ -403,6 +476,7 @@ const loadMarkdownPost = async () => {
 
 const boot = () => {
   setupCopySnippet();
+  setupCertificationTooltips();
   setupSectionHighlight();
   loadBlogPosts();
   loadMarkdownPost();
