@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Anthony Picciano - field notes</title>
+    <link>https://adversarypath.com/writing/</link>
+    <description>Field notes on incident response, detection engineering, and adversary emulation.</description>
+    <language>en</language>
+    <copyright>© 2026 Anthony Picciano</copyright>
+    <lastBuildDate>Sun, 08 Mar 2026 09:00:00 +0000</lastBuildDate>
+    <atom:link href="https://adversarypath.com/rss.xml" rel="self" type="application/rss+xml"/>
+    <!-- items are added as posts land; newest first, one <item> per post -->
+    <item>
+      <title>Email Header Analysis for Phishing Triage</title>
+      <link>https://adversarypath.com/writing/email-header-triage/</link>
+      <guid isPermaLink="true">https://adversarypath.com/writing/email-header-triage/</guid>
+      <pubDate>Sun, 08 Mar 2026 09:00:00 +0000</pubDate>
+      <description>A practical raw-header workflow for separating spoofing, BEC, and broader phishing threats by validating SPF, DKIM, DMARC, and the surrounding .eml structure.</description>
+    </item>
+    <item>
+      <title>Lumma Stealer in Incident Response</title>
+      <link>https://adversarypath.com/writing/lumma-stealer-incident-response/</link>
+      <guid isPermaLink="true">https://adversarypath.com/writing/lumma-stealer-incident-response/</guid>
+      <pubDate>Sun, 08 Mar 2026 09:00:00 +0000</pubDate>
+      <description>What Investigators Should Look For, How to Contain It, and What to Remediate</description>
+    </item>
+    <item>
+      <title>Browser History Forensics</title>
+      <link>https://adversarypath.com/writing/browser-history-forensics/</link>
+      <guid isPermaLink="true">https://adversarypath.com/writing/browser-history-forensics/</guid>
+      <pubDate>Sun, 01 Mar 2026 09:00:00 +0000</pubDate>
+      <description>Reconstructing a redirect-to-download chain with limited telemetry, using browser artifacts when SSL inspection and endpoint visibility are sparse.</description>
+    </item>
+    <item>
+      <title>Public and Untrusted WiFi Networks</title>
+      <link>https://adversarypath.com/writing/public_wifi/</link>
+      <guid isPermaLink="true">https://adversarypath.com/writing/public_wifi/</guid>
+      <pubDate>Tue, 08 Apr 2025 09:00:00 +0000</pubDate>
+      <description>A practical breakdown of why public WiFi still carries risk even with HTTPS, and how to reduce exposure.</description>
+    </item>
+    <item>
+      <title>iPod Classic Flash Mod Rebuild</title>
+      <link>https://adversarypath.com/writing/ipod_classic_flash_mod_rebuild/</link>
+      <guid isPermaLink="true">https://adversarypath.com/writing/ipod_classic_flash_mod_rebuild/</guid>
+      <pubDate>Wed, 15 Jan 2025 09:00:00 +0000</pubDate>
+      <description>A professional-ish walkthrough of how I rebuilt an iPod Classic with flash storage and a higher-capacity battery using parts from Elite Obsolete.</description>
+    </item>
+    <item>
+      <title>Obsidian Threat Heat Map</title>
+      <link>https://adversarypath.com/writing/obsidian_threat_heat_map/</link>
+      <guid isPermaLink="true">https://adversarypath.com/writing/obsidian_threat_heat_map/</guid>
+      <pubDate>Mon, 09 Dec 2024 09:00:00 +0000</pubDate>
+      <description>Using an Obsidian workflow to visualize incident relationships and identify recurring threat patterns.</description>
+    </item>
+  </channel>
+</rss>

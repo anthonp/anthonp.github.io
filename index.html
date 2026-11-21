@@ -1,36 +1,45 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Anthony Picciano - security engineering</title>
-<meta name="description" content="Anthony Picciano is a security analyst working in detection and incident response, moving into penetration testing and adversary emulation.">
-<link rel="canonical" href="https://adversarypath.com/">
-<meta name="theme-color" content="#08090a">
+<meta name="description" content="Anthony Picciano: 4+ years across SOC, MDR, MSSP, and Tier 3 incident response, now building attack ranges and writing the detections that catch them.">
 <meta name="author" content="Anthony Picciano">
-
-<meta property="og:type" content="profile">
+<meta name="theme-color" content="#08090a">
+<link rel="canonical" href="https://adversarypath.com/">
+<link rel="alternate" type="application/rss+xml" title="adversarypath - field notes" href="/rss.xml">
+<meta property="og:type" content="website">
 <meta property="og:title" content="Anthony Picciano - security engineering">
-<meta property="og:description" content="Detection and incident response, moving into penetration testing and adversary emulation.">
+<meta property="og:description" content="Anthony Picciano: 4+ years across SOC, MDR, MSSP, and Tier 3 incident response, now building attack ranges and writing the detections that catch them.">
 <meta property="og:url" content="https://adversarypath.com/">
+<meta property="og:site_name" content="adversarypath">
 <meta name="twitter:card" content="summary">
-
-<link rel="stylesheet" href="/assets/css/site.css">
-<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
-
+<meta name="twitter:title" content="Anthony Picciano - security engineering">
+<meta name="twitter:description" content="Anthony Picciano: 4+ years across SOC, MDR, MSSP, and Tier 3 incident response, now building attack ranges and writing the detections that catch them.">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "Person",
+  "@id": "https://adversarypath.com/#person",
   "name": "Anthony Picciano",
-  "alternateName": ["Tony Picciano", "TR4C3D"],
+  "alternateName": ["Tony", "TR4C3D"],
   "url": "https://adversarypath.com/",
   "jobTitle": "Security Analyst",
-  "description": "Security analyst working in detection and incident response, moving into penetration testing and adversary emulation.",
   "knowsAbout": [
-    "Incident Response", "Threat Hunting", "Detection Engineering",
-    "Penetration Testing", "Adversary Emulation", "MITRE ATT&CK",
-    "SIEM", "EDR", "Identity Security", "Email Security"
+    "Incident Response",
+    "Threat Hunting",
+    "Detection Engineering",
+    "Penetration Testing",
+    "Adversary Emulation",
+    "MITRE ATT&CK",
+    "SIEM",
+    "EDR/XDR",
+    "Identity Security",
+    "Email Security",
+    "Network Security",
+    "Linux",
+    "Windows"
   ],
   "alumniOf": {
     "@type": "CollegeOrUniversity",
@@ -42,214 +51,283 @@
   ]
 }
 </script>
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="/assets/fonts/instrument-sans-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/css/site.css">
+<script src="/assets/js/site.js" defer></script>
 </head>
-
 <body>
-<a class="skip-link" href="#main">Skip to content</a>
+<a class="skip-link" href="#main">skip to content</a>
 
-<header class="site-header">
-  <div class="shell site-header__inner">
-    <a class="wordmark" href="/" aria-label="adversarypath.com home">adversarypath</a>
+<div class="layout">
 
-    <nav class="site-nav" aria-label="Primary">
-      <a href="#experience">./experience</a>
-      <a href="#writing">./writing</a>
-      <a href="#certs">./certs</a>
-      <a href="#contact">./contact</a>
-    </nav>
+  <aside class="sidebar">
+    <div class="sidebar__inner">
+      <a class="wordmark" href="/">adversarypath</a>
 
-    <details class="site-nav__mobile">
-      <summary>menu</summary>
-      <ul>
-        <li><a href="#experience">./experience</a></li>
-        <li><a href="#writing">./writing</a></li>
-        <li><a href="#certs">./certs</a></li>
-        <li><a href="#contact">./contact</a></li>
-      </ul>
-    </details>
-  </div>
-</header>
+      <a class="side-cta" href="/writing/">all writing</a>
 
-<div class="shell">
-  <p class="status-strip">
-    <span class="live">● open_to_work</span>
-    <span>US remote</span>
-    <span>studying=cpts,oscp,crto</span>
-    <span>cookies=0</span>
-    <span>js=0</span>
-    <span>email=0</span>
-  </p>
-</div>
+      <a class="side-cta" href="/about/">about</a>
 
-<main id="main" class="shell">
+      <nav class="side-nav" aria-label="Sections">
+        <a href="#proof">./proof</a>
+        <a href="#experience">./experience</a>
+        <a href="#writing">./writing</a>
+        <a href="#certs">./certs</a>
+        <a href="#contact">./contact</a>
+      </nav>
 
-  <section class="hero">
-    <p class="hero__path">~/security/portfolio</p>
-    <h1>Anthony Picciano</h1>
-    <p class="hero__role">security engineering · detection and offense</p>
-    <p class="hero__lede">
-      Four years of detection and response, now pointed at offense.
-      I build attack ranges, run command and control in them, then write
-      the detection that catches it.
-    </p>
-    <p class="hero__actions">
-      <a href="https://www.linkedin.com/in/anthony-picciano/" rel="me noopener">./ linkedin ↗</a>
-      <a href="https://github.com/anthonp" rel="me noopener">./ github ↗</a>
-      <a href="#writing">./ writing</a>
-    </p>
-  </section>
+      <div class="side-block">
+        <span class="side-label">status</span>
+        <p class="side-status"><span class="live">●</span> open_to_work</p>
+        <p class="side-status">us remote</p>
+        <p class="side-status">studying: cpts / oscp / crto</p>
+      </div>
 
-  <section class="section" aria-labelledby="proof-h">
-    <div class="section-head">
-      <h2 id="proof-h">## proof</h2>
-      <span class="scope">scope: measurable_outcomes</span>
+      <div class="side-block">
+        <span class="side-label">links</span>
+        <div class="side-links">
+          <a href="https://www.linkedin.com/in/anthony-picciano/" rel="me noopener noreferrer">linkedin</a>
+          <a href="https://github.com/anthonp" rel="me noopener noreferrer">github</a>
+        </div>
+      </div>
+
+      <div class="side-params">
+        <p>cookies=0</p>
+        <p>storage=0</p>
+      </div>
     </div>
-    <div class="proof">
-      <div class="proof__item"><div class="n">01</div><div class="v">35%</div><div class="l">false positives cut</div></div>
-      <div class="proof__item"><div class="n">02</div><div class="v">40%</div><div class="l">MTTR reduced</div></div>
-      <div class="proof__item"><div class="n">03</div><div class="v">2</div><div class="l">HTB pro labs</div></div>
-      <div class="proof__item"><div class="n">04</div><div class="v">24</div><div class="l">certifications</div></div>
-    </div>
-  </section>
+  </aside>
 
-  <section class="section" id="experience" aria-labelledby="exp-h">
-    <div class="section-head">
-      <h2 id="exp-h">## experience</h2>
-      <span class="scope">scope: soc → mdr → offensive</span>
-    </div>
+  <main id="main" class="main">
 
-    <article class="role">
-      <div class="role__meta"><span>study_and_lab.md</span><span>2026-09 → present</span></div>
-      <p class="role__verb">Build the range.</p>
-      <h3 class="role__title">Full-time study and lab work</h3>
-      <dl class="contract">
-        <dt>completed</dt><dd>HTB Puppet · HTB Mythical · Intel-Ops Adversary Infrastructure Hunter</dd>
-        <dt>in_progress</dt><dd>CPTS · OSCP · CRTO</dd>
-        <dt>emitted</dt><dd>detection writeups, lab architecture, tooling</dd>
-      </dl>
-      <p class="scope-note">scope_note // no full-scope red team engagement yet. Lab and Pro Lab only.</p>
-    </article>
+    <section class="hero">
+      <p class="hero__path">~/adversarypath</p>
+      <h1>Anthony Picciano</h1>
+      <p class="hero__role">soc / mdr / tier 3 ir → <span class="hero__type rotator" aria-hidden="true">penetration testing</span><span class="visually-hidden sr-only">penetration testing, detection engineering, incident response.</span></p>
+      <p class="hero__lede">4+ years across SOC, MDR, MSSP, and Tier 3 incident response. Now building attack ranges, running command and control in them, and writing the detections that catch it.</p>
+      <div class="hero__actions">
+        <a href="#proof">see the proof</a>
+        <a href="/writing/">read the writing</a>
+        <a href="https://www.linkedin.com/in/anthony-picciano/" rel="me noopener noreferrer">linkedin ↗</a>
+      </div>
+    </section>
 
-    <article class="role">
-      <div class="role__meta"><span>mdr_analyst.md</span><span>2025-11 → 2026-08</span></div>
-      <p class="role__verb">Tune the signal.</p>
-      <h3 class="role__title">MDR security analyst · At-Bay</h3>
-      <dl class="contract">
-        <dt>detected</dt><dd>hands-on-keyboard intrusion, credential abuse, lateral movement</dd>
-        <dt>contained</dt><dd>validated attack timelines, containment guidance, client notification</dd>
-        <dt>emitted</dt><dd>detection changes, incident narratives, escalation guidance</dd>
-      </dl>
-    </article>
+    <section id="proof" class="section" aria-labelledby="proof-h">
+      <div class="section-head">
+        <h2 id="proof-h">## proof</h2>
+        <span class="scope">scope: ncl, htb, gpon</span>
+      </div>
 
-    <article class="role">
-      <div class="role__meta"><span>cybersecurity_analyst.md</span><span>2024-11 → 2025-11</span></div>
-      <p class="role__verb">Deploy the controls.</p>
-      <h3 class="role__title">Cybersecurity analyst · WHSmith North America</h3>
-      <dl class="contract">
-        <dt>detected</dt><dd>phishing, BEC, identity abuse across US, EMEA, and APAC environments</dd>
-        <dt>contained</dt><dd>tier 3 escalation, eradication, recovery validation under NIST practice</dd>
-        <dt>emitted</dt><dd>identity protection on domain controllers, AI email security, GPO hardening</dd>
-      </dl>
-    </article>
-  </section>
+      <div class="proof">
+        <div class="proof__item">
+          <span class="n">90th</span>
+          <span class="v">national percentile, NCL</span>
+          <span class="l">spring 2021 cryptography</span>
+        </div>
+        <div class="proof__item">
+          <span class="n">2</span>
+          <span class="v">HTB Pro Labs</span>
+          <span class="l">puppet, mythical</span>
+        </div>
+        <div class="proof__item">
+          <span class="n">1000s</span>
+          <span class="v">of incidents handled</span>
+          <span class="l">sole operator</span>
+        </div>
+        <div class="proof__item">
+          <span class="n">3</span>
+          <span class="v">IR regions: US, EMEA, APAC</span>
+          <span class="l">whsmith, reliaquest, at-bay</span>
+        </div>
+      </div>
+    </section>
 
-  <section class="section" id="writing" aria-labelledby="write-h">
-    <div class="section-head">
-      <h2 id="write-h">## writing</h2>
-      <span class="scope">count: 0</span>
-    </div>
+    <section id="experience" class="section" aria-labelledby="exp-h">
+      <div class="section-head">
+        <h2 id="exp-h">## experience</h2>
+        <span class="scope">scope: soc to mdr to offensive</span>
+      </div>
 
-    <!-- Replace each href="#" with the post URL once the post exists,
-         and update count above. -->
-    <div class="post-list">
-      <a class="post-row" href="#">
+      <article class="role">
+        <div class="role__meta"><span>full-time-study.md</span><span>2026-09 to present</span></div>
+        <p class="role__verb">Build the range.</p>
+        <h3 class="role__title">Full-time study and lab work</h3>
+        <dl class="contract">
+          <dt>completed</dt>
+          <dd>HTB Puppet, HTB Mythical, Intel-Ops Adversary Infrastructure Hunter.</dd>
+          <dt>in progress</dt>
+          <dd>CPTS, OSCP, CRTO.</dd>
+          <dt>attended</dt>
+          <dd>DEF CON 2024 and 2025.</dd>
+        </dl>
+      </article>
+
+      <article class="role">
+        <div class="role__meta"><span>at-bay.md</span><span>2025-11 to 2026-08</span></div>
+        <p class="role__verb">Catch the signal.</p>
+        <h3 class="role__title">MDR Security Analyst, Associate, At-Bay</h3>
+        <dl class="contract">
+          <dt>detected</dt>
+          <dd>Credential abuse, persistence, and lateral movement.</dd>
+          <dt>contained</dt>
+          <dd>Precursory ransomware, compromise & BYOVD.</dd>
+          <dt>emitted</dt>
+          <dd>Thousands of recurring false positives via validated process exclusions and XDR rule refinement.</dd>
+        </dl>
+      </article>
+
+      <article class="role">
+        <div class="role__meta"><span>whsmith.md</span><span>2024-11 to 2025-11</span></div>
+        <p class="role__verb">Close the gaps.</p>
+        <h3 class="role__title">Cybersecurity Analyst, WHSmith North America</h3>
+        <dl class="contract">
+          <dt>performed</dt>
+          <dd>Red team assessments to validate account controls. Tier 3 investigations across endpoint, identity, email, and network telemetry in US, EMEA, and APAC.</dd>
+          <dt>contained</dt>
+          <dd>Compromised vendor RMM access, help desk impersonation, and endpoint/identity compromise.</dd>
+          <dt>led</dt>
+          <dd>Account takeover protection deployment that closed the gaps I discovered.</dd>
+        </dl>
+      </article>
+
+      <article class="role">
+        <div class="role__meta"><span>reliaquest.md</span><span>2024-01 to 2024-11</span></div>
+        <p class="role__verb">See every threat.</p>
+        <h3 class="role__title">Security Analyst, ReliaQuest</h3>
+        <dl class="contract">
+          <dt>detected</dt>
+          <dd>Process execution, malware execution, and identity compromise across SIEM, EDR, and disparate logging</dd>
+          <dt>promoted</dt>
+          <dd>Associate to full Analyst in ten months.</dd>
+        </dl>
+      </article>
+
+      <article class="role">
+        <div class="role__meta"><span>apcc.md</span><span>2022-06 to 2023-12</span></div>
+        <p class="role__verb">Secure the plant.</p>
+        <h3 class="role__title">Network Technician Lead and Owner, Anthony Picciano Consulting Corp</h3>
+        <dl class="contract">
+          <dt>owned</dt>
+          <dd>Diagnostics across 300+ GPON endpoints, sole operator.</dd>
+          <dt>contained</dt>
+          <dd>811 fiber locates, emergency trunk splicing, restoration.</dd>
+          <dt>emitted</dt>
+          <dd>Provisioning and network security for the entire estate.</dd>
+        </dl>
+      </article>
+    </section>
+
+    <section id="writing" class="section" aria-labelledby="writing-h">
+      <div class="section-head">
+        <h2 id="writing-h">## writing</h2>
+        <span class="scope">scope: detection, response, emulation</span>
+      </div>
+
+      <ul class="post-list">
+        <!-- home-index:start - generated by tools/publish/publish.mjs, latest 3 -->
+      <li class="post-row">
         <span class="post-row__n">01</span>
-        <span>
-          <span class="post-row__title">Lumma stealer in incident response</span>
-          <span class="post-row__meta">dfir · 7 min</span>
-        </span>
-        <span class="post-row__date">2026-03</span>
-      </a>
-      <a class="post-row" href="#">
+        <a class="post-row__title" href="/writing/email-header-triage/">Email Header Analysis for Phishing Triage</a>
+        <span class="post-row__meta">BEC / Header Analysis / MITRE ATT&amp;CK: Initial Access / T1566 Phishing / T1672 Email Spoofing / T1656 Impersonation</span>
+        <time class="post-row__date" datetime="2026-03-08">2026-03-08</time>
+      </li>
+      <li class="post-row">
         <span class="post-row__n">02</span>
-        <span>
-          <span class="post-row__title">Email header analysis for phishing triage</span>
-          <span class="post-row__meta">dfir · phishing · 7 min</span>
-        </span>
-        <span class="post-row__date">2026-03</span>
-      </a>
-      <a class="post-row" href="#">
+        <a class="post-row__title" href="/writing/lumma-stealer-incident-response/">Lumma Stealer in Incident Response</a>
+        <span class="post-row__meta">DFIR / Lumma Stealer / ClickFix / Browser Forensics / T1204.004 User Execution: Malicious Copy and Paste</span>
+        <time class="post-row__date" datetime="2026-03-08">2026-03-08</time>
+      </li>
+      <li class="post-row">
         <span class="post-row__n">03</span>
-        <span>
-          <span class="post-row__title">Browser history forensics</span>
-          <span class="post-row__meta">dfir · 6 min</span>
-        </span>
-        <span class="post-row__date">2026-03</span>
-      </a>
-    </div>
-  </section>
+        <a class="post-row__title" href="/writing/browser-history-forensics/">Browser History Forensics</a>
+        <span class="post-row__meta">DFIR / Browser Artifacts / Chrome / MITRE ATT&amp;CK: Initial Access / T1189 Drive-by Compromise</span>
+        <time class="post-row__date" datetime="2026-03-01">2026-03-01</time>
+      </li>
+        <!-- home-index:end -->
+      </ul>
 
-  <section class="section" id="certs" aria-labelledby="cert-h">
-    <div class="section-head">
-      <h2 id="cert-h">## certifications</h2>
-      <span class="scope">count: 24</span>
-    </div>
-    <div class="certs">
-      <div>
-        <h3>Offensive</h3>
-        <ul>
-          <li>HTB Mini Pro Lab: Puppet</li>
-          <li>HTB Mini Pro Lab: Mythical</li>
-          <li>Intel-Ops Adversary Infrastructure Hunter</li>
-          <li>OffSec KLCP</li>
-        </ul>
+      <!-- attack-chart:start - one bar per ATT&CK tactic tagged on posts (T1078, T1204.004); generated by tools/build-index.mjs, empty until a post carries a technique tag -->
+      <!-- attack-chart:end -->
+    </section>
+
+    <section id="certs" class="section" aria-labelledby="certs-h">
+      <div class="section-head">
+        <h2 id="certs-h">## certifications</h2>
+        <span class="scope">scope: offensive, defensive, foundation</span>
       </div>
-      <div>
-        <h3>Defensive</h3>
-        <ul>
-          <li>CompTIA CySA+</li>
-          <li>Microsoft SC-200</li>
-          <li>TryHackMe SAL1</li>
-          <li>SentinelOne SIREN</li>
-          <li>SentinelOne Threat Hunter</li>
-        </ul>
+
+      <ul class="certs">
+        <li>
+          <h3 class="cert-name">offensive & intel</h3>
+          <p>OffSec KLCP</p>
+          <p>HTB Puppet</p>
+          <p>HTB Mythical</p>
+          <p>Intel-Ops Adversary Infrastructure Hunter</p>
+        </li>
+        <li>
+          <h3 class="cert-name">defensive</h3>
+          <p>CompTIA CySA+</p>
+          <p>CompTIA Security+</p>
+          <p>CompTIA Network+</p>
+          <p>Microsoft SC-200</p>
+          <p>TryHackMe SAL1</p>
+          <p>SentinelOne SIREN</p>
+          <p>SentinelOne Threat Hunter</p>
+          <p>SentinelOne Security Administrator</p>
+        </li>
+        <li>
+          <h3 class="cert-name">foundation</h3>
+          <p>CrowdStrike Falcon Identity Protection</p>
+          <p>CompTIA CSAP Stackable</p>
+          <p>Certified FTTX Specialized Installer</p>
+          <p>Routing and Switching Pro - TestOut</p>
+          <p>AWS Academy - Cloud Architecting</p>
+        </li>
+      </ul>
+    </section>
+
+    <section class="section" aria-labelledby="auth-h">
+      <div class="section-head">
+        <h2 id="auth-h">## authorized_use</h2>
+        <span class="scope">scope: legal</span>
       </div>
-      <div>
-        <h3>Foundation</h3>
-        <ul>
-          <li>CompTIA Security+</li>
-          <li>CompTIA Network+</li>
-          <li>CrowdStrike Falcon Identity Protection</li>
-          <li>+ 12 more</li>
-        </ul>
+
+      <p class="boundary">Commands, scripts, and techniques published here are for systems you own
+      or hold written permission to test. If you are unclear on whether a specific command
+      or script should be run (or combination of commands and/or scripts), or technique performed, it is recommended to consult legal and cybersecurity professionals. It is never
+      encouraged to perform actions that may be illegal or out of scope.
+      Where a technique came from a lab, the writeup names the lab; production differences are stated in the post.</p>
+    </section>
+
+    <section id="contact" class="section" aria-labelledby="contact-h">
+      <div class="section-head">
+        <h2 id="contact-h">## contact</h2>
+        <span class="scope">scope: linkedin, github</span>
       </div>
+
+      <p>Open to penetration testing, purple team, and detection engineering roles where the day-to-day is moving the needle in a meaningful way. US remote. LinkedIn reaches me directly; GitHub holds the tooling.</p>
+
+      <ul class="contact-list">
+        <li>
+          <span class="cert-name"><a href="https://www.linkedin.com/in/anthony-picciano/" rel="me noopener noreferrer">linkedin</a></span>
+          <span class="cert-meta">messages / roles</span>
+        </li>
+        <li>
+          <span class="cert-name"><a href="https://github.com/anthonp" rel="me noopener noreferrer">github</a></span>
+          <span class="cert-meta">code / lab notes</span>
+        </li>
+      </ul>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <p>© 2026 Anthony Picciano</p>
+      <p>adversarypath.com</p>
     </div>
-  </section>
-
-  <section class="section" id="contact" aria-labelledby="contact-h">
-    <div class="section-head">
-      <h2 id="contact-h">## contact</h2>
-      <span class="scope">audience: hiring + practitioners</span>
-    </div>
-    <p style="max-width:62ch">
-      Open to penetration testing, red team, and detection engineering roles. Also happy to talk about attack path work, C2 detection,
-      or lab design.
-    </p>
-    <p style="max-width:62ch;color:var(--muted);margin-top:1rem">
-      This domain does not send or receive email. LinkedIn is the fastest way to
-      reach me; GitHub is best for anything about the site or its source.
-    </p>
-    <p class="hero__actions" style="margin-top:1rem">
-      <a href="https://www.linkedin.com/in/anthony-picciano/" rel="me noopener">./ linkedin ↗</a>
-      <a href="https://github.com/anthonp" rel="me noopener">./ github ↗</a>
-    </p>
-  </section>
-
-</main>
-
-<footer class="site-footer">
-  <div class="shell site-footer__inner">
-    <span>© 2026 Anthony Picciano</span>
-    <span>authorized_only=true / client_data=false / cookies=0 / js=0</span>
-    <span><a href="/404.html">404</a></span>
-  </div
+  </footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Browser History Forensics - Anthony Picciano</title>
+<meta name="description" content="Reconstructing a redirect-to-download chain with limited telemetry, using browser artifacts when SSL inspection and endpoint visibility are sparse.">
+<meta property="article:published_time" content="2026-03-01T09:00:00Z">
+<meta name="author" content="Anthony Picciano">
+<meta name="theme-color" content="#08090a">
+<link rel="canonical" href="https://adversarypath.com/writing/browser-history-forensics/">
+<link rel="alternate" type="application/rss+xml" title="adversarypath - field notes" href="/rss.xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Browser History Forensics - Anthony Picciano">
+<meta property="og:description" content="Reconstructing a redirect-to-download chain with limited telemetry, using browser artifacts when SSL inspection and endpoint visibility are sparse.">
+<meta property="og:url" content="https://adversarypath.com/writing/browser-history-forensics/">
+<meta property="og:site_name" content="adversarypath">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Browser History Forensics - Anthony Picciano">
+<meta name="twitter:description" content="Reconstructing a redirect-to-download chain with limited telemetry, using browser artifacts when SSL inspection and endpoint visibility are sparse.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": "https://adversarypath.com/#person",
+  "name": "Anthony Picciano",
+  "alternateName": ["Tony", "TR4C3D"],
+  "url": "https://adversarypath.com/",
+  "jobTitle": "Security Engineer",
+  "knowsAbout": [
+    "Incident Response",
+    "Threat Hunting",
+    "Detection Engineering",
+    "Penetration Testing",
+    "Adversary Emulation",
+    "Vulnerability Assessment",
+    "Security Control Validation",
+    "MITRE ATT&CK",
+    "NIST 800-61",
+    "SIEM",
+    "EDR/XDR",
+    "Identity Security",
+    "Email Security",
+    "Network Security",
+    "Security Hardening",
+    "Linux",
+    "Windows"
+  ],
+  "alumniOf": {
+    "@type": "CollegeOrUniversity",
+    "name": "Purdue University Global"
+  },
+  "sameAs": [
+    "https://www.linkedin.com/in/anthony-picciano/",
+    "https://github.com/anthonp"
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Browser History Forensics",
+  "datePublished": "2026-03-01T09:00:00Z",
+  "author": {
+    "@id": "https://adversarypath.com/#person"
+  },
+  "keywords": [
+    "DFIR",
+    "Browser Artifacts",
+    "Chrome",
+    "MITRE ATT&CK: Initial Access",
+    "T1189 Drive-by Compromise"
+  ]
+}
+</script>
+<link rel="preload" href="/assets/fonts/instrument-sans-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/css/site.css">
+<script src="/assets/js/site.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#main">skip to content</a>
+
+<div class="layout">
+
+  <aside class="sidebar">
+    <div class="sidebar__inner">
+      <a class="wordmark" href="/">adversarypath</a>
+
+      <a class="side-cta" href="/writing/">all writing</a>
+
+      <a class="side-cta" href="/about/">about</a>
+
+      <nav class="side-nav" aria-label="Sections">
+        <a href="/#proof">./proof</a>
+        <a href="/#experience">./experience</a>
+        <a href="/#writing">./writing</a>
+        <a href="/#certs">./certs</a>
+        <a href="/#contact">./contact</a>
+      </nav>
+
+      <div class="side-block side-block--toc">
+        <span class="side-label">on this page</span>
+        <nav class="side-nav" aria-label="On this page">
+          <a href="#browser-history-forensics">Browser History Forensics</a>
+          <a href="#0-quick-artifact-triage-before-you-pivot">0) Quick artifact triage (before you pivot)</a>
+          <a href="#1-find-the-right-chrome-history-file-profiles-recency">1) Find the right Chrome History file (profiles + recency)</a>
+          <a href="#2-anchor-the-timeline-on-the-suspected-download">2) Anchor the timeline on the suspected download</a>
+          <a href="#3-chrome-history-sqlite-table-nuances">3) Chrome History SQLite: table nuances</a>
+          <a href="#4-sql-find-the-download-record-then-pivot-to-what-happened-before-it">4) SQL: find the download record (then pivot to “what happened before it”)</a>
+          <a href="#5-sql-last-15-20-url-visits-leading-up-to-the-download">5) SQL: last 15–20 URL visits leading up to the download</a>
+          <a href="#6-how-to-turn-these-artifacts-into-a-defensible-conclusion">6) How to turn these artifacts into a defensible conclusion</a>
+          <a href="#closing-thoughts">Closing thoughts</a>
+        </nav>
+      </div>
+
+      <div class="side-block">
+        <span class="side-label">status</span>
+        <p class="side-status"><span class="live">●</span> open_to_work</p>
+        <p class="side-status">us remote</p>
+        <p class="side-status">studying: cpts / oscp / crto</p>
+      </div>
+
+      <div class="side-block">
+        <span class="side-label">links</span>
+        <div class="side-links">
+          <a href="https://www.linkedin.com/in/anthony-picciano/" rel="me noopener noreferrer">linkedin</a>
+          <a href="https://github.com/anthonp" rel="me noopener noreferrer">github</a>
+        </div>
+      </div>
+
+      <div class="side-params">
+        <p>cookies=0</p>
+        <p>storage=0</p>
+      </div>
+    </div>
+  </aside>
+
+  <main id="main" class="main">
+    <article class="post">
+      <header class="post__header">
+        <h1 class="post__title">Browser History Forensics</h1>
+        <p class="post__meta">2026-03-01 / 12 min read / Anthony Picciano</p>
+      </header>
+
+      <ul class="tags">
+        <li><span>DFIR</span></li>
+        <li><span>Browser Artifacts</span></li>
+        <li><span>Chrome</span></li>
+        <li><span>MITRE ATT&amp;CK: Initial Access</span></li>
+        <li><span>T1189 Drive-by Compromise</span></li>
+      </ul>
+
+      <article class="post__body">
+        <h2 id="browser-history-forensics">Browser History Forensics</h2>
+        <p>Having repeatable browser forensics workflows lets the operator reconstruct “how did this file get here?” when the only strong signal is a detection on disk and your network/endpoint visibility is incomplete.</p>
+        <p><strong>No real incident data is used in this example.</strong>   All domains, URLs, and filenames are fake and intentionally defanged.</p>
+        <h3 id="scenario-example">Scenario (example)</h3>
+        <p>A detection flags <code>SuspiciousFile.exe</code> as malware delivery, and your job is to reconstruct the redirect-to-download chain and capture defensible evidence for containment and user coaching.</p>
+        <h3 id="mitre-tactic-tag-what-this-investigation-maps-to">MITRE tactic tag (what this investigation maps to)</h3>
+        <p>This workflow most often supports <strong>Initial Access</strong>, commonly aligning with <strong>T1189 (Drive-by Compromise)</strong> when a user is redirected through web infrastructure into a download.</p>
+        <h3 id="tools-pick-what-you-have">Tools (pick what you have)</h3>
+        <ul>
+          <li>PowerShell — Rapid artifact discovery</li>
+          <li>(Optional) KAPE (or Velociraptor) — Reliable collection at scale</li>
+          <li>DB Browser for SQLite — Fast ad-hoc queries (sqlite3 is reliable)</li>
+          <li>(Optional) Hindsight — Chrome history parsing and timelines</li>
+          <li>(Optional) Plaso/log2timeline — Cross-artifact timeline building</li>
+        </ul>
+        <h3 id="known-windows-history-artifact-paths-nuances-matter">Known Windows history artifact paths (nuances matter)</h3>
+        <p><strong>Chrome (what we’ll analyze):</strong> <code>C:\Users\JaneDoe\AppData\Local\Google\Chrome\User Data\&lt;Profile&gt;\History</code> (Profiles are commonly <code>Default</code>, <code>Profile 1</code>, <code>Profile 2</code>, plus <code>Guest Profile</code>/<code>System Profile</code> in some environments.)</p>
+        <p><strong>Edge (not diving in, but here’s the path):</strong> <code>C:\Users\JaneDoe\AppData\Local\Microsoft\Edge\User Data\&lt;Profile&gt;\History</code></p>
+        <p><strong>Firefox (history lives in places.sqlite):</strong> <code>C:\Users\JaneDoe\AppData\Roaming\Mozilla\Firefox\Profiles\&lt;Profile&gt;\places.sqlite</code></p>
+        <h3 id="evidence-handling-note">Evidence handling note</h3>
+        <p>Chrome’s <code>History</code> SQLite file may be locked while Chrome is running, so plan to <strong>copy</strong> it with an IR-safe collector (or from a shadow copy) rather than querying it in-place. Be sure to calculate SHA256 hash before and after copying it to an investigation workstation. Before proceeding, typically the suspicious file has been remediated on the host by the operator.</p>
+        <h2 id="0-quick-artifact-triage-before-you-pivot">0) Quick artifact triage (before you pivot)</h2>
+        <p>The goal here is to confirm origin indicators (MOTW), generate a stable pivot (SHA256), and do OSINT/sandbox validation before you invest time in deep reconstruction.</p>
+        <h3 id="powershell-one-liners-remote-response-friendly">PowerShell one-liners (remote-response friendly)</h3>
+        <pre class="code"><code class="language-powershell"># Check Mark-of-the-Web (Zone Identifier) on the suspicious executable (downloads commonly carry MOTW)
+Get-Content &quot;C:\Users\JaneDoe\Downloads\SuspiciousFile.exe&quot; -Stream Zone.Identifier -ErrorAction SilentlyContinue</code></pre>
+        <pre class="code"><code class="language-powershell"># Compute SHA256 for OSINT pivots (static + behavioral analytics)
+(Get-FileHash &quot;C:\Users\JaneDoe\Downloads\SuspiciousFile.exe&quot; -Algorithm SHA256).Hash</code></pre>
+        <h3 id="janedoe-quick-task-notes">JaneDoe quick task notes:</h3>
+        <ul>
+          <li>Confirm MOTW origin zone</li>
+          <li>Create hash for OSINT</li>
+        </ul>
+        <h3 id="osint-analysis-note">OSINT + analysis note</h3>
+        <p>Use the <strong>SHA256</strong> to pivot in your approved intel sources and sandboxes to collect static traits (signing, strings, imports) and behavioral indicators (network beacons, child processes, dropped files) that can validate the alert and inform containment. Before proceeding, ensure that the suspicious file has been remediated.</p>
+        <h2 id="1-find-the-right-chrome-history-file-profiles-recency">1) Find the right Chrome History file (profiles + recency)</h2>
+        <p>The first goal is to identify which Chrome profile was active near the time <code>SuspiciousFile.exe</code> landed by selecting the most recently written <code>History</code> databases across profiles.</p>
+        <h3 id="powershell">PowerShell</h3>
+        <pre class="code"><code class="language-powershell"># All users on the host: find newest Chrome History DBs across profiles
+Get-ChildItem &quot;C:\Users\*\AppData\Local\Google\Chrome\User Data\*\History&quot; -File -ErrorAction SilentlyContinue |
+  Sort-Object LastWriteTime -Descending |
+  Select-Object -First 12 FullName, LastWriteTime, Length</code></pre>
+        <pre class="code"><code class="language-powershell"># Single target user: fastest if you already know the user context
+Get-ChildItem &quot;C:\Users\JaneDoe\AppData\Local\Google\Chrome\User Data\*\History&quot; -File -ErrorAction SilentlyContinue |
+  Sort-Object LastWriteTime -Descending |
+  Select-Object -First 8 FullName, LastWriteTime, Length</code></pre>
+        <h3 id="janedoe-quick-explanations">JaneDoe quick explanations</h3>
+        <ul>
+          <li>Find latest History files</li>
+          <li>Confirm active Chrome profile</li>
+          <li>Prioritize latest investigation window</li>
+        </ul>
+        <h3 id="copy-the-chosen-history-file-for-analysis">Copy the chosen History file for analysis</h3>
+        <p>Copying the <code>History</code> DB to a working path reduces lock issues and preserves original evidence paths for reporting. Ideally, this is done with response tools to remotely extract the file.</p>
+        <h2 id="2-anchor-the-timeline-on-the-suspected-download">2) Anchor the timeline on the suspected download</h2>
+        <p>The next goal is to locate the download record for <code>SuspiciousFile.exe</code> so we can pivot from a <strong>download timestamp</strong> into the last ~15–20 navigations that likely led to it.</p>
+        <h3 id="example-defanged-target-you-re-hunting">Example “defanged” target you’re hunting</h3>
+        <ul>
+          <li>Filename on disk: <code>SuspiciousFile.exe</code></li>
+          <li>Example download URL (fake/defanged): <code>hxxps://cdn[.]suspicious-tools[.]example/download/SuspiciousFile.exe</code></li>
+          <li>Example referrer (fake/defanged): <code>hxxps://viewer[.]docs-preview[.]example/redirect?id=123</code></li>
+        </ul>
+        <h2 id="3-chrome-history-sqlite-table-nuances">3) Chrome History SQLite: table nuances</h2>
+        <p>Chrome’s <code>History</code> file is SQLite, and your interpretation depends on which tables are present in your Chrome version and enterprise policy set.</p>
+        <p><strong>Notes:</strong> Chrome schema can shift between versions, so confirm table/column existence before assuming field names or meanings.</p>
+        <h3 id="tables-you-ll-commonly-use-in-this-workflow">Tables you’ll commonly use in this workflow</h3>
+        <ul>
+          <li><code>downloads</code> — What was downloaded and when (fields vary by version)</li>
+          <li><code>downloads_url_chains</code> — Redirect chain for a download (when present)</li>
+          <li><code>visits</code> — Individual navigation events with timestamps and transition types</li>
+          <li><code>urls</code> — URL strings, titles, visit counters, last_visit_time</li>
+          <li><code>visit_source</code> — May hint whether a visit was local vs synced (when present)</li>
+        </ul>
+        <h2 id="4-sql-find-the-download-record-then-pivot-to-what-happened-before-it">4) SQL: find the download record (then pivot to “what happened before it”)</h2>
+        <p>Your first query anchors on the suspected executable name so you can capture the download ID and its timestamp fields for timeline pivots.</p>
+        <pre class="code"><code class="language-sql">-- Find the most recent download matching the filename (columns may differ by Chrome version).
+-- Notes: confirm whether your schema uses current_path, target_path, tab_url, referrer, etc.
+SELECT
+  id,
+  current_path,
+  target_path,
+  tab_url,
+  referrer,
+  mime_type,
+  received_bytes,
+  total_bytes,
+  danger_type,
+  state,
+  datetime((start_time/1000000)-11644473600,'unixepoch') AS start_utc,
+  datetime((end_time/1000000)-11644473600,'unixepoch')   AS end_utc
+FROM downloads
+WHERE (current_path LIKE '%SuspiciousFile.exe%'
+       OR target_path LIKE '%SuspiciousFile.exe%')
+ORDER BY start_time DESC
+LIMIT 5;</code></pre>
+        <h3 id="follow-up-pull-the-redirect-chain-for-that-download-if-available">Follow-up: pull the redirect chain for that download (if available)</h3>
+        <p>This query shows the chain of URLs Chrome recorded for the download (often the cleanest way to show redirect-to-download behavior).</p>
+        <pre class="code"><code class="language-sql">-- Replace :download_id with the downloads.id you identified above.
+SELECT
+  chain_index,
+  url
+FROM downloads_url_chains
+WHERE id = :download_id
+ORDER BY chain_index ASC;</code></pre>
+        <p><strong>Notes:</strong> If <code>downloads_url_chains</code> is missing or empty, you’ll rely more heavily on <code>visits</code> + <code>urls</code> around the download time and any referrer/tab_url fields in <code>downloads</code>.</p>
+        <h2 id="5-sql-last-15-20-url-visits-leading-up-to-the-download">5) SQL: last 15–20 URL visits leading up to the download</h2>
+        <p>Once you have a download start timestamp, you can pull the last 15–20 visits at or before that moment to reconstruct the likely navigation chain.</p>
+        <pre class="code"><code class="language-sql">-- Pivot: last 20 visits at/before the most recent matching download start_time.
+-- Notes: validate whether start_time is present and in WebKit microseconds.
+WITH d AS (
+  SELECT start_time AS dl_time
+  FROM downloads
+  WHERE (current_path LIKE '%SuspiciousFile.exe%'
+         OR target_path LIKE '%SuspiciousFile.exe%')
+  ORDER BY start_time DESC
+  LIMIT 1
+)
+SELECT
+  datetime((v.visit_time/1000000)-11644473600,'unixepoch') AS visit_utc,
+  u.url,
+  u.title,
+  v.transition,
+  v.from_visit
+FROM visits v
+JOIN urls u ON v.url = u.id
+JOIN d ON 1=1
+WHERE v.visit_time &lt;= d.dl_time
+ORDER BY v.visit_time DESC
+LIMIT 20;</code></pre>
+        <p><strong>Notes:</strong> <code>transition</code> is a bitmask that can indicate typed, link, redirect, auto-subframe, etc., and decoding it can help you argue whether the chain looks user-driven or script-driven.</p>
+        <h3 id="show-the-first-visit-after-the-download-started-sanity-check">Show the first visit after the download started (sanity check)</h3>
+        <p>This helps confirm whether the user continued browsing into additional lure pages immediately after initiating the download.</p>
+        <pre class="code"><code class="language-sql">WITH d AS (
+  SELECT start_time AS dl_time
+  FROM downloads
+  WHERE (current_path LIKE '%SuspiciousFile.exe%'
+         OR target_path LIKE '%SuspiciousFile.exe%')
+  ORDER BY start_time DESC
+  LIMIT 1
+)
+SELECT
+  datetime((v.visit_time/1000000)-11644473600,'unixepoch') AS visit_utc,
+  u.url,
+  u.title
+FROM visits v
+JOIN urls u ON v.url = u.id
+JOIN d ON 1=1
+WHERE v.visit_time &gt; d.dl_time
+ORDER BY v.visit_time ASC
+LIMIT 10;</code></pre>
+        <h2 id="6-how-to-turn-these-artifacts-into-a-defensible-conclusion">6) How to turn these artifacts into a defensible conclusion</h2>
+        <p>Your conclusion should tie together (1) the download record, (2) the redirect chain (if available), and (3) the surrounding visit timeline to show how the user arrived at the executable.</p>
+        <p><strong>Notes:</strong> Add screenshots of the query output and highlight the pivot points (download start time, referrer/tab_url, chain_index ordering, and the last 15–20 visits).</p>
+        <h3 id="example-narrative-scaffold">Example narrative scaffold:</h3>
+        <ul>
+          <li>The host generated a detection for <code>SuspiciousFile.exe</code>, prompting a browser-artifact review to determine acquisition path.</li>
+          <li>The most recently written Chrome <code>History</code> database identified the active profile during the suspected time window.</li>
+          <li>A matching record in the <code>downloads</code> table provided an anchor timestamp and contextual fields (e.g., <code>tab_url</code>, <code>referrer</code>) for pivots.</li>
+          <li>The <code>downloads_url_chains</code> table (when present) revealed a stepwise redirect chain from lure infrastructure to the final CDN-hosted payload.</li>
+          <li>The <code>visits</code> + <code>urls</code> pivot showed the final 15–20 navigations preceding the download, supporting a drive-by/redirect delivery hypothesis.</li>
+        </ul>
+        <h2 id="closing-thoughts">Closing thoughts</h2>
+        <p>The goal of browser history forensics is not to “prove intent,” but to produce a clear, evidence-backed chain of events that explains how a suspicious payload was retrieved when traditional telemetry is incomplete.</p>
+      </article>
+
+      <nav class="post__nav" aria-label="Post navigation">
+        <a class="prev" href="/writing/public_wifi/">← previous</a>
+        <a class="next" href="/writing/lumma-stealer-incident-response/">next →</a>
+      </nav>
+    </article>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <p>© 2026 Anthony Picciano</p>
+      <p>adversarypath.com</p>
+    </div>
+  </footer>
+</div>
+</body>
+</html>

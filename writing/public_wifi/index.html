@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Public and Untrusted WiFi Networks - Anthony Picciano</title>
+<meta name="description" content="A practical breakdown of why public WiFi still carries risk even with HTTPS, and how to reduce exposure.">
+<meta property="article:published_time" content="2025-04-08T09:00:00Z">
+<meta name="author" content="Anthony Picciano">
+<meta name="theme-color" content="#08090a">
+<link rel="canonical" href="https://adversarypath.com/writing/public_wifi/">
+<link rel="alternate" type="application/rss+xml" title="adversarypath - field notes" href="/rss.xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Public and Untrusted WiFi Networks - Anthony Picciano">
+<meta property="og:description" content="A practical breakdown of why public WiFi still carries risk even with HTTPS, and how to reduce exposure.">
+<meta property="og:url" content="https://adversarypath.com/writing/public_wifi/">
+<meta property="og:site_name" content="adversarypath">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Public and Untrusted WiFi Networks - Anthony Picciano">
+<meta name="twitter:description" content="A practical breakdown of why public WiFi still carries risk even with HTTPS, and how to reduce exposure.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": "https://adversarypath.com/#person",
+  "name": "Anthony Picciano",
+  "alternateName": ["Tony", "TR4C3D"],
+  "url": "https://adversarypath.com/",
+  "jobTitle": "Security Engineer",
+  "knowsAbout": [
+    "Incident Response",
+    "Threat Hunting",
+    "Detection Engineering",
+    "Penetration Testing",
+    "Adversary Emulation",
+    "Vulnerability Assessment",
+    "Security Control Validation",
+    "MITRE ATT&CK",
+    "NIST 800-61",
+    "SIEM",
+    "EDR/XDR",
+    "Identity Security",
+    "Email Security",
+    "Network Security",
+    "Security Hardening",
+    "Linux",
+    "Windows"
+  ],
+  "alumniOf": {
+    "@type": "CollegeOrUniversity",
+    "name": "Purdue University Global"
+  },
+  "sameAs": [
+    "https://www.linkedin.com/in/anthony-picciano/",
+    "https://github.com/anthonp"
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Public and Untrusted WiFi Networks",
+  "datePublished": "2025-04-08T09:00:00Z",
+  "author": {
+    "@id": "https://adversarypath.com/#person"
+  },
+  "keywords": [
+    "Network Security",
+    "Risk Management",
+    "Privacy"
+  ]
+}
+</script>
+<link rel="preload" href="/assets/fonts/instrument-sans-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/css/site.css">
+<script src="/assets/js/site.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#main">skip to content</a>
+
+<div class="layout">
+
+  <aside class="sidebar">
+    <div class="sidebar__inner">
+      <a class="wordmark" href="/">adversarypath</a>
+
+      <a class="side-cta" href="/writing/">all writing</a>
+
+      <a class="side-cta" href="/about/">about</a>
+
+      <nav class="side-nav" aria-label="Sections">
+        <a href="/#proof">./proof</a>
+        <a href="/#experience">./experience</a>
+        <a href="/#writing">./writing</a>
+        <a href="/#certs">./certs</a>
+        <a href="/#contact">./contact</a>
+      </nav>
+
+      <div class="side-block side-block--toc">
+        <span class="side-label">on this page</span>
+        <nav class="side-nav" aria-label="On this page">
+          <a href="#public-and-untrusted-wifi-networks">Public and Untrusted WiFi Networks</a>
+        </nav>
+      </div>
+
+      <div class="side-block">
+        <span class="side-label">status</span>
+        <p class="side-status"><span class="live">●</span> open_to_work</p>
+        <p class="side-status">us remote</p>
+        <p class="side-status">studying: cpts / oscp / crto</p>
+      </div>
+
+      <div class="side-block">
+        <span class="side-label">links</span>
+        <div class="side-links">
+          <a href="https://www.linkedin.com/in/anthony-picciano/" rel="me noopener noreferrer">linkedin</a>
+          <a href="https://github.com/anthonp" rel="me noopener noreferrer">github</a>
+        </div>
+      </div>
+
+      <div class="side-params">
+        <p>cookies=0</p>
+        <p>storage=0</p>
+      </div>
+    </div>
+  </aside>
+
+  <main id="main" class="main">
+    <article class="post">
+      <header class="post__header">
+        <h1 class="post__title">Public and Untrusted WiFi Networks</h1>
+        <p class="post__meta">2025-04-08 / 3 min read / Anthony Picciano</p>
+      </header>
+
+      <ul class="tags">
+        <li><span>Network Security</span></li>
+        <li><span>Risk Management</span></li>
+        <li><span>Privacy</span></li>
+      </ul>
+
+      <article class="post__body">
+        <h2 id="public-and-untrusted-wifi-networks">Public and Untrusted WiFi Networks</h2>
+        <p>Public WiFi is convenient, but convenience often means reduced trust. Even with HTTPS everywhere, there are still privacy, interception, and misconfiguration risks that can expose users and organizations.</p>
+        <figure>
+          <img width="742" height="164" loading="lazy" src="/assets/img/disclaimer.png" alt="Public WiFi warning visual">
+          <figcaption>Public WiFi warning visual</figcaption>
+        </figure>
+        <h3 id="common-risks-on-untrusted-networks">Common risks on untrusted networks</h3>
+        <ul>
+          <li><strong>Evil twin access points:</strong> attacker-controlled hotspots that mimic legitimate SSIDs.</li>
+          <li><strong>Traffic interception attempts:</strong> DNS manipulation, captive portal abuse, and downgrade attempts.</li>
+          <li><strong>Device exposure:</strong> accidental sharing services and stale local trust settings.</li>
+          <li><strong>Session hijacking opportunities:</strong> especially with weakly protected web sessions.</li>
+        </ul>
+        <h3 id="practical-hardening-steps-ios-and-android">Practical hardening steps (iOS and Android)</h3>
+        <ol>
+          <li><strong>Prefer cellular data</strong> for sensitive sessions.</li>
+          <li><strong>Use a trusted VPN</strong> when WiFi is unavoidable.</li>
+          <li><strong>Disable auto-join</strong> for unknown or open networks.</li>
+          <li><strong>Use randomized/private MAC addresses</strong> on every network.</li>
+          <li><strong>Enable private DNS / encrypted DNS</strong> where possible.</li>
+          <li><strong>Keep OS and apps updated</strong> to reduce exploitability.</li>
+          <li><strong>Restrict app permissions</strong> to minimum required access.</li>
+          <li><strong>Avoid high-risk actions</strong> (banking, corporate admin portals) on public WiFi.</li>
+          <li><strong>Use MFA</strong> for all critical accounts.</li>
+          <li><strong>Turn off nearby sharing services</strong> when not needed.</li>
+        </ol>
+        <h3 id="defensive-operating-habits">Defensive operating habits</h3>
+        <ul>
+          <li>Verify the hotspot name with staff before connecting.</li>
+          <li>Treat captive portals as untrusted input.</li>
+          <li>Log out after completing sessions.</li>
+          <li>Restart your device after disconnecting from risky networks.</li>
+        </ul>
+        <h3 id="disclaimer">Disclaimer</h3>
+        <p>This material is educational and informational only. It is not legal advice and does not guarantee security outcomes. Always align controls with your organization’s policies and legal obligations.</p>
+        <h3 id="references">References</h3>
+        <ul>
+          <li><a href="https://www.fox5vegas.com/2024/08/08/las-vegas-police-issues-cyber-advisory-with-cybersecurity-hacker-conventions-town/" rel="noopener noreferrer">https://www.fox5vegas.com/2024/08/08/las-vegas-police-issues-cyber-advisory-with-cybersecurity-hacker-conventions-town/</a></li>
+          <li><a href="https://en.wikipedia.org/wiki/Kazakhstan_man-in-the-middle_attack" rel="noopener noreferrer">https://en.wikipedia.org/wiki/Kazakhstan_man-in-the-middle_attack</a></li>
+        </ul>
+      </article>
+
+      <nav class="post__nav" aria-label="Post navigation">
+        <a class="prev" href="/writing/ipod_classic_flash_mod_rebuild/">← previous</a>
+        <a class="next" href="/writing/browser-history-forensics/">next →</a>
+      </nav>
+    </article>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <p>© 2026 Anthony Picciano</p>
+      <p>adversarypath.com</p>
+    </div>
+  </footer>
+</div>
+</body>
+</html>
